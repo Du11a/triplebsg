@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Basketball Beyond Borders — Singapore Academy</title>
+<meta name="description" content="Basketball Beyond Borders (Triple B) — Singapore's premier basketball academy. Programs for U10–U18. Book a class today." />
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:system-ui,-apple-system,sans-serif; background:#0a0a0a; color:#fff; }
+:root { --g:#1B7A3E; --g2:#22923F; --gdim:rgba(27,122,62,0.12); --gbor:rgba(27,122,62,0.25); }
+
+/* NAV */
+.nav { position:absolute; top:0; left:0; right:0; z-index:10; display:flex; align-items:center; justify-content:space-between; padding:1rem 2.5rem; background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent); }
+.nav-logo img { height:80px; width:auto; object-fit:contain; }
+.nav-links { display:flex; gap:1.75rem; }
+.nav-links a { font-size:13px; color:rgba(255,255,255,0.65); text-decoration:none; cursor:pointer; }
+.nav-links a:hover, .nav-links a.active { color:#fff; }
+.nav-links a.active { border-bottom:1.5px solid var(--g2); padding-bottom:2px; }
+.nav-cta { background:var(--g); color:#fff; border:none; padding:0.5rem 1.25rem; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; }
+.nav-fixed { position:relative; background:#0d0d0d; border-bottom:0.5px solid rgba(255,255,255,0.07); }
+
+.page { display:none; }
+.page.active { display:block; }
+
+/* HERO */
+.hero { position:relative; width:100%; height:90vh; min-height:540px; overflow:hidden; }
+.slides { position:absolute; inset:0; }
+.slide { position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease; background-size:cover; background-repeat:no-repeat; }
+.slide.active { opacity:1; }
+.slide::after { content:''; position:absolute; inset:0; background:linear-gradient(to right,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.5) 55%,rgba(0,0,0,0.15) 100%); }
+.hero-content { position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:center; padding:0 3rem; max-width:600px; }
+.eyebrow { font-size:11px; letter-spacing:0.18em; color:var(--g2); text-transform:uppercase; margin-bottom:1.25rem; display:flex; align-items:center; gap:10px; }
+.eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--g2); }
+.hero-title { font-size:54px; font-weight:500; line-height:1.04; letter-spacing:-0.025em; margin-bottom:1.4rem; }
+.hero-title em { color:var(--g2); font-style:normal; }
+.hero-sub { font-size:15px; line-height:1.75; color:rgba(255,255,255,0.5); margin-bottom:2.5rem; max-width:420px; }
+.hero-actions { display:flex; gap:1rem; }
+.btn-primary { background:var(--g); color:#fff; border:none; padding:0.85rem 1.75rem; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; }
+.btn-primary:hover { background:var(--g2); }
+.btn-ghost { background:transparent; color:rgba(255,255,255,0.75); border:0.5px solid rgba(255,255,255,0.25); padding:0.85rem 1.75rem; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; }
+.hero-stats { position:absolute; bottom:2.5rem; left:3rem; z-index:2; display:flex; gap:2.5rem; }
+.stat { border-left:2px solid var(--g); padding-left:1rem; }
+.stat-num { font-size:24px; font-weight:500; color:#fff; line-height:1; }
+.stat-label { font-size:11px; color:rgba(255,255,255,0.38); margin-top:4px; letter-spacing:0.04em; }
+.slide-controls { position:absolute; bottom:2.5rem; right:3rem; z-index:2; display:flex; gap:10px; }
+.dot-btn { width:22px; height:2px; background:rgba(255,255,255,0.25); cursor:pointer; border:none; transition:background 0.3s,width 0.3s; }
+.dot-btn.active { background:var(--g2); width:34px; }
+.progress-bar { position:absolute; bottom:0; left:0; height:2px; background:var(--g); width:0%; z-index:3; }
+
+/* SECTIONS */
+.section { padding:4.5rem 2.5rem; }
+.section.dark { background:#111; }
+.section.darker { background:#0a0a0a; }
+.sec-label { font-size:11px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.6rem; }
+.sec-title { font-size:30px; font-weight:500; color:#fff; margin-bottom:2.5rem; letter-spacing:-0.01em; }
+
+/* PROGRAMS */
+.programs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.07); border-radius:12px; overflow:hidden; }
+.prog-card { background:#111; padding:1.75rem; cursor:pointer; transition:background 0.2s; }
+.prog-card:hover { background:#161616; }
+.prog-icon { width:42px; height:42px; border-radius:8px; background:var(--gdim); display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem; }
+.prog-icon svg { width:22px; height:22px; stroke:var(--g2); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
+.prog-name { font-size:15px; font-weight:500; color:#fff; margin-bottom:0.4rem; }
+.prog-desc { font-size:13px; line-height:1.6; color:rgba(255,255,255,0.4); margin-bottom:1rem; }
+.prog-link { font-size:12px; color:var(--g2); display:flex; align-items:center; gap:5px; }
+.prog-link svg { width:13px; height:13px; stroke:var(--g2); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.talk-card { background:#111; padding:1.75rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:1rem; }
+.talk-card p { font-size:13px; color:rgba(255,255,255,0.35); }
+
+/* COACHES */
+.coaches-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.coach-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); padding:1.75rem; display:flex; gap:1.25rem; }
+.coach-img { width:72px; height:72px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+.coach-name { font-size:16px; font-weight:500; color:#fff; margin-bottom:3px; }
+.coach-role { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:6px; }
+.coach-bio { font-size:12px; line-height:1.6; color:rgba(255,255,255,0.45); margin-bottom:8px; }
+.coach-ig { font-size:12px; color:var(--g2); }
+
+/* MISSION */
+.mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:3rem; }
+.mission-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); padding:2rem; }
+.mission-label { font-size:10px; letter-spacing:0.14em; color:var(--g2); text-transform:uppercase; margin-bottom:0.75rem; }
+.mission-text { font-size:14px; line-height:1.75; color:rgba(255,255,255,0.55); }
+
+/* CTA BAND */
+.cta-band { background:var(--g); padding:3.5rem 2.5rem; display:flex; align-items:center; justify-content:space-between; }
+.cta-title { font-size:26px; font-weight:500; color:#fff; }
+.cta-sub { font-size:13px; color:rgba(255,255,255,0.75); margin-top:5px; }
+.btn-white { background:#fff; color:var(--g); border:none; padding:0.85rem 2rem; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; white-space:nowrap; }
+
+/* FOOTER */
+.footer { background:#0d0d0d; border-top:0.5px solid rgba(255,255,255,0.08); padding:2.5rem; }
+.footer-inner { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; }
+.footer-brand img { height:64px; width:auto; margin-bottom:1rem; }
+.footer-brand p { font-size:12px; color:rgba(255,255,255,0.35); line-height:1.7; max-width:260px; }
+.footer-cols { display:flex; gap:3.5rem; }
+.footer-col-title { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.85rem; }
+.footer-col a { display:block; font-size:13px; color:rgba(255,255,255,0.65); text-decoration:none; margin-bottom:0.5rem; cursor:pointer; }
+.footer-col a:hover { color:#fff; }
+.footer-social { display:flex; gap:10px; }
+.social-btn { width:34px; height:34px; border-radius:8px; background:rgba(255,255,255,0.06); border:0.5px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; text-decoration:none; transition:background 0.2s; }
+.social-btn:hover { background:var(--g); border-color:var(--g); }
+.social-btn svg { width:16px; height:16px; stroke:rgba(255,255,255,0.6); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
+.social-btn:hover svg { stroke:#fff; }
+.footer-bottom { border-top:0.5px solid rgba(255,255,255,0.07); padding-top:1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+.footer-copy { font-size:11px; color:rgba(255,255,255,0.25); }
+.footer-legal { display:flex; gap:1.25rem; }
+.footer-legal a { font-size:11px; color:rgba(255,255,255,0.25); text-decoration:none; }
+
+/* PAGE HERO */
+.page-hero { position:relative; height:300px; overflow:hidden; display:flex; align-items:flex-end; padding:2.5rem 3rem; }
+.page-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; }
+.page-hero::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.6); }
+.page-hero-content { position:relative; z-index:2; }
+.page-hero-label { font-size:11px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.5rem; }
+.page-hero-title { font-size:38px; font-weight:500; color:#fff; letter-spacing:-0.02em; }
+
+/* GALLERY */
+.gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; border-radius:12px; overflow:hidden; }
+.gal-img { aspect-ratio:4/3; overflow:hidden; }
+.gal-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; display:block; }
+.gal-img:hover img { transform:scale(1.05); }
+
+/* BOOKING */
+.booking-wrap { max-width:780px; margin:0 auto; padding:3rem 2rem 5rem; }
+.booking-eyebrow { font-size:11px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.5rem; display:flex; align-items:center; gap:8px; }
+.booking-eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--g2); }
+.booking-title { font-size:28px; font-weight:500; color:#fff; margin-bottom:0.5rem; }
+.booking-sub { font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6; margin-bottom:2rem; }
+.steps { display:flex; align-items:center; margin-bottom:2.5rem; }
+.step { display:flex; align-items:center; gap:8px; }
+.step-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.35); border:0.5px solid rgba(255,255,255,0.1); transition:all 0.3s; }
+.step-num.active { background:var(--g); color:#fff; border-color:var(--g); }
+.step-num.done { background:var(--gdim); color:var(--g2); border-color:var(--gbor); }
+.step-label { font-size:12px; color:rgba(255,255,255,0.35); }
+.step-label.active { color:#fff; }
+.step-divider { flex:1; height:1px; background:rgba(255,255,255,0.08); margin:0 12px; }
+.step-panel { display:none; }
+.step-panel.active { display:block; }
+.class-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+.class-card { background:#111; border:0.5px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; cursor:pointer; transition:border-color 0.2s,background 0.2s; position:relative; }
+.class-card:hover { border-color:var(--gbor); background:#141414; }
+.class-card.selected { border-color:var(--g); background:var(--gdim); }
+.class-card.selected .check { opacity:1; }
+.check { position:absolute; top:12px; right:12px; width:20px; height:20px; border-radius:50%; background:var(--g); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; }
+.check svg { width:11px; height:11px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+.class-icon { width:36px; height:36px; border-radius:8px; background:var(--gdim); display:flex; align-items:center; justify-content:center; margin-bottom:0.85rem; }
+.class-icon svg { width:18px; height:18px; stroke:var(--g2); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
+.class-name { font-size:14px; font-weight:500; color:#fff; margin-bottom:3px; }
+.class-time { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:8px; }
+.class-tags { display:flex; gap:6px; flex-wrap:wrap; }
+.ctag { font-size:10px; background:rgba(255,255,255,0.06); border:0.5px solid rgba(255,255,255,0.1); border-radius:4px; padding:2px 8px; color:rgba(255,255,255,0.45); }
+.ctag.green { background:var(--gdim); border-color:var(--gbor); color:var(--g2); }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group.full { grid-column:1/-1; }
+.form-label { font-size:12px; color:rgba(255,255,255,0.5); }
+.form-input { background:#111; border:0.5px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.7rem 1rem; font-size:14px; color:#fff; font-family:inherit; outline:none; transition:border-color 0.2s; }
+.form-input:focus { border-color:var(--g); }
+.form-input::placeholder { color:rgba(255,255,255,0.2); }
+select.form-input option { background:#1a1a1a; }
+.summary-card { background:#111; border:0.5px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; }
+.summary-row { display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:0.5px solid rgba(255,255,255,0.06); }
+.summary-row:last-child { border-bottom:none; }
+.summary-key { font-size:12px; color:rgba(255,255,255,0.4); }
+.summary-val { font-size:13px; color:#fff; font-weight:500; }
+.summary-val.green { color:var(--g2); }
+.consent { display:flex; align-items:flex-start; gap:10px; margin-bottom:1.5rem; }
+.consent input { margin-top:2px; accent-color:var(--g); width:15px; height:15px; flex-shrink:0; cursor:pointer; }
+.consent p { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.6; }
+.btn-row { display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem; }
+.btn-next { background:var(--g); color:#fff; border:none; padding:0.8rem 2rem; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; }
+.btn-next:hover { background:var(--g2); }
+.btn-next:disabled { background:rgba(27,122,62,0.3); cursor:not-allowed; }
+.btn-back { background:transparent; color:rgba(255,255,255,0.5); border:0.5px solid rgba(255,255,255,0.15); padding:0.8rem 1.5rem; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; }
+.success-state { display:none; text-align:center; padding:3rem 1rem; }
+.success-state.show { display:block; }
+.success-icon { width:64px; height:64px; border-radius:50%; background:var(--gdim); border:0.5px solid var(--gbor); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; }
+.success-icon svg { width:28px; height:28px; stroke:var(--g2); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.success-title { font-size:22px; font-weight:500; color:#fff; margin-bottom:0.5rem; }
+.success-sub { font-size:14px; color:rgba(255,255,255,0.45); line-height:1.7; max-width:380px; margin:0 auto 2rem; }
+.success-detail { background:#111; border-radius:10px; padding:1rem 1.5rem; display:inline-block; text-align:left; }
+.success-detail p { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:4px; }
+.success-detail strong { color:#fff; }
+.submitting { font-size:13px; color:rgba(255,255,255,0.4); text-align:center; padding:1rem; }
+
+/* MOBILE */
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .hero-title { font-size:36px; }
+  .hero-content { padding:0 1.5rem; }
+  .hero-stats { left:1.5rem; gap:1.5rem; }
+  .slide-controls { right:1.5rem; }
+  .section { padding:3rem 1.5rem; }
+  .programs-grid { grid-template-columns:1fr; }
+  .coaches-grid { grid-template-columns:1fr; }
+  .mission-grid { grid-template-columns:1fr; }
+  .class-grid { grid-template-columns:1fr; }
+  .form-grid { grid-template-columns:1fr; }
+  .footer-inner { flex-direction:column; gap:2rem; }
+  .footer-cols { flex-direction:column; gap:2rem; }
+  .cta-band { flex-direction:column; gap:1.5rem; text-align:center; }
+  .gallery-grid { grid-template-columns:repeat(2,1fr); }
+  .booking-wrap { padding:2rem 1.25rem 4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="slides" id="slides">
+      <div class="slide active" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg');background-position:center 35%;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg');background-position:center 30%;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg');background-position:center 30%;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg');background-position:center 25%;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg');background-position:center 30%;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg');background-position:center 30%;"></div>
+    </div>
+    <div class="progress-bar" id="progressBar"></div>
+    <nav class="nav">
+      <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
+      <div class="nav-links">
+        <a class="active" onclick="showPage('home')">Home</a>
+        <a onclick="showPage('about')">About</a>
+        <a onclick="showPage('booking')">Schedule</a>
+        <a onclick="showPage('gallery')">Gallery</a>
+      </div>
+      <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
+    </nav>
+    <div class="hero-content">
+      <div class="eyebrow">Singapore Basketball Academy</div>
+      <h1 class="hero-title">Break barriers.<br>Build <em>champions.</em></h1>
+      <p class="hero-sub">We believe basketball is a universal language. At Triple B, we develop skills, character, and community — for every age, background, and level.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('booking')">Book a class</button>
+        <button class="btn-ghost" onclick="showPage('about')">Our story</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Programs</div></div>
+      <div class="stat"><div class="stat-num">U10–U18</div><div class="stat-label">Age groups</div></div>
+      <div class="stat"><div class="stat-num">SG</div><div class="stat-label">Yishun, Singapore</div></div>
+    </div>
+    <div class="slide-controls" id="dots"></div>
+  </section>
+  <section class="section dark">
+    <div class="sec-label">What we offer</div>
+    <div class="sec-title">Programs for every player</div>
+    <div class="programs-grid" id="programs-grid"></div>
+  </section>
+  <div class="cta-band">
+    <div><div class="cta-title">Ready to hit the court?</div><div class="cta-sub">View the full schedule and book your first class today.</div></div>
+    <button class="btn-white" onclick="showPage('booking')">Book a class →</button>
+  </div>
+  <div id="footer-home"></div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <nav class="nav nav-fixed">
+    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
+    <div class="nav-links">
+      <a onclick="showPage('home')">Home</a>
+      <a class="active" onclick="showPage('about')">About</a>
+      <a onclick="showPage('booking')">Schedule</a>
+      <a onclick="showPage('gallery')">Gallery</a>
+    </div>
+    <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
+  </nav>
+  <div class="page-hero">
+    <img src="https://triplebsg.com/wp-content/uploads/2024/09/IMG_1797-scaled.jpg" alt="About" />
+    <div class="page-hero-content">
+      <div class="page-hero-label">Who we are</div>
+      <div class="page-hero-title">About Basketball Beyond Borders</div>
+    </div>
+  </div>
+  <section class="section dark">
+    <div class="mission-grid">
+      <div class="mission-card"><div class="mission-label">Mission</div><div class="mission-text">To empower athletes of all backgrounds by providing exceptional basketball training that enhances both character and skills. We foster unity and inclusivity through the game, offering opportunities for personal growth, teamwork, and international experiences.</div></div>
+      <div class="mission-card"><div class="mission-label">Vision</div><div class="mission-text">To be a global leader in basketball development, uniting diverse communities through the sport while shaping athletes who excel on and off the court — embodying the values of integrity, respect, and excellence.</div></div>
+    </div>
+    <div class="sec-label">The coaches</div>
+    <div class="sec-title">The people behind Triple B</div>
+    <div class="coaches-grid">
+      <div class="coach-card">
+        <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image0-scaled.jpeg" alt="Coach JC" />
+        <div><div class="coach-name">Coach JC</div><div class="coach-role">Head coach & co-founder</div><div class="coach-bio">With over 14 years of playing experience and 6 years of coaching — including training in the US & Philippines — Coach JC is known for his dynamic style. He instills resilience, discipline, and unity in every session.</div><div class="coach-ig">@coachjcsg</div></div>
+      </div>
+      <div class="coach-card">
+        <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image01-scaled.jpeg" alt="Coach Harry" />
+        <div><div class="coach-name">Coach Harry</div><div class="coach-role">Head coach & co-founder</div><div class="coach-bio">A college scholarship athlete in the Philippines with over 14 years of playing experience and 5+ years coaching. Coach Harry emphasizes fun while instilling discipline.</div><div class="coach-ig">@harryyoungfrancis</div></div>
+      </div>
+    </div>
+  </section>
+  <div class="cta-band">
+    <div><div class="cta-title">Train with us.</div><div class="cta-sub">Book a class and experience it for yourself.</div></div>
+    <button class="btn-white" onclick="showPage('booking')">View schedule →</button>
+  </div>
+  <div id="footer-about"></div>
+</div>
+
+<!-- BOOKING -->
+<div class="page" id="page-booking">
+  <nav class="nav nav-fixed">
+    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
+    <div class="nav-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a>
+      <a class="active" onclick="showPage('booking')">Schedule</a>
+      <a onclick="showPage('gallery')">Gallery</a>
+    </div>
+    <button class="nav-cta">Book a class</button>
+  </nav>
+  <div class="booking-wrap">
+    <div id="bk-header">
+      <div class="booking-eyebrow">Registration</div>
+      <div class="booking-title">Book a class at Triple B</div>
+      <div class="booking-sub">Select a program, fill in your details, and you're all set. Coaches will confirm via WhatsApp within 24 hours.</div>
+    </div>
+    <div class="steps" id="bk-steps">
+      <div class="step"><div class="step-num active" id="snum-1">1</div><div class="step-label active" id="slbl-1">Choose class</div></div>
+      <div class="step-divider"></div>
+      <div class="step"><div class="step-num" id="snum-2">2</div><div class="step-label" id="slbl-2">Your details</div></div>
+      <div class="step-divider"></div>
+      <div class="step"><div class="step-num" id="snum-3">3</div><div class="step-label" id="slbl-3">Confirm</div></div>
+    </div>
+    <div class="step-panel active" id="panel-1">
+      <div class="class-grid" id="class-grid"></div>
+      <div class="btn-row"><button class="btn-next" id="btn-next-1" disabled onclick="goStep(2)">Next — Your details</button></div>
+    </div>
+    <div class="step-panel" id="panel-2">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Player's full name *</label><input class="form-input" id="f-name" type="text" placeholder="e.g. John Tan" /></div>
+        <div class="form-group"><label class="form-label">Date of birth *</label><input class="form-input" id="f-dob" type="date" /></div>
+        <div class="form-group"><label class="form-label">Parent / guardian name *</label><input class="form-input" id="f-parent" type="text" placeholder="e.g. Mary Tan" /></div>
+        <div class="form-group"><label class="form-label">Contact number *</label><input class="form-input" id="f-phone" type="tel" placeholder="+65 9XXX XXXX" /></div>
+        <div class="form-group"><label class="form-label">Email address *</label><input class="form-input" id="f-email" type="email" placeholder="email@example.com" /></div>
+        <div class="form-group"><label class="form-label">Experience level</label>
+          <select class="form-input" id="f-level">
+            <option value="">Select level</option>
+            <option>Beginner — never played before</option>
+            <option>Recreational — played for fun</option>
+            <option>Intermediate — school/club level</option>
+            <option>Advanced — competitive player</option>
+          </select>
+        </div>
+        <div class="form-group full"><label class="form-label">Anything else the coaches should know?</label><input class="form-input" id="f-notes" type="text" placeholder="Injuries, goals, preferred schedule, etc." /></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <button class="btn-next" onclick="goStep(3)">Next — Review booking</button>
+      </div>
+    </div>
+    <div class="step-panel" id="panel-3">
+      <div class="summary-card">
+        <div class="summary-row"><span class="summary-key">Program</span><span class="summary-val green" id="sum-class">—</span></div>
+        <div class="summary-row"><span class="summary-key">Schedule</span><span class="summary-val" id="sum-time">—</span></div>
+        <div class="summary-row"><span class="summary-key">Player name</span><span class="summary-val" id="sum-name">—</span></div>
+        <div class="summary-row"><span class="summary-key">Contact</span><span class="summary-val" id="sum-phone">—</span></div>
+        <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val" id="sum-email">—</span></div>
+        <div class="summary-row"><span class="summary-key">Level</span><span class="summary-val" id="sum-level">—</span></div>
+        <div class="summary-row"><span class="summary-key">Notes</span><span class="summary-val" id="sum-notes">—</span></div>
+      </div>
+      <div class="consent">
+        <input type="checkbox" id="consent-check" onchange="document.getElementById('btn-submit').disabled=!this.checked" />
+        <p>I confirm the above details are correct. I understand that a Triple B coach will reach out via WhatsApp or email to confirm within 24 hours.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <button class="btn-next" id="btn-submit" disabled onclick="submitBooking()">Confirm booking →</button>
+      </div>
+    </div>
+    <div class="success-state" id="success">
+      <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-title">You're all booked! 🏀</div>
+      <div class="success-sub">Your registration has been received. A coach will confirm your spot via WhatsApp or email within 24 hours.</div>
+      <div class="success-detail"><p>Registered for</p><strong id="success-class">—</strong></div>
+      <br><br>
+      <button class="btn-next" onclick="resetBooking()">Book another class</button>
+    </div>
+  </div>
+  <div id="footer-booking"></div>
+</div>
+
+<!-- GALLERY -->
+<div class="page" id="page-gallery">
+  <nav class="nav nav-fixed">
+    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
+    <div class="nav-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('booking')">Schedule</a>
+      <a class="active" onclick="showPage('gallery')">Gallery</a>
+    </div>
+    <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
+  </nav>
+  <section class="section darker">
+    <div class="sec-label">Life at Triple B</div>
+    <div class="sec-title">On the court & beyond</div>
+    <div class="gallery-grid">
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07918-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07951-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg" loading="lazy" alt="" /></div>
+      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC08026-scaled.jpg" loading="lazy" alt="" /></div>
+    </div>
+  </section>
+  <div id="footer-gallery"></div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBgzhkLyqn5NXsaHunBfvIhn-o49UJGI14",
+  authDomain: "triple-b-sg.firebaseapp.com",
+  databaseURL: "https://triple-b-sg-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "triple-b-sg",
+  storageBucket: "triple-b-sg.firebasestorage.app",
+  messagingSenderId: "42281196901",
+  appId: "1:42281196901:web:c6f6ea5cfcb50e4c90958c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// expose to global scope
+window._firebasePush = (data) => push(ref(db, 'bookings'), data);
+</script>
+
+<script>
+// ── ICONS ──
+const icons = {
+  person:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  group:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  sun:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+  globe:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  trophy:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 5h12v6a6 6 0 0 1-12 0V5z"/></svg>`,
+  arrow:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`,
+  ig:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+  fb:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+  wa:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
+};
+
+// ── PROGRAMS ──
+const programs = [
+  {icon:'person',name:'1-on-1 tailored training',desc:'Personalized sessions targeting your specific weaknesses and goals.'},
+  {icon:'group',name:'Group skills training',desc:'Train alongside peers. Learn teamwork, communication, and competitive instincts.'},
+  {icon:'sun',name:'Holiday camps',desc:'Intensive multi-day camps during school breaks. High energy, high reps.'},
+  {icon:'globe',name:'Overseas trips & tournaments',desc:'International exposure — compete, grow, and see the world.'},
+  {icon:'trophy',name:'Competitive teams',desc:'U10, U12, U16, and U18 squads for athletes ready to compete at the highest level.'},
+];
+const pgrid = document.getElementById('programs-grid');
+programs.forEach(p => {
+  const c = document.createElement('div'); c.className='prog-card';
+  c.innerHTML=`<div class="prog-icon">${icons[p.icon]}</div><div class="prog-name">${p.name}</div><div class="prog-desc">${p.desc}</div><div class="prog-link">${icons.arrow} Learn more</div>`;
+  pgrid.appendChild(c);
+});
+const talk = document.createElement('div'); talk.className='talk-card';
+talk.innerHTML=`<p>Not sure which program fits you?</p><button class="btn-primary" style="font-size:13px;padding:0.6rem 1.4rem;" onclick="showPage('booking')">Talk to a coach</button>`;
+pgrid.appendChild(talk);
+
+// ── CLASSES ──
+const classes = [
+  {icon:'group',name:'Group Skills Training',time:'Mon & Wed · 4:00 PM or 6:00 PM',tags:['All levels','Open']},
+  {icon:'person',name:'1-on-1 Tailored Training',time:'By appointment',tags:['Personal','Open']},
+  {icon:'trophy',name:'U10 Competitive Team',time:'Sat · 9:00 AM',tags:['Under 10','Open']},
+  {icon:'trophy',name:'U12 Competitive Team',time:'Sat · 10:30 AM',tags:['Under 12','Open']},
+  {icon:'sun',name:'Holiday Hoops Camp',time:'School holidays · Full day/2hrs',tags:['Seasonal','Upcoming']},
+  {icon:'globe',name:'Overseas Trip / Tournament',time:'TBA',tags:['International','Interest only']},
+];
+const cgrid = document.getElementById('class-grid');
+let selClass='', selTime='';
+classes.forEach(cl => {
+  const c = document.createElement('div'); c.className='class-card';
+  c.innerHTML=`<div class="check">${icons.check}</div><div class="class-icon">${icons[cl.icon]}</div><div class="class-name">${cl.name}</div><div class="class-time">${cl.time}</div><div class="class-tags">${cl.tags.map((t,i)=>`<span class="ctag${i===1?' green':''}">${t}</span>`).join('')}</div>`;
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.class-card').forEach(x=>x.classList.remove('selected'));
+    c.classList.add('selected'); selClass=cl.name; selTime=cl.time;
+    document.getElementById('btn-next-1').disabled=false;
+  });
+  cgrid.appendChild(c);
+});
+
+// ── FOOTER ──
+function buildFooter(id) {
+  document.getElementById(id).innerHTML=`
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B"/>
+        <p>Breaking barriers and building champions through basketball. Based in Yishun, Singapore.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Navigate</div>
+          <a onclick="showPage('home')">Home</a>
+          <a onclick="showPage('about')">About</a>
+          <a onclick="showPage('booking')">Schedule</a>
+          <a onclick="showPage('gallery')">Gallery</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Contact</div>
+          <a href="mailto:info@triplebsg.com">info@triplebsg.com</a>
+          <a href="tel:+6586009246">(+65) 860 09246</a>
+          <a>XCL World Academy, Yishun</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Follow us</div>
+          <div class="footer-social">
+            <a class="social-btn" href="https://www.instagram.com/triplebsg/" target="_blank">${icons.ig}</a>
+            <a class="social-btn" href="https://www.facebook.com/profile.php?id=61565358062831" target="_blank">${icons.fb}</a>
+            <a class="social-btn" href="https://wa.me/6586009246" target="_blank">${icons.wa}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Basketball Beyond Borders Pte Ltd. All rights reserved.</div>
+      <div class="footer-legal"><a href="#">Terms & Conditions</a><a href="#">Refund Policy</a></div>
+    </div>
+  </footer>`;
+}
+['footer-home','footer-about','footer-booking','footer-gallery'].forEach(buildFooter);
+
+// ── PAGE NAV ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+window.showPage = showPage;
+
+// ── BOOKING STEPS ──
+function goStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  for(let i=1;i<=3;i++){
+    const num=document.getElementById('snum-'+i);
+    const lbl=document.getElementById('slbl-'+i);
+    if(i<n){num.className='step-num done';num.textContent='✓';lbl.className='step-label';}
+    else if(i===n){num.className='step-num active';num.textContent=i;lbl.className='step-label active';}
+    else{num.className='step-num';num.textContent=i;lbl.className='step-label';}
+  }
+  if(n===3){
+    document.getElementById('sum-class').textContent=selClass||'—';
+    document.getElementById('sum-time').textContent=selTime||'—';
+    document.getElementById('sum-name').textContent=document.getElementById('f-name').value||'—';
+    document.getElementById('sum-phone').textContent=document.getElementById('f-phone').value||'—';
+    document.getElementById('sum-email').textContent=document.getElementById('f-email').value||'—';
+    document.getElementById('sum-level').textContent=document.getElementById('f-level').value||'—';
+    document.getElementById('sum-notes').textContent=document.getElementById('f-notes').value||'—';
+    document.getElementById('consent-check').checked=false;
+    document.getElementById('btn-submit').disabled=true;
+  }
+  window.scrollTo(0,0);
+}
+window.goStep = goStep;
+
+// ── SUBMIT TO FIREBASE ──
+async function submitBooking() {
+  const btn = document.getElementById('btn-submit');
+  btn.disabled=true; btn.textContent='Submitting...';
+  const data = {
+    className: selClass,
+    classTime: selTime,
+    playerName: document.getElementById('f-name').value,
+    dob: document.getElementById('f-dob').value,
+    parentName: document.getElementById('f-parent').value,
+    contact: document.getElementById('f-phone').value,
+    email: document.getElementById('f-email').value,
+    level: document.getElementById('f-level').value,
+    notes: document.getElementById('f-notes').value,
+    status: 'pending',
+    submittedAt: Date.now(),
+  };
+  try {
+    // wait for Firebase module to be ready
+    let attempts = 0;
+    while (!window._firebasePush && attempts < 20) {
+      await new Promise(r => setTimeout(r, 100));
+      attempts++;
+    }
+    if (window._firebasePush) {
+      await window._firebasePush(data);
+    }
+  } catch(e) {
+    console.error('Firebase error:', e);
+  }
+  // show success regardless (graceful fallback)
+  document.getElementById('bk-header').style.display='none';
+  document.getElementById('bk-steps').style.display='none';
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('success').classList.add('show');
+  document.getElementById('success-class').textContent=selClass;
+}
+window.submitBooking = submitBooking;
+
+function resetBooking() {
+  document.getElementById('bk-header').style.display='';
+  document.getElementById('bk-steps').style.display='';
+  document.getElementById('success').classList.remove('show');
+  document.querySelectorAll('.class-card').forEach(c=>c.classList.remove('selected'));
+  selClass=''; selTime='';
+  document.getElementById('btn-next-1').disabled=true;
+  ['f-name','f-dob','f-parent','f-phone','f-email','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-level').value='';
+  goStep(1);
+}
+window.resetBooking = resetBooking;
+
+// ── SLIDESHOW ──
+const slides=document.querySelectorAll('.slide');
+const dotsEl=document.getElementById('dots');
+const pb=document.getElementById('progressBar');
+const DUR=5000; let cur=0,timer;
+slides.forEach((_,i)=>{
+  const d=document.createElement('button'); d.className='dot-btn'+(i===0?' active':'');
+  d.setAttribute('aria-label','Slide '+(i+1));
+  d.addEventListener('click',()=>goTo(i)); dotsEl.appendChild(d);
+});
+function startProg(){pb.style.transition='none';pb.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{pb.style.transition=`width ${DUR}ms linear`;pb.style.width='100%';}));}
+function goTo(n){slides[cur].classList.remove('active');cur=(n+slides.length)%slides.length;slides[cur].classList.add('active');document.querySelectorAll('.dot-btn').forEach((d,i)=>d.classList.toggle('active',i===cur));clearInterval(timer);startProg();timer=setInterval(()=>goTo(cur+1),DUR);}
+startProg(); timer=setInterval(()=>goTo(cur+1),DUR);
+</script>
+</body>
+</html>

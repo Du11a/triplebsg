@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Triple B Admin — Basketball Beyond Borders</title>
+<style>
+  :root {
+    --green: #22923F;
+    --green-dark: #1B7A3E;
+    --green-dim: rgba(34,146,63,0.12);
+    --green-glow: rgba(34,146,63,0.25);
+    --bg: #0a0a0a;
+    --surface: #111;
+    --surface2: #181818;
+    --surface3: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #777;
+    --danger: #e05252;
+    --warn: #e09a3a;
+    --radius: 8px;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; background: var(--bg);
+  }
+  .login-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 48px 40px; width: 100%; max-width: 380px;
+    text-align: center;
+  }
+  .login-card img { width: 80px; margin-bottom: 20px; }
+  .login-card h1 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .login-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 28px; }
+  .login-card input {
+    width: 100%; padding: 12px 14px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    color: var(--text); font-size: 0.95rem; margin-bottom: 14px;
+    outline: none; transition: border 0.2s;
+  }
+  .login-card input:focus { border-color: var(--green); }
+  .login-card button {
+    width: 100%; padding: 12px; background: var(--green);
+    border: none; border-radius: var(--radius); color: #fff;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .login-card button:hover { background: var(--green-dark); }
+  #login-error { color: var(--danger); font-size: 0.82rem; margin-top: 10px; min-height: 18px; }
+
+  /* ── APP SHELL ── */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+
+  /* Top nav */
+  .topbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 24px; height: 56px;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .topbar img { height: 32px; }
+  .topbar .brand { font-weight: 700; font-size: 0.9rem; color: var(--green); letter-spacing: 0.04em; }
+  .topbar .spacer { flex: 1; }
+  .topbar .logout-btn {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); padding: 6px 14px; font-size: 0.8rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .topbar .logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+  /* Layout */
+  .layout { display: flex; flex: 1; }
+  .sidebar {
+    width: 220px; background: var(--surface); border-right: 1px solid var(--border);
+    padding: 16px 0; display: flex; flex-direction: column; gap: 2px;
+    position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; font-size: 0.88rem; color: var(--muted);
+    cursor: pointer; border-radius: 0; transition: all 0.15s;
+    border-left: 3px solid transparent; user-select: none;
+  }
+  .nav-item:hover { color: var(--text); background: var(--green-dim); }
+  .nav-item.active { color: var(--green); background: var(--green-dim); border-left-color: var(--green); }
+  .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .nav-section { padding: 14px 20px 6px; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .main { flex: 1; padding: 28px; overflow-y: auto; min-width: 0; }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* Page header */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+  .page-header h2 { font-size: 1.3rem; font-weight: 700; }
+  .page-header p { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+  }
+  .stat-card .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .stat-card .value { font-size: 1.8rem; font-weight: 700; }
+  .stat-card .value.green { color: var(--green); }
+  .stat-card .value.warn { color: var(--warn); }
+  .stat-card .value.red { color: var(--danger); }
+
+  /* Toolbar */
+  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .toolbar input, .toolbar select {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--text);
+    padding: 8px 12px; font-size: 0.85rem; outline: none;
+    transition: border 0.2s;
+  }
+  .toolbar input:focus, .toolbar select:focus { border-color: var(--green); }
+  .toolbar input { flex: 1; min-width: 180px; max-width: 300px; }
+  .toolbar .spacer { flex: 1; }
+
+  /* Table */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead th {
+    padding: 12px 14px; text-align: left;
+    font-size: 0.75rem; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td { padding: 12px 14px; vertical-align: middle; }
+
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .badge.pending { background: rgba(224,154,58,0.15); color: var(--warn); }
+  .badge.approved { background: rgba(34,146,63,0.15); color: var(--green); }
+  .badge.rejected { background: rgba(224,82,82,0.12); color: var(--danger); }
+
+  .action-btns { display: flex; gap: 6px; }
+  .btn { padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-green:hover { background: var(--green-dark); }
+  .btn-red { background: rgba(224,82,82,0.15); color: var(--danger); border: 1px solid rgba(224,82,82,0.3); }
+  .btn-red:hover { background: var(--danger); color: #fff; }
+  .btn-outline { background: none; border: 1px solid var(--border); color: var(--muted); }
+  .btn-outline:hover { border-color: var(--text); color: var(--text); }
+  .btn-ghost { background: none; border: none; color: var(--muted); font-size: 0.8rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
+  .btn-ghost:hover { color: var(--text); background: var(--surface2); }
+  .btn-excel { background: #1e6f3e; color: #fff; display: flex; align-items: center; gap: 6px; }
+  .btn-excel:hover { background: #175a31; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .empty-state svg { width: 40px; height: 40px; margin-bottom: 14px; opacity: 0.3; }
+  .empty-state p { font-size: 0.9rem; }
+
+  /* Player profile cards */
+  .player-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .player-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px; transition: border-color 0.2s;
+  }
+  .player-card:hover { border-color: var(--green); }
+  .player-card .pname { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .player-card .plevel { display: inline-block; background: var(--green-dim); color: var(--green); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-bottom: 10px; }
+  .player-card .pinfo { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+  .player-card .pnotes { font-size: 0.8rem; background: var(--surface2); border-radius: 6px; padding: 8px 10px; margin-top: 10px; color: var(--muted); }
+  .player-card .card-actions { display: flex; gap: 6px; margin-top: 12px; }
+
+  /* Schedule */
+  .schedule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .schedule-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;
+  }
+  .schedule-card .class-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .schedule-card .class-time { color: var(--green); font-size: 0.85rem; margin-bottom: 8px; }
+  .schedule-card .class-info { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .schedule-card .capacity-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 12px; }
+  .schedule-card .capacity-fill { height: 100%; border-radius: 2px; background: var(--green); transition: width 0.4s; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 200; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 28px;
+  }
+  .modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 6px; color: var(--text);
+    font-size: 0.88rem; outline: none; transition: border 0.2s; resize: vertical;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green); }
+  .form-group select option { background: var(--surface2); }
+  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: var(--surface); border: 1px solid var(--green);
+    border-radius: 8px; padding: 12px 18px; font-size: 0.88rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4); display: none;
+    max-width: 300px;
+  }
+  .toast.show { display: block; animation: slideIn 0.25s ease; }
+  @keyframes slideIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 0.88rem; }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 16px; }
+    .form-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B Logo" />
+    <h1>Triple B Admin</h1>
+    <p>Basketball Beyond Borders — CRM Portal</p>
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password" />
+    <button onclick="doLogin()">Sign In</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <!-- Topbar -->
+  <div class="topbar">
+    <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Logo" />
+    <span class="brand">TRIPLE B ADMIN</span>
+    <span class="spacer"></span>
+    <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+  </div>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" onclick="showView('bookings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Bookings
+      </div>
+      <div class="nav-item" onclick="showView('players')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Players
+      </div>
+      <div class="nav-section">Management</div>
+      <div class="nav-item" onclick="showView('schedule')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Schedule
+      </div>
+      <div class="nav-section">Data</div>
+      <div class="nav-item" onclick="exportExcel()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Export to Excel
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="main">
+
+      <!-- BOOKINGS VIEW -->
+      <div class="view active" id="view-bookings">
+        <div class="page-header">
+          <div>
+            <h2>Bookings</h2>
+            <p>All registration requests — approve or reject to confirm enrollment</p>
+          </div>
+          <button class="btn btn-green" onclick="openAddBooking()">+ Add Booking</button>
+        </div>
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card"><div class="label">Total</div><div class="value" id="stat-total">—</div></div>
+          <div class="stat-card"><div class="label">Pending</div><div class="value warn" id="stat-pending">—</div></div>
+          <div class="stat-card"><div class="label">Approved</div><div class="value green" id="stat-approved">—</div></div>
+          <div class="stat-card"><div class="label">Rejected</div><div class="value red" id="stat-rejected">—</div></div>
+        </div>
+        <div class="toolbar">
+          <input type="text" id="search-input" placeholder="Search name, email, class…" oninput="renderBookings()" />
+          <select id="filter-status" onchange="renderBookings()">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <select id="filter-class" onchange="renderBookings()">
+            <option value="">All Classes</option>
+          </select>
+          <div class="spacer"></div>
+          <button class="btn btn-excel" onclick="exportExcel()">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+            Export
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Class</th>
+                <th>Parent / Contact</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookings-tbody">
+              <tr><td colspan="6"><div class="loading">Loading bookings…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PLAYERS VIEW -->
+      <div class="view" id="view-players">
+        <div class="page-header">
+          <div>
+            <h2>Player Profiles</h2>
+            <p>Enrolled athletes and their information</p>
+          </div>
+          <button class="btn btn-green" onclick="openAddPlayer()">+ Add Player</button>
+        </div>
+        <div class="toolbar">
+          <input type="text" id="player-search" placeholder="Search players…" oninput="renderPlayers()" />
+          <select id="player-filter-level" onchange="renderPlayers()">
+            <option value="">All Levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+            <option value="Elite">Elite</option>
+          </select>
+          <div class="spacer"></div>
+        </div>
+        <div class="player-grid" id="player-grid">
+          <div class="loading">Loading players…</div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE VIEW -->
+      <div class="view" id="view-schedule">
+        <div class="page-header">
+          <div>
+            <h2>Class Schedule</h2>
+            <p>Manage class slots and capacity</p>
+          </div>
+          <button class="btn btn-green" onclick="openAddClass()">+ Add Class</button>
+        </div>
+        <div class="schedule-grid" id="schedule-grid">
+          <div class="loading">Loading schedule…</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── MODALS ── -->
+
+<!-- Booking detail/edit modal -->
+<div class="modal-overlay" id="modal-booking">
+  <div class="modal">
+    <h3 id="modal-booking-title">Booking Details</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Player Name</label><input type="text" id="bm-player" /></div>
+      <div class="form-group"><label>Date of Birth</label><input type="date" id="bm-dob" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Parent / Guardian</label><input type="text" id="bm-parent" /></div>
+      <div class="form-group"><label>Contact Number</label><input type="text" id="bm-contact" /></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" id="bm-email" /></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Class</label>
+        <select id="bm-class">
+          <option value="">Select class…</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Level</label>
+        <select id="bm-level">
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+          <option>Elite</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea id="bm-notes" rows="3"></textarea></div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="bm-status">
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-booking')">Cancel</button>
+      <button class="btn btn-green" onclick="saveBooking()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Player modal -->
+<div class="modal-overlay" id="modal-player">
+  <div class="modal">
+    <h3 id="modal-player-title">Add Player</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Full Name</label><input type="text" id="pm-name" /></div>
+      <div class="form-group"><label>Date of Birth</label><input type="date" id="pm-dob" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Parent / Guardian</label><input type="text" id="pm-parent" /></div>
+      <div class="form-group"><label>Contact</label><input type="text" id="pm-contact" /></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" id="pm-email" /></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Level</label>
+        <select id="pm-level">
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+          <option>Elite</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Enrolled Class</label>
+        <select id="pm-class"><option value="">None</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Notes / Remarks</label><textarea id="pm-notes" rows="3"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-player')">Cancel</button>
+      <button class="btn btn-green" onclick="savePlayer()">Save Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- Class/Schedule modal -->
+<div class="modal-overlay" id="modal-class">
+  <div class="modal">
+    <h3 id="modal-class-title">Add Class</h3>
+    <div class="form-group"><label>Class Name</label><input type="text" id="cm-name" placeholder="e.g. Junior Fundamentals" /></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Day(s)</label>
+        <select id="cm-day">
+          <option>Saturday</option>
+          <option>Sunday</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Sat & Sun</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Time</label><input type="text" id="cm-time" placeholder="e.g. 9:00 AM – 11:00 AM" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Age Group</label><input type="text" id="cm-age" placeholder="e.g. 8–12 years" /></div>
+      <div class="form-group"><label>Max Capacity</label><input type="number" id="cm-capacity" value="20" min="1" /></div>
+    </div>
+    <div class="form-group"><label>Coach</label><input type="text" id="cm-coach" placeholder="Coach name" /></div>
+    <div class="form-group"><label>Location / Court</label><input type="text" id="cm-location" placeholder="e.g. Yishun Sports Hall, Court 1" /></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-class')">Cancel</button>
+      <button class="btn btn-green" onclick="saveClass()">Save Class</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, push, update, remove }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ── CONFIG ──
+  const firebaseConfig = {
+    apiKey: "AIzaSyBgzhkLyqn5NXsaHunBfvIhn-o49UJGI14",
+    authDomain: "triple-b-sg.firebaseapp.com",
+    databaseURL: "https://triple-b-sg-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "triple-b-sg",
+    storageBucket: "triple-b-sg.firebasestorage.app",
+    messagingSenderId: "42281196901",
+    appId: "1:42281196901:web:c6f6ea5cfcb50e4c90958c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // ── PASSWORD ── (change this)
+  const ADMIN_PASSWORD = "triplebbb2024";
+
+  // ── STATE ──
+  let bookings = {};
+  let players = {};
+  let classes = {};
+  let editingBookingId = null;
+  let editingPlayerId = null;
+  let editingClassId = null;
+
+  // ── LOGIN ──
+  window.doLogin = function() {
+    const pw = document.getElementById('pw-input').value;
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      initListeners();
+    } else {
+      document.getElementById('login-error').textContent = 'Incorrect password.';
+    }
+  };
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
+
+  window.doLogout = function() {
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('pw-input').value = '';
+  };
+
+  // ── REALTIME LISTENERS ──
+  function initListeners() {
+    onValue(ref(db, 'bookings'), snap => {
+      bookings = snap.val() || {};
+      updateStats();
+      renderBookings();
+    });
+    onValue(ref(db, 'players'), snap => {
+      players = snap.val() || {};
+      renderPlayers();
+    });
+    onValue(ref(db, 'classes'), snap => {
+      classes = snap.val() || {};
+      renderSchedule();
+      populateClassSelects();
+      if (!snap.val()) seedDefaultClasses();
+    });
+  }
+
+  function seedDefaultClasses() {
+    const defaults = [
+      { name: "Junior Fundamentals", day: "Saturday", time: "9:00 AM – 11:00 AM", age: "6–9 years", capacity: 16, coach: "Coach Marcus", location: "Yishun Sports Hall, Court 1" },
+      { name: "Youth Development", day: "Saturday", time: "11:00 AM – 1:00 PM", age: "10–13 years", capacity: 20, coach: "Coach Darius", location: "Yishun Sports Hall, Court 2" },
+      { name: "Teen Elite", day: "Sunday", time: "9:00 AM – 12:00 PM", age: "14–17 years", capacity: 15, coach: "Coach Alvin", location: "Yishun Sports Hall, Court 1" },
+      { name: "Adult League Prep", day: "Sunday", time: "2:00 PM – 4:00 PM", age: "18+ years", capacity: 12, coach: "Coach Marcus", location: "Yishun Sports Hall, Court 2" }
+    ];
+    defaults.forEach(c => push(ref(db, 'classes'), c));
+  }
+
+  // ── STATS ──
+  function updateStats() {
+    const list = Object.values(bookings);
+    document.getElementById('stat-total').textContent = list.length;
+    document.getElementById('stat-pending').textContent = list.filter(b => b.status === 'pending').length;
+    document.getElementById('stat-approved').textContent = list.filter(b => b.status === 'approved').length;
+    document.getElementById('stat-rejected').textContent = list.filter(b => b.status === 'rejected').length;
+  }
+
+  // ── RENDER BOOKINGS ──
+  window.renderBookings = function() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    const statusF = document.getElementById('filter-status').value;
+    const classF = document.getElementById('filter-class').value;
+    const tbody = document.getElementById('bookings-tbody');
+
+    let list = Object.entries(bookings).map(([id, b]) => ({ id, ...b }));
+    if (q) list = list.filter(b => [b.playerName, b.email, b.className, b.parentName].join(' ').toLowerCase().includes(q));
+    if (statusF) list = list.filter(b => b.status === statusF);
+    if (classF) list = list.filter(b => b.className === classF);
+
+    list.sort((a, b) => (b.submittedAt || 0) - (a.submittedAt || 0));
+
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><p>No bookings found</p></div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(b => {
+      const date = b.submittedAt ? new Date(b.submittedAt).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+      const status = b.status || 'pending';
+      return `
+        <tr>
+          <td><strong>${esc(b.playerName || '—')}</strong><br><span style="color:var(--muted);font-size:0.78rem">${esc(b.email || '')}</span></td>
+          <td>${esc(b.className || '—')}</td>
+          <td>${esc(b.parentName || '—')}<br><span style="color:var(--muted);font-size:0.78rem">${esc(b.contact || '')}</span></td>
+          <td style="white-space:nowrap">${date}</td>
+          <td><span class="badge ${status}">${status}</span></td>
+          <td>
+            <div class="action-btns">
+              ${status === 'pending' ? `
+                <button class="btn btn-green" onclick="quickStatus('${b.id}','approved')">Approve</button>
+                <button class="btn btn-red" onclick="quickStatus('${b.id}','rejected')">Reject</button>
+              ` : ''}
+              <button class="btn btn-outline" onclick="openEditBooking('${b.id}')">Edit</button>
+              <button class="btn btn-ghost" onclick="deleteBooking('${b.id}')">✕</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  };
+
+  window.quickStatus = function(id, status) {
+    update(ref(db, `bookings/${id}`), { status });
+    showToast(status === 'approved' ? '✅ Booking approved' : '❌ Booking rejected');
+  };
+
+  window.deleteBooking = function(id) {
+    if (confirm('Delete this booking?')) {
+      remove(ref(db, `bookings/${id}`));
+      showToast('Booking deleted');
+    }
+  };
+
+  // ── BOOKING MODAL ──
+  window.openAddBooking = function() {
+    editingBookingId = null;
+    document.getElementById('modal-booking-title').textContent = 'Add Booking';
+    ['bm-player','bm-dob','bm-parent','bm-contact','bm-email','bm-notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('bm-class').value = '';
+    document.getElementById('bm-level').value = 'Beginner';
+    document.getElementById('bm-status').value = 'pending';
+    openModal('modal-booking');
+  };
+
+  window.openEditBooking = function(id) {
+    editingBookingId = id;
+    const b = bookings[id];
+    document.getElementById('modal-booking-title').textContent = 'Edit Booking';
+    document.getElementById('bm-player').value = b.playerName || '';
+    document.getElementById('bm-dob').value = b.dob || '';
+    document.getElementById('bm-parent').value = b.parentName || '';
+    document.getElementById('bm-contact').value = b.contact || '';
+    document.getElementById('bm-email').value = b.email || '';
+    document.getElementById('bm-class').value = b.className || '';
+    document.getElementById('bm-level').value = b.level || 'Beginner';
+    document.getElementById('bm-notes').value = b.notes || '';
+    document.getElementById('bm-status').value = b.status || 'pending';
+    openModal('modal-booking');
+  };
+
+  window.saveBooking = function() {
+    const data = {
+      playerName: document.getElementById('bm-player').value.trim(),
+      dob: document.getElementById('bm-dob').value,
+      parentName: document.getElementById('bm-parent').value.trim(),
+      contact: document.getElementById('bm-contact').value.trim(),
+      email: document.getElementById('bm-email').value.trim(),
+      className: document.getElementById('bm-class').value,
+      level: document.getElementById('bm-level').value,
+      notes: document.getElementById('bm-notes').value.trim(),
+      status: document.getElementById('bm-status').value,
+    };
+    if (!data.playerName) { showToast('Player name is required', true); return; }
+    if (editingBookingId) {
+      update(ref(db, `bookings/${editingBookingId}`), data);
+      showToast('Booking updated');
+    } else {
+      data.submittedAt = Date.now();
+      push(ref(db, 'bookings'), data);
+      showToast('Booking added');
+    }
+    closeModal('modal-booking');
+  };
+
+  // ── RENDER PLAYERS ──
+  window.renderPlayers = function() {
+    const q = document.getElementById('player-search').value.toLowerCase();
+    const lf = document.getElementById('player-filter-level').value;
+    const grid = document.getElementById('player-grid');
+    let list = Object.entries(players).map(([id, p]) => ({ id, ...p }));
+    if (q) list = list.filter(p => [p.name, p.email, p.parentName].join(' ').toLowerCase().includes(q));
+    if (lf) list = list.filter(p => p.level === lf);
+
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><p>No players found</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = list.map(p => `
+      <div class="player-card">
+        <div class="pname">${esc(p.name || '—')}</div>
+        <div class="plevel">${esc(p.level || 'Beginner')}</div>
+        <div class="pinfo">
+          DOB: ${p.dob || '—'}<br>
+          Parent: ${esc(p.parentName || '—')}<br>
+          Contact: ${esc(p.contact || '—')}<br>
+          Email: ${esc(p.email || '—')}<br>
+          Class: ${esc(p.className || 'Not enrolled')}
+        </div>
+        ${p.notes ? `<div class="pnotes">${esc(p.notes)}</div>` : ''}
+        <div class="card-actions">
+          <button class="btn btn-outline" onclick="openEditPlayer('${p.id}')">Edit</button>
+          <button class="btn btn-ghost" onclick="deletePlayer('${p.id}')">✕</button>
+        </div>
+      </div>`).join('');
+  };
+
+  window.openAddPlayer = function() {
+    editingPlayerId = null;
+    document.getElementById('modal-player-title').textContent = 'Add Player';
+    ['pm-name','pm-dob','pm-parent','pm-contact','pm-email','pm-notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('pm-level').value = 'Beginner';
+    document.getElementById('pm-class').value = '';
+    openModal('modal-player');
+  };
+
+  window.openEditPlayer = function(id) {
+    editingPlayerId = id;
+    const p = players[id];
+    document.getElementById('modal-player-title').textContent = 'Edit Player';
+    document.getElementById('pm-name').value = p.name || '';
+    document.getElementById('pm-dob').value = p.dob || '';
+    document.getElementById('pm-parent').value = p.parentName || '';
+    document.getElementById('pm-contact').value = p.contact || '';
+    document.getElementById('pm-email').value = p.email || '';
+    document.getElementById('pm-level').value = p.level || 'Beginner';
+    document.getElementById('pm-class').value = p.className || '';
+    document.getElementById('pm-notes').value = p.notes || '';
+    openModal('modal-player');
+  };
+
+  window.savePlayer = function() {
+    const data = {
+      name: document.getElementById('pm-name').value.trim(),
+      dob: document.getElementById('pm-dob').value,
+      parentName: document.getElementById('pm-parent').value.trim(),
+      contact: document.getElementById('pm-contact').value.trim(),
+      email: document.getElementById('pm-email').value.trim(),
+      level: document.getElementById('pm-level').value,
+      className: document.getElementById('pm-class').value,
+      notes: document.getElementById('pm-notes').value.trim(),
+    };
+    if (!data.name) { showToast('Player name is required', true); return; }
+    if (editingPlayerId) {
+      update(ref(db, `players/${editingPlayerId}`), data);
+      showToast('Player updated');
+    } else {
+      push(ref(db, 'players'), data);
+      showToast('Player added');
+    }
+    closeModal('modal-player');
+  };
+
+  window.deletePlayer = function(id) {
+    if (confirm('Delete this player?')) {
+      remove(ref(db, `players/${id}`));
+      showToast('Player deleted');
+    }
+  };
+
+  // ── SCHEDULE ──
+  window.renderSchedule = function() {
+    const grid = document.getElementById('schedule-grid');
+    const list = Object.entries(classes).map(([id, c]) => ({ id, ...c }));
+    if (!list.length) {
+      grid.innerHTML = `<div class="loading">No classes found.</div>`;
+      return;
+    }
+    grid.innerHTML = list.map(c => {
+      const enrolled = Object.values(bookings).filter(b => b.className === c.name && b.status === 'approved').length;
+      const cap = c.capacity || 20;
+      const pct = Math.min(100, Math.round(enrolled / cap * 100));
+      return `
+        <div class="schedule-card">
+          <div class="class-name">${esc(c.name)}</div>
+          <div class="class-time">📅 ${esc(c.day)} • ${esc(c.time)}</div>
+          <div class="class-info">
+            👤 ${esc(c.coach || '—')}<br>
+            🎂 ${esc(c.age || '—')}<br>
+            📍 ${esc(c.location || '—')}<br>
+            👥 ${enrolled} / ${cap} enrolled (${pct}%)
+          </div>
+          <div class="capacity-bar"><div class="capacity-fill" style="width:${pct}%"></div></div>
+          <div class="card-actions" style="margin-top:12px;display:flex;gap:6px">
+            <button class="btn btn-outline" onclick="openEditClass('${c.id}')">Edit</button>
+            <button class="btn btn-ghost" onclick="deleteClass('${c.id}')">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  };
+
+  window.openAddClass = function() {
+    editingClassId = null;
+    document.getElementById('modal-class-title').textContent = 'Add Class';
+    ['cm-name','cm-time','cm-age','cm-coach','cm-location'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cm-capacity').value = 20;
+    document.getElementById('cm-day').value = 'Saturday';
+    openModal('modal-class');
+  };
+
+  window.openEditClass = function(id) {
+    editingClassId = id;
+    const c = classes[id];
+    document.getElementById('modal-class-title').textContent = 'Edit Class';
+    document.getElementById('cm-name').value = c.name || '';
+    document.getElementById('cm-day').value = c.day || 'Saturday';
+    document.getElementById('cm-time').value = c.time || '';
+    document.getElementById('cm-age').value = c.age || '';
+    document.getElementById('cm-capacity').value = c.capacity || 20;
+    document.getElementById('cm-coach').value = c.coach || '';
+    document.getElementById('cm-location').value = c.location || '';
+    openModal('modal-class');
+  };
+
+  window.saveClass = function() {
+    const data = {
+      name: document.getElementById('cm-name').value.trim(),
+      day: document.getElementById('cm-day').value,
+      time: document.getElementById('cm-time').value.trim(),
+      age: document.getElementById('cm-age').value.trim(),
+      capacity: parseInt(document.getElementById('cm-capacity').value) || 20,
+      coach: document.getElementById('cm-coach').value.trim(),
+      location: document.getElementById('cm-location').value.trim(),
+    };
+    if (!data.name) { showToast('Class name is required', true); return; }
+    if (editingClassId) {
+      update(ref(db, `classes/${editingClassId}`), data);
+      showToast('Class updated');
+    } else {
+      push(ref(db, 'classes'), data);
+      showToast('Class added');
+    }
+    closeModal('modal-class');
+  };
+
+  window.deleteClass = function(id) {
+    if (confirm('Delete this class?')) {
+      remove(ref(db, `classes/${id}`));
+      showToast('Class deleted');
+    }
+  };
+
+  // ── POPULATE CLASS SELECTS ──
+  function populateClassSelects() {
+    const names = Object.values(classes).map(c => c.name).filter(Boolean);
+    const selects = ['bm-class', 'pm-class', 'filter-class'];
+    selects.forEach(sid => {
+      const el = document.getElementById(sid);
+      if (!el) return;
+      const prev = el.value;
+      const isFilter = sid === 'filter-class';
+      el.innerHTML = isFilter ? '<option value="">All Classes</option>' : '<option value="">Select class…</option>';
+      names.forEach(n => el.insertAdjacentHTML('beforeend', `<option value="${esc(n)}">${esc(n)}</option>`));
+      if (prev) el.value = prev;
+    });
+  }
+
+  // ── EXCEL EXPORT ──
+  window.exportExcel = function() {
+    const rows = [['Player Name','DOB','Parent','Contact','Email','Class','Level','Status','Submitted','Notes']];
+    Object.values(bookings).forEach(b => {
+      rows.push([
+        b.playerName||'', b.dob||'', b.parentName||'', b.contact||'', b.email||'',
+        b.className||'', b.level||'', b.status||'',
+        b.submittedAt ? new Date(b.submittedAt).toLocaleDateString('en-SG') : '',
+        b.notes||''
+      ]);
+    });
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `TripleB_Bookings_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    showToast('📥 Export downloaded (open in Excel)');
+  };
+
+  // ── HELPERS ──
+  window.showView = function(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(`view-${name}`).classList.add('active');
+    event.currentTarget.classList.add('active');
+  };
+
+  window.openModal = function(id) { document.getElementById(id).classList.add('open'); };
+  window.closeModal = function(id) { document.getElementById(id).classList.remove('open'); };
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+  });
+
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.borderColor = isError ? 'var(--danger)' : 'var(--green)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
