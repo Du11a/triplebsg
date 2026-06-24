@@ -26,7 +26,7 @@ body { font-family:system-ui,-apple-system,sans-serif; background:#0a0a0a; color
 /* HERO */
 .hero { position:relative; width:100%; height:90vh; min-height:540px; overflow:hidden; }
 .slides { position:absolute; inset:0; }
-.slide { position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease; background-size:cover; background-repeat:no-repeat; }
+.slide { position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease; background-size:cover; background-repeat:no-repeat; background-position:center top; }
 .slide.active { opacity:1; }
 .slide::after { content:''; position:absolute; inset:0; background:linear-gradient(to right,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.5) 55%,rgba(0,0,0,0.15) 100%); }
 .hero-content { position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:center; padding:0 3rem; max-width:600px; }
@@ -69,19 +69,27 @@ body { font-family:system-ui,-apple-system,sans-serif; background:#0a0a0a; color
 .talk-card p { font-size:13px; color:rgba(255,255,255,0.35); }
 
 /* COACHES */
-.coaches-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-.coach-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); padding:1.75rem; display:flex; gap:1.25rem; }
-.coach-img { width:80px; height:80px; border-radius:50%; object-fit:cover; flex-shrink:0; }
-.coach-name { font-size:18px; font-weight:500; color:#fff; margin-bottom:3px; }
-.coach-role { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:6px; }
-.coach-bio { font-size:13px; line-height:1.6; color:rgba(255,255,255,0.45); margin-bottom:8px; }
-.coach-ig { font-size:13px; color:var(--g2); }
+.coaches-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.coach-card { background:#111; border-radius:16px; border:0.5px solid rgba(255,255,255,0.07); padding:2rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; overflow:hidden; position:relative; transition:border-color 0.2s; }
+.coach-card:hover { border-color:var(--gbor); }
+.coach-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right, var(--g), var(--g2)); }
+.coach-img { width:100px; height:100px; border-radius:50%; object-fit:cover; object-position:top center; flex-shrink:0; border:3px solid var(--g); margin-bottom:1.25rem; }
+.coach-name { font-size:22px; font-weight:600; color:#fff; margin-bottom:3px; }
+.coach-role { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:1.25rem; }
+.coach-stats { display:flex; gap:1.5rem; margin-bottom:1.25rem; padding:1rem 0; border-top:0.5px solid rgba(255,255,255,0.07); border-bottom:0.5px solid rgba(255,255,255,0.07); width:100%; }
+.coach-stat-num { font-size:24px; font-weight:600; color:var(--g2); line-height:1; }
+.coach-stat-label { font-size:11px; color:rgba(255,255,255,0.35); margin-top:3px; }
+.coach-bio { font-size:14px; line-height:1.7; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; }
+.coach-ig { font-size:13px; color:var(--g2); display:flex; align-items:center; gap:6px; }
+.coach-ig::before { content:''; display:block; width:16px; height:1px; background:var(--g2); }
 
 /* MISSION */
 .mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:3rem; }
-.mission-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); padding:2rem; }
-.mission-label { font-size:11px; letter-spacing:0.14em; color:var(--g2); text-transform:uppercase; margin-bottom:0.75rem; }
-.mission-text { font-size:15px; line-height:1.75; color:rgba(255,255,255,0.55); }
+.mission-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); border-left:3px solid var(--g); padding:2.5rem; position:relative; overflow:hidden; }
+.mission-card::before { content:'"'; position:absolute; top:-10px; right:20px; font-size:120px; color:rgba(27,122,62,0.08); font-family:Georgia,serif; line-height:1; pointer-events:none; }
+.mission-label { font-size:11px; letter-spacing:0.18em; color:var(--g2); text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.mission-label::before { content:''; display:block; width:20px; height:1px; background:var(--g2); }
+.mission-text { font-size:17px; line-height:1.85; color:rgba(255,255,255,0.75); font-weight:300; }
 
 /* CTA BAND */
 .cta-band { background:var(--g); padding:3.5rem 2.5rem; display:flex; align-items:center; justify-content:space-between; }
@@ -119,7 +127,7 @@ body { font-family:system-ui,-apple-system,sans-serif; background:#0a0a0a; color
 /* GALLERY */
 .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; border-radius:12px; overflow:hidden; }
 .gal-img { aspect-ratio:4/3; overflow:hidden; }
-.gal-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; display:block; }
+.gal-img img { width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform 0.4s; display:block; }
 .gal-img:hover img { transform:scale(1.05); }
 
 /* BOOKING */
@@ -212,12 +220,12 @@ select.form-input option { background:#1a1a1a; }
 <div class="page active" id="page-home">
   <section class="hero">
     <div class="slides" id="slides">
-      <div class="slide active" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg');background-position:center 35%;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg');background-position:center 30%;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg');background-position:center 30%;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg');background-position:center 25%;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg');background-position:center 30%;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg');background-position:center 30%;"></div>
+      <div class="slide active" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg');background-position:center top;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg');background-position:center top;"></div>
+      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg');background-position:center top;"></div>
     </div>
     <div class="progress-bar" id="progressBar"></div>
     <nav class="nav">
@@ -287,11 +295,27 @@ select.form-input option { background:#1a1a1a; }
     <div class="coaches-grid">
       <div class="coach-card">
         <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image0-scaled.jpeg" alt="Coach JC" />
-        <div><div class="coach-name">Coach JC</div><div class="coach-role">Head coach & co-founder</div><div class="coach-bio">With over 14 years of playing experience and 6 years of coaching — including training in the US & Philippines — Coach JC is known for his dynamic style. He instills resilience, discipline, and unity in every session.</div><div class="coach-ig">@coachjcsg</div></div>
+        <div class="coach-name">Coach JC</div>
+        <div class="coach-role">Head coach & co-founder</div>
+        <div class="coach-stats">
+          <div><div class="coach-stat-num">14+</div><div class="coach-stat-label">Years playing</div></div>
+          <div><div class="coach-stat-num">6+</div><div class="coach-stat-label">Years coaching</div></div>
+          <div><div class="coach-stat-num">🇺🇸🇵🇭</div><div class="coach-stat-label">Trained in</div></div>
+        </div>
+        <div class="coach-bio">Known for his dynamic style, Coach JC instills resilience, discipline, and unity in every session. Trained in both the US & Philippines.</div>
+        <div class="coach-ig">@coachjcsg</div>
       </div>
       <div class="coach-card">
         <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image01-scaled.jpeg" alt="Coach Harry" />
-        <div><div class="coach-name">Coach Harry</div><div class="coach-role">Head coach & co-founder</div><div class="coach-bio">A college scholarship athlete in the Philippines with over 14 years of playing experience and 5+ years coaching. Coach Harry emphasizes fun while instilling discipline.</div><div class="coach-ig">@harryyoungfrancis</div></div>
+        <div class="coach-name">Coach Harry</div>
+        <div class="coach-role">Head coach & co-founder</div>
+        <div class="coach-stats">
+          <div><div class="coach-stat-num">14+</div><div class="coach-stat-label">Years playing</div></div>
+          <div><div class="coach-stat-num">5+</div><div class="coach-stat-label">Years coaching</div></div>
+          <div><div class="coach-stat-num">🎓</div><div class="coach-stat-label">Scholarship athlete</div></div>
+        </div>
+        <div class="coach-bio">A college scholarship athlete from the Philippines. Coach Harry emphasizes fun while instilling discipline — ensuring players grow as athletes and individuals.</div>
+        <div class="coach-ig">@harryyoungfrancis</div>
       </div>
     </div>
   </section>
