@@ -242,7 +242,7 @@
     <h1>Triple B Admin</h1>
     <p>Basketball Beyond Borders — CRM Portal</p>
     <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password" />
-    <button onclick="doLogin()">Sign In</button>
+    <button id="login-btn">Sign In</button>
     <div id="login-error"></div>
   </div>
 </div>
@@ -398,6 +398,12 @@
         <label>Class</label>
         <select id="bm-class">
           <option value="">Select class…</option>
+          <option>Group Skills Training</option>
+          <option>1-on-1 Tailored Training</option>
+          <option>U10 Competitive Team</option>
+          <option>U12 Competitive Team</option>
+          <option>Holiday Hoops Camp</option>
+          <option>Overseas Trip / Tournament</option>
         </select>
       </div>
       <div class="form-group">
@@ -466,7 +472,7 @@
 <div class="modal-overlay" id="modal-class">
   <div class="modal">
     <h3 id="modal-class-title">Add Class</h3>
-    <div class="form-group"><label>Class Name</label><input type="text" id="cm-name" placeholder="e.g. Junior Fundamentals" /></div>
+    <div class="form-group"><label>Class Name</label><input type="text" id="cm-name" placeholder="e.g. Group Skills Training" /></div>
     <div class="form-row">
       <div class="form-group">
         <label>Day(s)</label>
@@ -488,7 +494,7 @@
       <div class="form-group"><label>Max Capacity</label><input type="number" id="cm-capacity" value="20" min="1" /></div>
     </div>
     <div class="form-group"><label>Coach</label><input type="text" id="cm-coach" placeholder="Coach name" /></div>
-    <div class="form-group"><label>Location / Court</label><input type="text" id="cm-location" placeholder="e.g. Yishun Sports Hall, Court 1" /></div>
+    <div class="form-group"><label>Location / Court</label><input type="text" id="cm-location" placeholder="e.g. XCL World Academy, Yishun" /></div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('modal-class')">Cancel</button>
       <button class="btn btn-green" onclick="saveClass()">Save Class</button>
@@ -498,11 +504,34 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set, push, update, remove }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+<!-- Firebase Compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+  const ADMIN_PASSWORD = "triplebbb2024";
+
+  function doLogin() {
+    const pw = document.getElementById('pw-input').value.trim();
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      initListeners();
+    } else {
+      document.getElementById('login-error').textContent = 'Incorrect password.';
+    }
+  }
+
+  function doLogout() {
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('pw-input').value = '';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('login-btn').addEventListener('click', doLogin);
+    document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  });
 
   // ── CONFIG ──
   const firebaseConfig = {
@@ -515,11 +544,8 @@
     appId: "1:42281196901:web:c6f6ea5cfcb50e4c90958c"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // ── PASSWORD ── (change this)
-  const ADMIN_PASSWORD = "triplebbb2024";
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
   // ── STATE ──
   let bookings = {};
@@ -529,37 +555,18 @@
   let editingPlayerId = null;
   let editingClassId = null;
 
-  // ── LOGIN ──
-  window.doLogin = function() {
-    const pw = document.getElementById('pw-input').value;
-    if (pw === ADMIN_PASSWORD) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      initListeners();
-    } else {
-      document.getElementById('login-error').textContent = 'Incorrect password.';
-    }
-  };
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
-
-  window.doLogout = function() {
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('pw-input').value = '';
-  };
-
   // ── REALTIME LISTENERS ──
   function initListeners() {
-    onValue(ref(db, 'bookings'), snap => {
+    db.ref('bookings').on('value', snap => {
       bookings = snap.val() || {};
       updateStats();
       renderBookings();
     });
-    onValue(ref(db, 'players'), snap => {
+    db.ref('players').on('value', snap => {
       players = snap.val() || {};
       renderPlayers();
     });
-    onValue(ref(db, 'classes'), snap => {
+    db.ref('classes').on('value', snap => {
       classes = snap.val() || {};
       renderSchedule();
       populateClassSelects();
@@ -569,12 +576,12 @@
 
   function seedDefaultClasses() {
     const defaults = [
-      { name: "Junior Fundamentals", day: "Saturday", time: "9:00 AM – 11:00 AM", age: "6–9 years", capacity: 16, coach: "Coach Marcus", location: "Yishun Sports Hall, Court 1" },
-      { name: "Youth Development", day: "Saturday", time: "11:00 AM – 1:00 PM", age: "10–13 years", capacity: 20, coach: "Coach Darius", location: "Yishun Sports Hall, Court 2" },
-      { name: "Teen Elite", day: "Sunday", time: "9:00 AM – 12:00 PM", age: "14–17 years", capacity: 15, coach: "Coach Alvin", location: "Yishun Sports Hall, Court 1" },
-      { name: "Adult League Prep", day: "Sunday", time: "2:00 PM – 4:00 PM", age: "18+ years", capacity: 12, coach: "Coach Marcus", location: "Yishun Sports Hall, Court 2" }
+      { name: "Group Skills Training", day: "Monday & Wednesday", age: "All levels", capacity: 16, coach: "Coach JC", location: "XCL World Academy, Yishun" },
+      { name: "1-on-1 Tailored Training", day: "Saturday", time: "11:00 AM – 1:00 PM", age: "By appointment", capacity: 20, coach: "Coach Harry", location: "XCL World Academy, Yishun" },
+      { name: "U10 Competitive Team", day: "Sunday", time: "9:00 AM – 12:00 PM", age: "Under 10", capacity: 15, coach: "Coach JC", location: "XCL World Academy, Yishun" },
+      { name: "U12 Competitive Team", day: "Sunday", time: "2:00 PM – 4:00 PM", age: "18+ years", capacity: 12, coach: "Coach JC", location: "XCL World Academy, Yishun" }
     ];
-    defaults.forEach(c => push(ref(db, 'classes'), c));
+    defaults.forEach(c => db.ref('classes').push(c));
   }
 
   // ── STATS ──
@@ -587,7 +594,7 @@
   }
 
   // ── RENDER BOOKINGS ──
-  window.renderBookings = function() {
+  function renderBookings() {
     const q = document.getElementById('search-input').value.toLowerCase();
     const statusF = document.getElementById('filter-status').value;
     const classF = document.getElementById('filter-class').value;
@@ -629,20 +636,20 @@
     }).join('');
   };
 
-  window.quickStatus = function(id, status) {
-    update(ref(db, `bookings/${id}`), { status });
+  function quickStatus(id, status) {
+    db.ref(`bookings/${id}`).update({ status });
     showToast(status === 'approved' ? '✅ Booking approved' : '❌ Booking rejected');
   };
 
-  window.deleteBooking = function(id) {
+  function deleteBooking(id) {
     if (confirm('Delete this booking?')) {
-      remove(ref(db, `bookings/${id}`));
+      db.ref(`bookings/${id}`).remove();
       showToast('Booking deleted');
     }
   };
 
   // ── BOOKING MODAL ──
-  window.openAddBooking = function() {
+  function openAddBooking() {
     editingBookingId = null;
     document.getElementById('modal-booking-title').textContent = 'Add Booking';
     ['bm-player','bm-dob','bm-parent','bm-contact','bm-email','bm-notes'].forEach(id => document.getElementById(id).value = '');
@@ -652,7 +659,7 @@
     openModal('modal-booking');
   };
 
-  window.openEditBooking = function(id) {
+  function openEditBooking(id) {
     editingBookingId = id;
     const b = bookings[id];
     document.getElementById('modal-booking-title').textContent = 'Edit Booking';
@@ -668,7 +675,7 @@
     openModal('modal-booking');
   };
 
-  window.saveBooking = function() {
+  function saveBooking() {
     const data = {
       playerName: document.getElementById('bm-player').value.trim(),
       dob: document.getElementById('bm-dob').value,
@@ -682,18 +689,18 @@
     };
     if (!data.playerName) { showToast('Player name is required', true); return; }
     if (editingBookingId) {
-      update(ref(db, `bookings/${editingBookingId}`), data);
+      db.ref(`bookings/${editingBookingId}`).update(data);
       showToast('Booking updated');
     } else {
       data.submittedAt = Date.now();
-      push(ref(db, 'bookings'), data);
+      db.ref('bookings').push(data);
       showToast('Booking added');
     }
     closeModal('modal-booking');
   };
 
   // ── RENDER PLAYERS ──
-  window.renderPlayers = function() {
+  function renderPlayers() {
     const q = document.getElementById('player-search').value.toLowerCase();
     const lf = document.getElementById('player-filter-level').value;
     const grid = document.getElementById('player-grid');
@@ -725,7 +732,7 @@
       </div>`).join('');
   };
 
-  window.openAddPlayer = function() {
+  function openAddPlayer() {
     editingPlayerId = null;
     document.getElementById('modal-player-title').textContent = 'Add Player';
     ['pm-name','pm-dob','pm-parent','pm-contact','pm-email','pm-notes'].forEach(id => document.getElementById(id).value = '');
@@ -734,7 +741,7 @@
     openModal('modal-player');
   };
 
-  window.openEditPlayer = function(id) {
+  function openEditPlayer(id) {
     editingPlayerId = id;
     const p = players[id];
     document.getElementById('modal-player-title').textContent = 'Edit Player';
@@ -749,7 +756,7 @@
     openModal('modal-player');
   };
 
-  window.savePlayer = function() {
+  function savePlayer() {
     const data = {
       name: document.getElementById('pm-name').value.trim(),
       dob: document.getElementById('pm-dob').value,
@@ -762,24 +769,24 @@
     };
     if (!data.name) { showToast('Player name is required', true); return; }
     if (editingPlayerId) {
-      update(ref(db, `players/${editingPlayerId}`), data);
+      db.ref(`players/${editingPlayerId}`).update(data);
       showToast('Player updated');
     } else {
-      push(ref(db, 'players'), data);
+      db.ref('players').push(data);
       showToast('Player added');
     }
     closeModal('modal-player');
   };
 
-  window.deletePlayer = function(id) {
+  function deletePlayer(id) {
     if (confirm('Delete this player?')) {
-      remove(ref(db, `players/${id}`));
+      db.ref(`players/${id}`).remove();
       showToast('Player deleted');
     }
   };
 
   // ── SCHEDULE ──
-  window.renderSchedule = function() {
+  function renderSchedule() {
     const grid = document.getElementById('schedule-grid');
     const list = Object.entries(classes).map(([id, c]) => ({ id, ...c }));
     if (!list.length) {
@@ -809,7 +816,7 @@
     }).join('');
   };
 
-  window.openAddClass = function() {
+  function openAddClass() {
     editingClassId = null;
     document.getElementById('modal-class-title').textContent = 'Add Class';
     ['cm-name','cm-time','cm-age','cm-coach','cm-location'].forEach(id => document.getElementById(id).value = '');
@@ -818,7 +825,7 @@
     openModal('modal-class');
   };
 
-  window.openEditClass = function(id) {
+  function openEditClass(id) {
     editingClassId = id;
     const c = classes[id];
     document.getElementById('modal-class-title').textContent = 'Edit Class';
@@ -832,7 +839,7 @@
     openModal('modal-class');
   };
 
-  window.saveClass = function() {
+  function saveClass() {
     const data = {
       name: document.getElementById('cm-name').value.trim(),
       day: document.getElementById('cm-day').value,
@@ -844,18 +851,18 @@
     };
     if (!data.name) { showToast('Class name is required', true); return; }
     if (editingClassId) {
-      update(ref(db, `classes/${editingClassId}`), data);
+      db.ref(`classes/${editingClassId}`).update(data);
       showToast('Class updated');
     } else {
-      push(ref(db, 'classes'), data);
+      db.ref('classes').push(data);
       showToast('Class added');
     }
     closeModal('modal-class');
   };
 
-  window.deleteClass = function(id) {
+  function deleteClass(id) {
     if (confirm('Delete this class?')) {
-      remove(ref(db, `classes/${id}`));
+      db.ref(`classes/${id}`).remove();
       showToast('Class deleted');
     }
   };
@@ -870,13 +877,14 @@
       const prev = el.value;
       const isFilter = sid === 'filter-class';
       el.innerHTML = isFilter ? '<option value="">All Classes</option>' : '<option value="">Select class…</option>';
-      names.forEach(n => el.insertAdjacentHTML('beforeend', `<option value="${esc(n)}">${esc(n)}</option>`));
+      const fixedClasses = ['Group Skills Training','1-on-1 Tailored Training','U10 Competitive Team','U12 Competitive Team','Holiday Hoops Camp','Overseas Trip / Tournament'];
+      fixedClasses.forEach(n => el.insertAdjacentHTML('beforeend', `<option value="${esc(n)}">${esc(n)}</option>`));
       if (prev) el.value = prev;
     });
   }
 
   // ── EXCEL EXPORT ──
-  window.exportExcel = function() {
+  function exportExcel() {
     const rows = [['Player Name','DOB','Parent','Contact','Email','Class','Level','Status','Submitted','Notes']];
     Object.values(bookings).forEach(b => {
       rows.push([
@@ -896,15 +904,15 @@
   };
 
   // ── HELPERS ──
-  window.showView = function(name) {
+  function showView(name) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById(`view-${name}`).classList.add('active');
     event.currentTarget.classList.add('active');
   };
 
-  window.openModal = function(id) { document.getElementById(id).classList.add('open'); };
-  window.closeModal = function(id) { document.getElementById(id).classList.remove('open'); };
+  function openModal(id) { document.getElementById(id).classList.add('open'); };
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); };
 
   document.querySelectorAll('.modal-overlay').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
