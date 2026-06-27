@@ -346,12 +346,14 @@
         </div>
         <div class="toolbar">
           <input type="text" id="player-search" placeholder="Search players…" oninput="renderPlayers()" />
-          <select id="player-filter-level" onchange="renderPlayers()">
-            <option value="">All Levels</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-            <option value="Elite">Elite</option>
+          <select id="player-filter-class" onchange="renderPlayers()">
+            <option value="">All Classes</option>
+            <option>Group Skills Training</option>
+            <option>1-on-1 Tailored Training</option>
+            <option>U10 Competitive Team</option>
+            <option>U12 Competitive Team</option>
+            <option>Holiday Hoops Camp</option>
+            <option>Overseas Trip / Tournament</option>
           </select>
           <div class="spacer"></div>
         </div>
@@ -526,6 +528,7 @@
     document.getElementById('app').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('pw-input').value = '';
+    syncDone = false;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -561,7 +564,6 @@
       bookings = snap.val() || {};
       updateStats();
       renderBookings();
-      syncApprovedToPlayers();
     });
     db.ref('players').on('value', snap => {
       players = snap.val() || {};
@@ -573,24 +575,38 @@
       populateClassSelects();
       if (!snap.val()) seedDefaultClasses();
     });
+    // Sync once after all listeners are set up
+    setTimeout(() => syncApprovedToPlayers(), 1500);
   }
 
+  let syncDone = false;
   function syncApprovedToPlayers() {
-    const emails = Object.values(players).map(p => p.email).filter(Boolean);
-    Object.values(bookings).forEach(booking => {
-      if (booking.status === 'approved' && booking.email && !emails.includes(booking.email)) {
-        db.ref('players').push({
-          name: booking.playerName || booking.name || '',
-          dob: booking.dob || '',
-          email: booking.email || '',
-          contact: booking.contact || '',
-          parentName: booking.parentName || '',
-          level: booking.level || 'Beginner',
-          class: booking.className || '',
-          status: 'Active',
-          joinedAt: Date.now()
-        });
-      }
+    if (syncDone) return;
+    syncDone = true;
+
+    // Read existing players from Firebase once, then sync
+    db.ref('players').once('value', snap => {
+      const existingPlayers = snap.val() || {};
+      const syncedBookingIds = new Set(
+        Object.values(existingPlayers).map(p => p.bookingId).filter(Boolean)
+      );
+
+      Object.entries(bookings).forEach(([bookingId, booking]) => {
+        if (booking.status === 'approved' && !syncedBookingIds.has(bookingId)) {
+          db.ref('players').push({
+            name: booking.playerName || booking.name || '',
+            dob: booking.dob || '',
+            email: booking.email || '',
+            contact: booking.contact || '',
+            parentName: booking.parentName || '',
+            level: booking.level || 'Beginner',
+            className: booking.className || '',
+            status: 'Active',
+            bookingId: bookingId,
+            joinedAt: Date.now()
+          });
+        }
+      });
     });
   }
 
@@ -663,7 +679,7 @@
       const booking = bookings[id];
       if (booking) {
         // Check if player already exists (by email)
-        const existingPlayer = Object.values(players).find(p => p.email === booking.email);
+        const existingPlayer = Object.values(players).find(p => p.bookingId === id);
         if (!existingPlayer) {
           db.ref('players').push({
             name: booking.playerName || booking.name || '',
@@ -672,8 +688,9 @@
             contact: booking.contact || '',
             parentName: booking.parentName || '',
             level: booking.level || 'Beginner',
-            class: booking.className || '',
+            className: booking.className || '',
             status: 'Active',
+            bookingId: id,
             joinedAt: Date.now()
           });
           showToast('✅ Booking approved — player profile created');
@@ -747,11 +764,11 @@
   // ── RENDER PLAYERS ──
   function renderPlayers() {
     const q = document.getElementById('player-search').value.toLowerCase();
-    const lf = document.getElementById('player-filter-level').value;
+    const cf = document.getElementById('player-filter-class').value;
     const grid = document.getElementById('player-grid');
     let list = Object.entries(players).map(([id, p]) => ({ id, ...p }));
-    if (q) list = list.filter(p => [p.name, p.email, p.parentName].join(' ').toLowerCase().includes(q));
-    if (lf) list = list.filter(p => p.level === lf);
+    if (q) list = list.filter(p => [p.name, p.email, p.parentName, p.className].join(' ').toLowerCase().includes(q));
+    if (cf) list = list.filter(p => p.className === cf);
 
     if (!list.length) {
       grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><p>No players found</p></div>`;
