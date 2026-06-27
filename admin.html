@@ -561,6 +561,7 @@
       bookings = snap.val() || {};
       updateStats();
       renderBookings();
+      syncApprovedToPlayers();
     });
     db.ref('players').on('value', snap => {
       players = snap.val() || {};
@@ -571,6 +572,25 @@
       renderSchedule();
       populateClassSelects();
       if (!snap.val()) seedDefaultClasses();
+    });
+  }
+
+  function syncApprovedToPlayers() {
+    const emails = Object.values(players).map(p => p.email).filter(Boolean);
+    Object.values(bookings).forEach(booking => {
+      if (booking.status === 'approved' && booking.email && !emails.includes(booking.email)) {
+        db.ref('players').push({
+          name: booking.playerName || booking.name || '',
+          dob: booking.dob || '',
+          email: booking.email || '',
+          contact: booking.contact || '',
+          parentName: booking.parentName || '',
+          level: booking.level || 'Beginner',
+          class: booking.className || '',
+          status: 'Active',
+          joinedAt: Date.now()
+        });
+      }
     });
   }
 
@@ -638,7 +658,32 @@
 
   function quickStatus(id, status) {
     db.ref(`bookings/${id}`).update({ status });
-    showToast(status === 'approved' ? '✅ Booking approved' : '❌ Booking rejected');
+    // Auto-create player profile when approved
+    if (status === 'approved') {
+      const booking = bookings[id];
+      if (booking) {
+        // Check if player already exists (by email)
+        const existingPlayer = Object.values(players).find(p => p.email === booking.email);
+        if (!existingPlayer) {
+          db.ref('players').push({
+            name: booking.playerName || booking.name || '',
+            dob: booking.dob || '',
+            email: booking.email || '',
+            contact: booking.contact || '',
+            parentName: booking.parentName || '',
+            level: booking.level || 'Beginner',
+            class: booking.className || '',
+            status: 'Active',
+            joinedAt: Date.now()
+          });
+          showToast('✅ Booking approved — player profile created');
+        } else {
+          showToast('✅ Booking approved — player already exists');
+        }
+      }
+    } else {
+      showToast('❌ Booking rejected');
+    }
   };
 
   function deleteBooking(id) {
