@@ -270,6 +270,10 @@
         Players
       </div>
       <div class="nav-section">Management</div>
+      <div class="nav-item" onclick="showView('announcements')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Announcements
+      </div>
       <div class="nav-item" onclick="showView('schedule')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
         Schedule
@@ -360,6 +364,18 @@
         <div class="player-grid" id="player-grid">
           <div class="loading">Loading players…</div>
         </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS VIEW -->
+      <div class="view" id="view-announcements">
+        <div class="page-header">
+          <div>
+            <h2>Announcements</h2>
+            <p>Post updates, class news, and events to the public site</p>
+          </div>
+          <button class="btn btn-green" onclick="openAddAnnouncement()">+ New Post</button>
+        </div>
+        <div id="announcements-list"></div>
       </div>
 
       <!-- SCHEDULE VIEW -->
@@ -504,6 +520,29 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-announcement">
+  <div class="modal">
+    <h3 id="modal-ann-title">New Announcement</h3>
+    <div class="form-group"><label>Title *</label><input type="text" id="ann-title" placeholder="e.g. Holiday Camp June 2026 — Now Open!" /></div>
+    <div class="form-group"><label>Message *</label><textarea id="ann-body" rows="5" placeholder="Write your announcement here..." style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.6rem 0.8rem;color:#fff;font-family:inherit;font-size:14px;resize:vertical;"></textarea></div>
+    <div class="form-group"><label>Photo URL <span style="color:rgba(255,255,255,0.3);font-size:12px;">(optional)</span></label><input type="text" id="ann-photo" placeholder="https://..." /></div>
+    <div class="form-group"><label>Category</label>
+      <select id="ann-category">
+        <option>General</option>
+        <option>Holiday Camp</option>
+        <option>Competitive Team</option>
+        <option>Schedule Update</option>
+        <option>Tournament</option>
+        <option>Overseas Trip</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-announcement')">Cancel</button>
+      <button class="btn btn-green" onclick="saveAnnouncement()">Post Announcement</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase Compat SDK -->
@@ -574,6 +613,10 @@
       renderSchedule();
       populateClassSelects();
       if (!snap.val()) seedDefaultClasses();
+    });
+    db.ref('announcements').on('value', snap => {
+      announcements = snap.val() || {};
+      renderAnnouncements();
     });
     // Sync once after all listeners are set up
     setTimeout(() => syncApprovedToPlayers(), 1500);
@@ -979,6 +1022,85 @@
   document.querySelectorAll('.modal-overlay').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
   });
+
+  // ── ANNOUNCEMENTS ──
+  let announcements = {};
+  let editingAnnId = null;
+
+  function openAddAnnouncement() {
+    editingAnnId = null;
+    document.getElementById('modal-ann-title').textContent = 'New Announcement';
+    document.getElementById('ann-title').value = '';
+    document.getElementById('ann-body').value = '';
+    document.getElementById('ann-photo').value = '';
+    document.getElementById('ann-category').value = 'General';
+    openModal('modal-announcement');
+  }
+
+  function saveAnnouncement() {
+    const title = document.getElementById('ann-title').value.trim();
+    const body = document.getElementById('ann-body').value.trim();
+    if (!title || !body) { showToast('Title and message are required', true); return; }
+    const data = {
+      title,
+      body,
+      photo: document.getElementById('ann-photo').value.trim(),
+      category: document.getElementById('ann-category').value,
+      postedAt: editingAnnId ? (announcements[editingAnnId]?.postedAt || Date.now()) : Date.now(),
+      updatedAt: Date.now()
+    };
+    if (editingAnnId) {
+      db.ref(`announcements/${editingAnnId}`).update(data);
+      showToast('Announcement updated');
+    } else {
+      db.ref('announcements').push(data);
+      showToast('✅ Announcement posted to site!');
+    }
+    closeModal('modal-announcement');
+  }
+
+  function editAnnouncement(id) {
+    editingAnnId = id;
+    const a = announcements[id];
+    document.getElementById('modal-ann-title').textContent = 'Edit Announcement';
+    document.getElementById('ann-title').value = a.title || '';
+    document.getElementById('ann-body').value = a.body || '';
+    document.getElementById('ann-photo').value = a.photo || '';
+    document.getElementById('ann-category').value = a.category || 'General';
+    openModal('modal-announcement');
+  }
+
+  function deleteAnnouncement(id) {
+    if (confirm('Delete this announcement?')) {
+      db.ref(`announcements/${id}`).remove();
+      showToast('Announcement deleted');
+    }
+  }
+
+  function renderAnnouncements() {
+    const list = document.getElementById('announcements-list');
+    const items = Object.entries(announcements).sort((a,b) => (b[1].postedAt||0) - (a[1].postedAt||0));
+    if (!items.length) {
+      list.innerHTML = `<div style="text-align:center;padding:3rem;color:rgba(255,255,255,0.3);">No announcements yet — click "+ New Post" to add one</div>`;
+      return;
+    }
+    list.innerHTML = items.map(([id, a]) => `
+      <div style="background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;margin-bottom:1rem;display:grid;grid-template-columns:${a.photo ? '180px 1fr' : '1fr'};gap:1.25rem;align-items:start;">
+        ${a.photo ? `<img src="${esc(a.photo)}" style="width:180px;height:120px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'" />` : ''}
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.4rem;">
+            <span style="font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:0.08em;text-transform:uppercase;">${esc(a.category||'General')}</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.3);">${new Date(a.postedAt).toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'})}</span>
+          </div>
+          <div style="font-size:17px;font-weight:600;color:#fff;margin-bottom:0.5rem;">${esc(a.title)}</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:1rem;">${esc(a.body)}</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" onclick="editAnnouncement('${id}')">Edit</button>
+            <button class="btn" style="background:rgba(239,68,68,0.1);color:#ef4444;border:0.5px solid rgba(239,68,68,0.2);" onclick="deleteAnnouncement('${id}')">Delete</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
 
   function showToast(msg, isError = false) {
     const t = document.getElementById('toast');

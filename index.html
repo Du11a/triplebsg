@@ -3,514 +3,821 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Basketball Beyond Borders — Singapore Academy</title>
-<meta name="description" content="Basketball Beyond Borders (Triple B) — Singapore's premier basketball academy. Programs for U10–U18. Book a class today." />
+
+<!-- ── PRIMARY SEO ── -->
+<title>Basketball Beyond Borders Singapore | Youth Basketball Academy Yishun</title>
+<meta name="description" content="Triple B — Singapore's premier youth basketball academy in Yishun. Professional coaching for U10–U18. Group training, 1-on-1 sessions, holiday camps & competitive teams. Book a class today!" />
+<meta name="keywords" content="basketball academy singapore, youth basketball singapore, basketball training yishun, kids basketball singapore, basketball classes singapore, basketball coaching singapore, triple b basketball, basketball beyond borders" />
+<meta name="author" content="Basketball Beyond Borders Pte Ltd" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://triplebsg.com/" />
+
+<!-- ── GEO / LOCAL SEO ── -->
+<meta name="geo.region" content="SG-01" />
+<meta name="geo.placename" content="Yishun, Singapore" />
+<meta name="geo.position" content="1.4295;103.8352" />
+<meta name="ICBM" content="1.4295, 103.8352" />
+
+<!-- ── OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ── -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Basketball Beyond Borders Singapore" />
+<meta property="og:title" content="Basketball Beyond Borders | Youth Basketball Academy Singapore" />
+<meta property="og:description" content="Singapore's premier youth basketball academy. Professional coaching for U10–U18 in Yishun. Book a class today!" />
+<meta property="og:image" content="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" />
+<meta property="og:url" content="https://triplebsg.com/" />
+<meta property="og:locale" content="en_SG" />
+
+<!-- ── TWITTER CARD ── -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Basketball Beyond Borders | Youth Basketball Academy Singapore" />
+<meta name="twitter:description" content="Singapore's premier youth basketball academy. Professional coaching for U10–U18 in Yishun." />
+<meta name="twitter:image" content="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" />
+
+<!-- ── SCHEMA MARKUP (Google Rich Results) ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  "name": "Basketball Beyond Borders",
+  "alternateName": "Triple B",
+  "description": "Singapore's premier youth basketball academy offering professional coaching for players U10–U18. Programs include group skills training, 1-on-1 sessions, holiday camps, competitive teams and overseas tournaments.",
+  "url": "https://triplebsg.com",
+  "logo": "https://triplebsg.com/wp-content/uploads/2024/09/image01.png",
+  "image": "https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg",
+  "telephone": "+6586009246",
+  "email": "info@triplebsg.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2 Yishun Street 42",
+    "addressLocality": "Yishun",
+    "addressRegion": "Singapore",
+    "postalCode": "768052",
+    "addressCountry": "SG"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 1.4295,
+    "longitude": 103.8352
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Wednesday"], "opens": "16:00", "closes": "20:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "14:00" }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/triplebsg/",
+    "https://www.facebook.com/profile.php?id=61565358062831"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Basketball Programs",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Group Skills Training", "description": "Train alongside peers. Learn teamwork, communication, and competitive instincts." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "1-on-1 Tailored Training", "description": "Personalized sessions targeting your specific weaknesses and goals." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Holiday Hoops Camp", "description": "Intensive multi-day camps during school breaks." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Competitive Teams", "description": "U10, U12, U16, and U18 squads for athletes ready to compete." } }
+    ]
+  }
+}
+</script>
+
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:system-ui,-apple-system,sans-serif; background:#0a0a0a; color:#fff; }
-:root { --g:#1B7A3E; --g2:#22923F; --gdim:rgba(27,122,62,0.12); --gbor:rgba(27,122,62,0.25); }
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--g:#1B7A3E;--g2:#22923F;--gdim:rgba(27,122,62,0.12);--gbor:rgba(27,122,62,0.25);}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
 
-/* NAV */
-.nav { position:absolute; top:0; left:0; right:0; z-index:10; display:flex; align-items:center; justify-content:space-between; padding:0.75rem 2.5rem; background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent); }
-.nav-logo img { height:110px; width:auto; object-fit:contain; }
-.nav-links { display:flex; gap:1.75rem; }
-.nav-links a { font-size:14px; color:rgba(255,255,255,0.65); text-decoration:none; cursor:pointer; }
-.nav-links a:hover, .nav-links a.active { color:#fff; }
-.nav-links a.active { border-bottom:1.5px solid var(--g2); padding-bottom:2px; }
-.nav-cta { background:var(--g); color:#fff; border:none; padding:0.6rem 1.4rem; border-radius:6px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; }
-.nav-fixed { position:relative; background:#0d0d0d; border-bottom:0.5px solid rgba(255,255,255,0.07); }
+/* ── LAYOUT SHELL ── */
+#app{display:flex;flex-direction:column;height:100vh;}
+.topnav{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0.5rem 2rem;background:#0d0d0d;border-bottom:0.5px solid rgba(255,255,255,0.08);z-index:20;height:70px;}
+.topnav img{height:58px;width:auto;object-fit:contain;}
+.topnav-links{display:flex;gap:1.5rem;}
+.topnav-links a{font-size:13px;color:rgba(255,255,255,0.55);text-decoration:none;cursor:pointer;padding:0.3rem 0;}
+.topnav-links a:hover{color:#fff;}
+.topnav-links a.active{color:#fff;border-bottom:1.5px solid var(--g2);}
+.topnav-cta{background:var(--g);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.topnav-cta:hover{background:var(--g2);}
 
-.page { display:none; }
-.page.active { display:block; }
+.content{flex:1;overflow-y:auto;overflow-x:hidden;}
 
-/* HERO */
-.hero { position:relative; width:100%; height:90vh; min-height:540px; overflow:hidden; }
-.slides { position:absolute; inset:0; }
-.slide { position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease; background-size:cover; background-repeat:no-repeat; background-position:center top; }
-.slide.active { opacity:1; }
-.slide::after { content:''; position:absolute; inset:0; background:linear-gradient(to right,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.5) 55%,rgba(0,0,0,0.15) 100%); }
-.hero-content { position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:center; padding:0 3rem; max-width:600px; }
-.eyebrow { font-size:11px; letter-spacing:0.18em; color:var(--g2); text-transform:uppercase; margin-bottom:1.25rem; display:flex; align-items:center; gap:10px; }
-.eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--g2); }
-.hero-title { font-size:68px; font-weight:600; line-height:1.04; letter-spacing:-0.025em; margin-bottom:1.4rem; }
-.hero-title em { color:var(--g2); font-style:normal; }
-.hero-sub { font-size:18px; line-height:1.75; color:rgba(255,255,255,0.5); margin-bottom:2.5rem; max-width:460px; }
-.hero-actions { display:flex; gap:1rem; }
-.btn-primary { background:var(--g); color:#fff; border:none; padding:0.85rem 1.75rem; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; }
-.btn-primary:hover { background:var(--g2); }
-.btn-ghost { background:transparent; color:rgba(255,255,255,0.75); border:0.5px solid rgba(255,255,255,0.25); padding:0.85rem 1.75rem; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; }
-.hero-stats { position:absolute; bottom:2.5rem; left:3rem; z-index:2; display:flex; gap:2.5rem; }
-.stat { border-left:2px solid var(--g); padding-left:1rem; }
-.stat-num { font-size:24px; font-weight:500; color:#fff; line-height:1; }
-.stat-label { font-size:11px; color:rgba(255,255,255,0.38); margin-top:4px; letter-spacing:0.04em; }
-.slide-controls { position:absolute; bottom:2.5rem; right:3rem; z-index:2; display:flex; gap:10px; }
-.dot-btn { width:22px; height:2px; background:rgba(255,255,255,0.25); cursor:pointer; border:none; transition:background 0.3s,width 0.3s; }
-.dot-btn.active { background:var(--g2); width:34px; }
-.progress-bar { position:absolute; bottom:0; left:0; height:2px; background:var(--g); width:0%; z-index:3; }
+.botbar{flex-shrink:0;height:42px;background:#0d0d0d;border-top:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;}
+.botbar-left{display:flex;align-items:center;gap:1.5rem;}
+.botbar-copy{font-size:11px;color:rgba(255,255,255,0.2);}
+.botbar-links{display:flex;gap:1rem;}
+.botbar-links a{font-size:11px;color:rgba(255,255,255,0.2);text-decoration:none;}
+.botbar-links a:hover{color:rgba(255,255,255,0.5);}
+.botbar-right{display:flex;align-items:center;gap:1rem;}
+.botbar-socials{display:flex;gap:8px;}
+.soc-btn{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background 0.2s;}
+.soc-btn:hover{background:var(--g);border-color:var(--g);}
+.soc-btn svg{width:13px;height:13px;stroke:rgba(255,255,255,0.5);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+.soc-btn:hover svg{stroke:#fff;}
+.dev-sig{font-size:10px;color:rgba(255,255,255,0.15);text-decoration:none;}
+.dev-sig:hover{color:var(--g2);}
+.dev-sig span{color:rgba(255,255,255,0.1);}
 
-/* SECTIONS */
-.section { padding:4.5rem 2.5rem; }
-.section.dark { background:#111; }
-.section.darker { background:#0a0a0a; }
-.sec-label { font-size:12px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.6rem; }
-.sec-title { font-size:36px; font-weight:600; color:#fff; margin-bottom:2.5rem; letter-spacing:-0.01em; }
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
 
-/* PROGRAMS */
-.programs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.07); border-radius:12px; overflow:hidden; }
-.prog-card { background:#111; padding:1.75rem; cursor:pointer; transition:background 0.2s; }
-.prog-card:hover { background:#161616; }
-.prog-icon { width:42px; height:42px; border-radius:8px; background:var(--gdim); display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem; }
-.prog-icon svg { width:22px; height:22px; stroke:var(--g2); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
-.prog-name { font-size:17px; font-weight:500; color:#fff; margin-bottom:0.4rem; }
-.prog-desc { font-size:14px; line-height:1.6; color:rgba(255,255,255,0.4); margin-bottom:1rem; }
-.prog-link { font-size:13px; color:var(--g2); display:flex; align-items:center; gap:5px; }
-.prog-link svg { width:13px; height:13px; stroke:var(--g2); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.talk-card { background:#111; padding:1.75rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:1rem; }
-.talk-card p { font-size:13px; color:rgba(255,255,255,0.35); }
+/* ── HOME ── */
+.hero{position:relative;width:100%;height:calc(100vh - 70px - 42px);overflow:hidden;}
+.hero-collage{position:absolute;inset:0;}
+.hero-collage-tile{position:absolute;overflow:hidden;background:#0a0a0a;}
+.hero-collage-tile img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(0.6);animation:tilePulse 20s ease-in-out infinite;}
+.hero-collage-tile:nth-child(2) img{animation-delay:-3s;}
+.hero-collage-tile:nth-child(3) img{animation-delay:-6s;}
+.hero-collage-tile:nth-child(4) img{animation-delay:-9s;}
+.hero-collage-tile:nth-child(5) img{animation-delay:-12s;}
+@keyframes tilePulse{0%,85%{transform:scale(1);}92%{transform:scale(1.08);}100%{transform:scale(1);}}
+/* diagonal slash mosaic — 5 angled panels left to right */
+.hero-collage-tile:nth-child(1){left:0;top:0;width:24%;height:100%;clip-path:polygon(0 0,100% 0,80% 100%,0 100%);}
+.hero-collage-tile:nth-child(2){left:18%;top:0;width:22%;height:100%;clip-path:polygon(20% 0,100% 0,82% 100%,0 100%);}
+.hero-collage-tile:nth-child(3){left:36%;top:0;width:24%;height:100%;clip-path:polygon(20% 0,100% 0,80% 100%,0 100%);}
+.hero-collage-tile:nth-child(4){left:56%;top:0;width:24%;height:100%;clip-path:polygon(20% 0,100% 0,80% 100%,0 100%);}
+.hero-collage-tile:nth-child(5){left:76%;top:0;width:24%;height:100%;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);}
+.hero-collage-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.55) 40%,rgba(0,0,0,0.25) 100%);}
+.slides{position:absolute;inset:0;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;background-size:cover;background-repeat:no-repeat;background-position:center top;}
+.slide.active{opacity:1;}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.5) 55%,rgba(0,0,0,0.1) 100%);}
+.hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;max-width:580px;}
+.eyebrow{font-size:11px;letter-spacing:0.18em;color:var(--g2);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g2);}
+.hero-title{font-size:60px;font-weight:700;line-height:1.04;letter-spacing:-0.03em;margin-bottom:1rem;}
+.hero-title em{color:var(--g2);font-style:normal;}
+.hero-sub{font-size:16px;line-height:1.7;color:rgba(255,255,255,0.5);margin-bottom:2rem;max-width:420px;}
+.hero-actions{display:flex;gap:1rem;}
+.btn-primary{background:var(--g);color:#fff;border:none;padding:0.75rem 1.5rem;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;}
+.btn-primary:hover{background:var(--g2);}
+.btn-ghost{background:transparent;color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);padding:0.75rem 1.5rem;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;}
+.hero-stats{position:absolute;bottom:2rem;left:3rem;z-index:2;display:flex;gap:2rem;}
+.stat{border-left:2px solid var(--g);padding-left:0.85rem;}
+.stat-num{font-size:22px;font-weight:600;color:#fff;line-height:1;}
+.stat-label{font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;letter-spacing:0.04em;}
+.slide-controls{position:absolute;bottom:2rem;right:2rem;z-index:2;display:flex;gap:8px;}
+.dot-btn{width:20px;height:2px;background:rgba(255,255,255,0.2);cursor:pointer;border:none;transition:background 0.3s,width 0.3s;}
+.dot-btn.active{background:var(--g2);width:30px;}
+.progress-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--g);width:0%;z-index:3;}
 
-/* COACHES */
-.coaches-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
-.coach-card { background:#111; border-radius:16px; border:0.5px solid rgba(255,255,255,0.07); padding:2rem; display:flex; flex-direction:column; align-items:flex-start; gap:0; overflow:hidden; position:relative; transition:border-color 0.2s; }
-.coach-card:hover { border-color:var(--gbor); }
-.coach-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right, var(--g), var(--g2)); }
-.coach-img { width:100px; height:100px; border-radius:50%; object-fit:cover; object-position:top center; flex-shrink:0; border:3px solid var(--g); margin-bottom:1.25rem; }
-.coach-name { font-size:22px; font-weight:600; color:#fff; margin-bottom:3px; }
-.coach-role { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:1.25rem; }
-.coach-stats { display:flex; gap:1.5rem; margin-bottom:1.25rem; padding:1rem 0; border-top:0.5px solid rgba(255,255,255,0.07); border-bottom:0.5px solid rgba(255,255,255,0.07); width:100%; }
-.coach-stat-num { font-size:24px; font-weight:600; color:var(--g2); line-height:1; }
-.coach-stat-label { font-size:11px; color:rgba(255,255,255,0.35); margin-top:3px; }
-.coach-bio { font-size:14px; line-height:1.7; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; }
-.coach-ig { font-size:13px; color:var(--g2); display:flex; align-items:center; gap:6px; }
-.coach-ig::before { content:''; display:block; width:16px; height:1px; background:var(--g2); }
+/* ── ABOUT ── */
+.about-page{height:calc(100vh - 70px - 42px);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+.about-left{background:#111;padding:2.5rem;display:flex;flex-direction:column;border-right:0.5px solid rgba(255,255,255,0.07);overflow:hidden;}
+.about-right{background:#0a0a0a;display:flex;flex-direction:column;overflow:hidden;}
+.about-section-label{font-size:10px;letter-spacing:0.18em;color:var(--g2);text-transform:uppercase;margin-bottom:0.4rem;display:flex;align-items:center;gap:8px;}
+.about-section-label::before{content:'';display:block;width:16px;height:1px;background:var(--g2);}
+.about-section-title{font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.02em;margin-bottom:1.5rem;}
+.mv-cards{display:flex;flex-direction:column;gap:1rem;flex:1;}
+.mv-card{background:#0d0d0d;border-radius:10px;border-left:3px solid var(--g);padding:1.5rem;flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+.mv-card::before{content:'"';position:absolute;top:-20px;right:16px;font-size:100px;color:rgba(27,122,62,0.06);font-family:Georgia,serif;line-height:1;pointer-events:none;}
+.mv-label{font-size:11px;letter-spacing:0.16em;color:var(--g2);text-transform:uppercase;margin-bottom:0.75rem;}
+.mv-text{font-size:16px;line-height:1.8;color:rgba(255,255,255,0.65);}
+.coaches-panels{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.coach-panel{flex:1;display:grid;grid-template-columns:240px 1fr;border-bottom:0.5px solid rgba(255,255,255,0.07);overflow:hidden;}
+.coach-panel:last-child{border-bottom:none;}
+.coach-panel-photo{position:relative;overflow:hidden;display:block;cursor:pointer;}
+.coach-panel-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.5s ease;}
+.coach-panel:hover .coach-panel-photo img{transform:scale(1.04);}
+.coach-panel-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,#0a0a0a);}
+.coach-panel-photo::before{content:'View on Instagram';position:absolute;bottom:12px;left:12px;z-index:2;font-size:10px;letter-spacing:0.1em;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:20px;opacity:0;transition:opacity 0.3s;text-transform:uppercase;}
+.coach-panel-photo:hover::before{opacity:1;}
+.coach-panel-info{padding:2rem 2.5rem;display:flex;flex-direction:column;justify-content:center;gap:0;}
+.cp-tag{font-size:10px;letter-spacing:0.16em;color:var(--g2);text-transform:uppercase;margin-bottom:0.6rem;display:flex;align-items:center;gap:8px;}
+.cp-tag::before{content:'';display:block;width:14px;height:1px;background:var(--g2);}
+.cp-name{font-size:36px;font-weight:700;color:#fff;letter-spacing:-0.03em;line-height:1;margin-bottom:0.2rem;}
+.cp-role{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:1.25rem;}
+.cp-stats{display:flex;gap:1.75rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid rgba(255,255,255,0.08);}
+.cp-stat-num{font-size:22px;font-weight:700;color:var(--g2);line-height:1;}
+.cp-stat-label{font-size:10px;color:rgba(255,255,255,0.28);margin-top:3px;}
+.cp-bio{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.45);margin-bottom:1rem;max-width:340px;}
+.cp-ig{font-size:12px;color:var(--g2);display:flex;align-items:center;gap:8px;}
+.cp-ig::before{content:'';display:block;width:14px;height:1px;background:var(--g2);}
 
-/* MISSION */
-.mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:3rem; }
-.mission-card { background:#111; border-radius:12px; border:0.5px solid rgba(255,255,255,0.07); border-left:3px solid var(--g); padding:2.5rem; position:relative; overflow:hidden; }
-.mission-card::before { content:'"'; position:absolute; top:-10px; right:20px; font-size:120px; color:rgba(27,122,62,0.08); font-family:Georgia,serif; line-height:1; pointer-events:none; }
-.mission-label { font-size:11px; letter-spacing:0.18em; color:var(--g2); text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
-.mission-label::before { content:''; display:block; width:20px; height:1px; background:var(--g2); }
-.mission-text { font-size:17px; line-height:1.85; color:rgba(255,255,255,0.75); font-weight:300; }
+/* ── BOOKING ── */
+.booking-wrap{height:calc(100vh - 70px - 42px);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:2rem;}
+.booking-inner{width:100%;max-width:700px;}
+.booking-label{font-size:10px;letter-spacing:0.18em;color:var(--g2);text-transform:uppercase;margin-bottom:0.4rem;display:flex;align-items:center;gap:8px;}
+.booking-label::before{content:'';display:block;width:18px;height:1px;background:var(--g2);}
+.booking-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:0.3rem;}
+.booking-sub{font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:1.5rem;}
+.steps{display:flex;align-items:center;margin-bottom:1.5rem;}
+.step{display:flex;align-items:center;gap:6px;}
+.step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.3);border:0.5px solid rgba(255,255,255,0.1);transition:all 0.3s;}
+.step-num.active{background:var(--g);color:#fff;border-color:var(--g);}
+.step-num.done{background:var(--gdim);color:var(--g2);border-color:var(--gbor);}
+.step-label{font-size:12px;color:rgba(255,255,255,0.3);}
+.step-label.active{color:#fff;}
+.step-div{flex:1;height:1px;background:rgba(255,255,255,0.07);margin:0 10px;}
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;}
+.class-card{position:relative;height:220px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s,transform 0.2s;}
+.class-card:hover{transform:translateY(-2px);border-color:var(--gbor);}
+.class-card.selected{border-color:var(--g2);}
+.class-card.selected .chk{opacity:1;}
+.class-card-bg{position:absolute;inset:0;}
+.class-card-bg img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(0.7);transition:filter 0.3s;}
+.class-card:hover .class-card-bg img{filter:brightness(0.85);}
+.class-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.05) 60%);}
+.class-card-content{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.1rem;z-index:2;}
+.chk{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;z-index:3;}
+.chk svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.class-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1.2;}
+.class-time{font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:7px;}
+.ctag{font-size:9px;background:rgba(0,0,0,0.4);border:0.5px solid rgba(255,255,255,0.2);border-radius:3px;padding:2px 7px;color:rgba(255,255,255,0.7);display:inline-block;margin-right:4px;backdrop-filter:blur(4px);}
+.ctag.green{background:rgba(27,122,62,0.6);border-color:var(--g2);color:#fff;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:11px;color:rgba(255,255,255,0.4);}
+.form-input{background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:7px;padding:0.6rem 0.9rem;font-size:13px;color:#fff;font-family:inherit;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--g);}
+.form-input::placeholder{color:rgba(255,255,255,0.15);}
+select.form-input option{background:#1a1a1a;}
+.summary-card{background:#111;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:1.25rem;margin-bottom:1rem;}
+.summary-row{display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:0.5px solid rgba(255,255,255,0.05);}
+.summary-row:last-child{border-bottom:none;}
+.summary-key{font-size:12px;color:rgba(255,255,255,0.35);}
+.summary-val{font-size:12px;color:#fff;font-weight:500;}
+.summary-val.green{color:var(--g2);}
+.consent{display:flex;align-items:flex-start;gap:8px;margin-bottom:1rem;}
+.consent input{margin-top:2px;accent-color:var(--g);width:13px;height:13px;flex-shrink:0;cursor:pointer;}
+.consent p{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.5;}
+.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem;}
+.btn-next{background:var(--g);color:#fff;border:none;padding:0.65rem 1.5rem;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.btn-next:hover{background:var(--g2);}
+.btn-next:disabled{background:rgba(27,122,62,0.25);cursor:not-allowed;}
+.btn-back{background:transparent;color:rgba(255,255,255,0.4);border:0.5px solid rgba(255,255,255,0.12);padding:0.65rem 1.25rem;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit;}
+.success-state{display:none;text-align:center;padding:2rem 1rem;}
+.success-state.show{display:block;}
+.success-icon{width:56px;height:56px;border-radius:50%;background:var(--gdim);border:0.5px solid var(--gbor);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
+.success-icon svg{width:24px;height:24px;stroke:var(--g2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.success-title{font-size:20px;font-weight:600;color:#fff;margin-bottom:0.4rem;}
+.success-sub{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:340px;margin:0 auto 1.5rem;}
+.success-detail{background:#111;border-radius:8px;padding:0.75rem 1.25rem;display:inline-block;text-align:left;margin-bottom:1.5rem;}
+.success-detail p{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:3px;}
+.success-detail strong{font-size:13px;color:#fff;}
 
-/* CTA BAND */
-.cta-band { background:var(--g); padding:3.5rem 2.5rem; display:flex; align-items:center; justify-content:space-between; }
-.cta-title { font-size:30px; font-weight:600; color:#fff; }
-.cta-sub { font-size:15px; color:rgba(255,255,255,0.75); margin-top:5px; }
-.btn-white { background:#fff; color:var(--g); border:none; padding:0.9rem 2.25rem; border-radius:8px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; white-space:nowrap; }
+/* ── GALLERY ── */
+.gallery-wrap{height:calc(100vh - 70px - 42px);overflow-y:auto;padding:1.5rem 2rem;}
+.gallery-header{margin-bottom:1.25rem;}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;border-radius:10px;overflow:hidden;}
+.gal-img{aspect-ratio:4/3;overflow:hidden;}
+.gal-img img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.4s;display:block;}
+.gal-img:hover img{transform:scale(1.05);}
 
-/* FOOTER */
-.footer { background:#0d0d0d; border-top:0.5px solid rgba(255,255,255,0.08); padding:2.5rem; }
-.footer-inner { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; }
-.footer-brand img { height:80px; width:auto; margin-bottom:1rem; }
-.footer-brand p { font-size:13px; color:rgba(255,255,255,0.35); line-height:1.7; max-width:260px; }
-.footer-cols { display:flex; gap:3.5rem; }
-.footer-col-title { font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.85rem; }
-.footer-col a { display:block; font-size:14px; color:rgba(255,255,255,0.65); text-decoration:none; margin-bottom:0.5rem; cursor:pointer; }
-.footer-col a:hover { color:#fff; }
-.footer-social { display:flex; gap:10px; }
-.social-btn { width:34px; height:34px; border-radius:8px; background:rgba(255,255,255,0.06); border:0.5px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; text-decoration:none; transition:background 0.2s; }
-.social-btn:hover { background:var(--g); border-color:var(--g); }
-.social-btn svg { width:16px; height:16px; stroke:rgba(255,255,255,0.6); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
-.social-btn:hover svg { stroke:#fff; }
-.footer-bottom { border-top:0.5px solid rgba(255,255,255,0.07); padding-top:1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
-.footer-copy { font-size:11px; color:rgba(255,255,255,0.25); }
-.footer-legal { display:flex; gap:1.25rem; }
-.footer-legal a { font-size:11px; color:rgba(255,255,255,0.25); text-decoration:none; }
+/* ── PROGRAMS PHOTO CARDS ── */
+.prog-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:0;background:#0a0a0a;border-top:0.5px solid rgba(255,255,255,0.07);height:220px;}
+.prog-card-photo{position:relative;overflow:hidden;cursor:pointer;border-right:0.5px solid rgba(255,255,255,0.07);}
+.prog-card-photo:last-child{border-right:none;}
+.prog-card-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.5s ease;filter:brightness(0.55);}
+.prog-card-photo:hover img{transform:scale(1.06);filter:brightness(0.75);}
+.prog-card-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%);}
+.prog-card-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem;z-index:2;}
+.prog-card-tag{font-size:9px;letter-spacing:0.12em;color:var(--g2);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.prog-card-tag::before{content:'';display:block;width:10px;height:1px;background:var(--g2);}
+.prog-card-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:3px;}
+.prog-card-desc{font-size:10px;color:rgba(255,255,255,0.45);line-height:1.4;}
 
-/* PAGE HERO */
-.page-hero { position:relative; height:300px; overflow:hidden; display:flex; align-items:flex-end; padding:2.5rem 3rem; }
-.page-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; }
-.page-hero::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.6); }
-.page-hero-content { position:relative; z-index:2; }
-.page-hero-label { font-size:12px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.5rem; }
-.page-hero-title { font-size:46px; font-weight:600; color:#fff; letter-spacing:-0.02em; }
+/* ── ABOUT HERO IMG ── */
+.about-hero-img{position:relative;height:200px;border-radius:10px;overflow:hidden;margin-bottom:1rem;flex-shrink:0;}
+.about-hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
+.about-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8),rgba(0,0,0,0.2));display:flex;flex-direction:column;justify-content:flex-end;padding:1.25rem;}
 
-/* GALLERY */
-.gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; border-radius:12px; overflow:hidden; }
-.gal-img { aspect-ratio:4/3; overflow:hidden; }
-.gal-img img { width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform 0.4s; display:block; }
-.gal-img:hover img { transform:scale(1.05); }
+/* ── COACH PORTRAIT CARDS ── */
+.coaches-portrait-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;margin-top:1rem;}
+.coach-portrait-card{background:#161616;border-radius:12px;border:0.5px solid rgba(255,255,255,0.07);overflow:hidden;display:flex;flex-direction:column;position:relative;}
+.coach-portrait-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--g),var(--g2));}
+.coach-portrait-img{height:220px;overflow:hidden;flex-shrink:0;}
+.coach-portrait-img img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.4s;}
+.coach-portrait-card:hover .coach-portrait-img img{transform:scale(1.03);}
+.coach-portrait-info{padding:1rem;flex:1;display:flex;flex-direction:column;gap:0.4rem;}
 
-/* BOOKING */
-.booking-wrap { max-width:780px; margin:0 auto; padding:3rem 2rem 5rem; }
-.booking-eyebrow { font-size:12px; letter-spacing:0.16em; color:var(--g2); text-transform:uppercase; margin-bottom:0.5rem; display:flex; align-items:center; gap:8px; }
-.booking-eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--g2); }
-.booking-title { font-size:34px; font-weight:600; color:#fff; margin-bottom:0.5rem; }
-.booking-sub { font-size:15px; color:rgba(255,255,255,0.4); line-height:1.6; margin-bottom:2rem; }
-.steps { display:flex; align-items:center; margin-bottom:2.5rem; }
-.step { display:flex; align-items:center; gap:8px; }
-.step-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.35); border:0.5px solid rgba(255,255,255,0.1); transition:all 0.3s; }
-.step-num.active { background:var(--g); color:#fff; border-color:var(--g); }
-.step-num.done { background:var(--gdim); color:var(--g2); border-color:var(--gbor); }
-.step-label { font-size:12px; color:rgba(255,255,255,0.35); }
-.step-label.active { color:#fff; }
-.step-divider { flex:1; height:1px; background:rgba(255,255,255,0.08); margin:0 12px; }
-.step-panel { display:none; }
-.step-panel.active { display:block; }
-.class-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
-.class-card { background:#111; border:0.5px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; cursor:pointer; transition:border-color 0.2s,background 0.2s; position:relative; }
-.class-card:hover { border-color:var(--gbor); background:#141414; }
-.class-card.selected { border-color:var(--g); background:var(--gdim); }
-.class-card.selected .check { opacity:1; }
-.check { position:absolute; top:12px; right:12px; width:20px; height:20px; border-radius:50%; background:var(--g); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; }
-.check svg { width:11px; height:11px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
-.class-icon { width:36px; height:36px; border-radius:8px; background:var(--gdim); display:flex; align-items:center; justify-content:center; margin-bottom:0.85rem; }
-.class-icon svg { width:18px; height:18px; stroke:var(--g2); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
-.class-name { font-size:16px; font-weight:500; color:#fff; margin-bottom:3px; }
-.class-time { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:8px; }
-.class-tags { display:flex; gap:6px; flex-wrap:wrap; }
-.ctag { font-size:10px; background:rgba(255,255,255,0.06); border:0.5px solid rgba(255,255,255,0.1); border-radius:4px; padding:2px 8px; color:rgba(255,255,255,0.45); }
-.ctag.green { background:var(--gdim); border-color:var(--gbor); color:var(--g2); }
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
-.form-group { display:flex; flex-direction:column; gap:6px; }
-.form-group.full { grid-column:1/-1; }
-.form-label { font-size:13px; color:rgba(255,255,255,0.5); }
-.form-input { background:#111; border:0.5px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.8rem 1rem; font-size:15px; color:#fff; font-family:inherit; outline:none; transition:border-color 0.2s; }
-.form-input:focus { border-color:var(--g); }
-.form-input::placeholder { color:rgba(255,255,255,0.2); }
-select.form-input option { background:#1a1a1a; }
-.summary-card { background:#111; border:0.5px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; }
-.summary-row { display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:0.5px solid rgba(255,255,255,0.06); }
-.summary-row:last-child { border-bottom:none; }
-.summary-key { font-size:12px; color:rgba(255,255,255,0.4); }
-.summary-val { font-size:13px; color:#fff; font-weight:500; }
-.summary-val.green { color:var(--g2); }
-.consent { display:flex; align-items:flex-start; gap:10px; margin-bottom:1.5rem; }
-.consent input { margin-top:2px; accent-color:var(--g); width:15px; height:15px; flex-shrink:0; cursor:pointer; }
-.consent p { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.6; }
-.btn-row { display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem; }
-.btn-next { background:var(--g); color:#fff; border:none; padding:0.8rem 2rem; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; }
-.btn-next:hover { background:var(--g2); }
-.btn-next:disabled { background:rgba(27,122,62,0.3); cursor:not-allowed; }
-.btn-back { background:transparent; color:rgba(255,255,255,0.5); border:0.5px solid rgba(255,255,255,0.15); padding:0.8rem 1.5rem; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; }
-.success-state { display:none; text-align:center; padding:3rem 1rem; }
-.success-state.show { display:block; }
-.success-icon { width:64px; height:64px; border-radius:50%; background:var(--gdim); border:0.5px solid var(--gbor); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; }
-.success-icon svg { width:28px; height:28px; stroke:var(--g2); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.success-title { font-size:22px; font-weight:500; color:#fff; margin-bottom:0.5rem; }
-.success-sub { font-size:14px; color:rgba(255,255,255,0.45); line-height:1.7; max-width:380px; margin:0 auto 2rem; }
-.success-detail { background:#111; border-radius:10px; padding:1rem 1.5rem; display:inline-block; text-align:left; }
-.success-detail p { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:4px; }
-.success-detail strong { color:#fff; }
-.submitting { font-size:13px; color:rgba(255,255,255,0.4); text-align:center; padding:1rem; }
+/* ── ANNOUNCEMENT STRIP (HOME) ── */
+.ann-strip{display:flex;align-items:center;gap:1rem;padding:0.6rem 2rem;background:#0d0d0d;border-top:0.5px solid rgba(255,255,255,0.07);border-bottom:0.5px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.ann-strip-label{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.12em;color:var(--g2);text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.ann-strip-cards{display:flex;gap:8px;flex:1;overflow:hidden;}
+.ann-strip-loading{font-size:12px;color:rgba(255,255,255,0.3);}
+.ann-strip-card{display:flex;align-items:center;gap:8px;background:#161616;border:0.5px solid rgba(255,255,255,0.08);border-radius:6px;padding:5px 10px;cursor:pointer;white-space:nowrap;transition:border-color 0.2s;flex-shrink:0;}
+.ann-strip-card:hover{border-color:var(--gbor);}
+.ann-strip-card img{width:24px;height:24px;border-radius:3px;object-fit:cover;flex-shrink:0;}
+.ann-strip-card-title{font-size:11px;color:rgba(255,255,255,0.7);max-width:180px;overflow:hidden;text-overflow:ellipsis;}
+.ann-strip-card-cat{font-size:9px;color:var(--g2);flex-shrink:0;}
+.ann-strip-more{font-size:11px;color:var(--g2);background:none;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit;}
+.ann-strip-more:hover{color:#fff;}
 
-/* MOBILE */
-@media (max-width:768px) {
-  .nav-links { display:none; }
-  .hero-title { font-size:36px; }
-  .hero-content { padding:0 1.5rem; }
-  .hero-stats { left:1.5rem; gap:1.5rem; }
-  .slide-controls { right:1.5rem; }
-  .section { padding:3rem 1.5rem; }
-  .programs-grid { grid-template-columns:1fr; }
-  .coaches-grid { grid-template-columns:1fr; }
-  .mission-grid { grid-template-columns:1fr; }
-  .class-grid { grid-template-columns:1fr; }
-  .form-grid { grid-template-columns:1fr; }
-  .footer-inner { flex-direction:column; gap:2rem; }
-  .footer-cols { flex-direction:column; gap:2rem; }
-  .cta-band { flex-direction:column; gap:1.5rem; text-align:center; }
-  .gallery-grid { grid-template-columns:repeat(2,1fr); }
-  .booking-wrap { padding:2rem 1.25rem 4rem; }
+/* ── ANNOUNCEMENTS FEED ── */
+/* ── ANNOUNCEMENTS FEED — FB STYLE ── */
+.announcements-wrap{height:calc(100vh - 70px - 42px);display:flex;flex-direction:column;overflow:hidden;}
+.ann-header{padding:1.25rem 2.5rem 1rem;background:#111;border-bottom:0.5px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.ann-feed{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem;}
+.ann-loading{text-align:center;padding:3rem;color:rgba(255,255,255,0.3);font-size:14px;}
+.ann-empty{text-align:center;padding:4rem;color:rgba(255,255,255,0.2);}
+.ann-empty p{font-size:14px;}
+.ann-post{background:#111;border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);width:100%;max-width:560px;}
+.ann-post-header{display:flex;align-items:center;gap:10px;padding:1rem 1.25rem 0.75rem;}
+.ann-post-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--g);flex-shrink:0;}
+.ann-post-info{flex:1;}
+.ann-post-name{font-size:14px;font-weight:700;color:#fff;}
+.ann-post-meta{font-size:11px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px;margin-top:2px;}
+.ann-post-cat{background:var(--gdim);border:0.5px solid var(--gbor);color:var(--g2);padding:1px 7px;border-radius:3px;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;}
+.ann-post-caption{padding:0 1.25rem 0.85rem;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.65;white-space:pre-wrap;}
+.ann-post-photo{width:100%;display:block;object-fit:contain;background:#0a0a0a;max-height:560px;}
+.ann-post-actions{display:grid;grid-template-columns:1fr 1fr;border-top:0.5px solid rgba(255,255,255,0.07);}
+.ann-action-wrap{position:relative;}
+.ann-action-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:0.8rem;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);background:none;border:none;cursor:pointer;font-family:inherit;transition:background 0.2s,color 0.2s;}
+.ann-action-btn:hover{background:rgba(255,255,255,0.04);color:#fff;}
+.ann-action-wrap:first-child .ann-action-btn{border-right:0.5px solid rgba(255,255,255,0.07);border-radius:0 0 0 12px;}
+.ann-action-wrap:last-child .ann-action-btn{border-radius:0 0 12px 0;}
+.ann-action-btn.enroll-btn:hover{color:var(--g2);}
+.enroll-dropdown{display:none;position:absolute;bottom:calc(100% + 8px);left:0;right:0;background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:1.1rem;z-index:20;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+.enroll-dropdown.open{display:block;}
+.enroll-dropdown-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:0.85rem;}
+.enroll-dropdown input,.enroll-dropdown select{width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.55rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;display:block;}
+.enroll-dropdown input::placeholder{color:rgba(255,255,255,0.2);}
+.enroll-dropdown input:focus,.enroll-dropdown select:focus{border-color:var(--g);}
+.enroll-dropdown select option{background:#1a1a1a;}
+.enroll-submit{width:100%;background:var(--g);color:#fff;border:none;border-radius:6px;padding:0.65rem;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
+.enroll-submit:hover{background:var(--g2);}
+.share-dropdown{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.5rem;z-index:20;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:190px;}
+.share-dropdown.open{display:block;}
+.share-option{display:flex;align-items:center;gap:10px;padding:0.65rem 0.9rem;border-radius:6px;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.7);transition:background 0.2s;border:none;background:none;width:100%;font-family:inherit;text-align:left;}
+.share-option:hover{background:rgba(255,255,255,0.06);color:#fff;}
+
+
+@media(max-width:768px){
+  body{overflow:auto;}
+  #app{height:auto;}
+  .content{overflow:visible;}
+  .hero{height:130vw;min-height:480px;}
+  .hero-collage-tile:nth-child(1){left:0;width:34%;}
+  .hero-collage-tile:nth-child(2){left:24%;width:32%;}
+  .hero-collage-tile:nth-child(3){left:48%;width:34%;}
+  .hero-collage-tile:nth-child(4),.hero-collage-tile:nth-child(5){display:none;}
+  .about-wrap{grid-template-columns:1fr;height:auto;}
+  .gallery-wrap{height:auto;}
+  .hero-title{font-size:38px;}
+  .topnav-links{display:none;}
+  .prog-strip{grid-template-columns:repeat(3,1fr);height:300px;}
+
+  /* Announcements mobile */
+  .announcements-wrap{height:auto;}
+  .ann-header{padding:1.25rem 1.25rem 0.85rem;}
+  .ann-feed{padding:1rem;gap:1rem;}
+  .ann-post{max-width:100%;}
+  .ann-post-photo{max-height:320px;}
+  .ann-post-header{padding:0.85rem 1rem 0.6rem;}
+  .ann-post-caption{padding:0 1rem 0.75rem;font-size:13px;}
+  .ann-action-btn{font-size:12px;padding:0.7rem 0.5rem;}
+  .enroll-dropdown,.share-dropdown{left:0.5rem;right:0.5rem;}
+  .share-dropdown{min-width:0;}
+
+  /* Strip mobile */
+  .ann-strip{height:auto;flex-wrap:wrap;padding:0.5rem;}
+  .ann-strip-label{width:100%;height:auto;padding:0.4rem 0.75rem;}
+  .ann-strip-cards{width:100%;overflow-x:auto;}
+  .ann-strip-card{min-width:140px;border-right:none;border-bottom:0.5px solid rgba(255,255,255,0.07);}
+  .ann-strip-more{width:100%;height:auto;padding:0.5rem;border-left:none;border-top:0.5px solid rgba(255,255,255,0.07);}
 }
 </style>
 </head>
 <body>
+<div id="app">
 
-<!-- HOME -->
-<div class="page active" id="page-home">
-  <section class="hero">
-    <div class="slides" id="slides">
-      <div class="slide active" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg');background-position:center top;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg');background-position:center top;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg');background-position:center top;"></div>
-      <div class="slide" style="background-image:url('https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg');background-position:center top;"></div>
-    </div>
-    <div class="progress-bar" id="progressBar"></div>
-    <nav class="nav">
-      <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
-      <div class="nav-links">
-        <a class="active" onclick="showPage('home')">Home</a>
-        <a onclick="showPage('about')">About</a>
-        <a onclick="showPage('booking')">Schedule</a>
-        <a onclick="showPage('gallery')">Gallery</a>
-      </div>
-      <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
-    </nav>
-    <div class="hero-content">
-      <div class="eyebrow">Singapore Basketball Academy</div>
-      <h1 class="hero-title">Break barriers.<br>Build <em>champions.</em></h1>
-      <p class="hero-sub">We believe basketball is a universal language. At Triple B, we develop skills, character, and community — for every age, background, and level.</p>
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="showPage('booking')">Book a class</button>
-        <button class="btn-ghost" onclick="showPage('about')">Our story</button>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Programs</div></div>
-      <div class="stat"><div class="stat-num">U10–U18</div><div class="stat-label">Age groups</div></div>
-      <div class="stat"><div class="stat-num">SG</div><div class="stat-label">Yishun, Singapore</div></div>
-    </div>
-    <div class="slide-controls" id="dots"></div>
-  </section>
-  <section class="section dark">
-    <div class="sec-label">What we offer</div>
-    <div class="sec-title">Programs for every player</div>
-    <div class="programs-grid" id="programs-grid"></div>
-  </section>
-  <div class="cta-band">
-    <div><div class="cta-title">Ready to hit the court?</div><div class="cta-sub">View the full schedule and book your first class today.</div></div>
-    <button class="btn-white" onclick="showPage('booking')">Book a class →</button>
+<!-- TOP NAV -->
+<nav class="topnav">
+  <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" />
+  <div class="topnav-links">
+    <a class="active" onclick="showPage('home')">Home</a>
+    <a onclick="showPage('about')">About</a>
+    <a onclick="showPage('booking')">Announcements</a>
+    <a onclick="showPage('gallery')">Gallery</a>
   </div>
-  <div id="footer-home"></div>
-</div>
+  <button class="topnav-cta" onclick="showPage('booking')">View Schedule</button>
+</nav>
 
-<!-- ABOUT -->
-<div class="page" id="page-about">
-  <nav class="nav nav-fixed">
-    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
-    <div class="nav-links">
-      <a onclick="showPage('home')">Home</a>
-      <a class="active" onclick="showPage('about')">About</a>
-      <a onclick="showPage('booking')">Schedule</a>
-      <a onclick="showPage('gallery')">Gallery</a>
-    </div>
-    <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
-  </nav>
-  <div class="page-hero">
-    <img src="https://triplebsg.com/wp-content/uploads/2024/09/IMG_1797-scaled.jpg" alt="About" />
-    <div class="page-hero-content">
-      <div class="page-hero-label">Who we are</div>
-      <div class="page-hero-title">About Basketball Beyond Borders</div>
-    </div>
-  </div>
-  <section class="section dark">
-    <div class="mission-grid">
-      <div class="mission-card"><div class="mission-label">Mission</div><div class="mission-text">To empower athletes of all backgrounds by providing exceptional basketball training that enhances both character and skills. We foster unity and inclusivity through the game, offering opportunities for personal growth, teamwork, and international experiences.</div></div>
-      <div class="mission-card"><div class="mission-label">Vision</div><div class="mission-text">To be a global leader in basketball development, uniting diverse communities through the sport while shaping athletes who excel on and off the court — embodying the values of integrity, respect, and excellence.</div></div>
-    </div>
-    <div class="sec-label">The coaches</div>
-    <div class="sec-title">The people behind Triple B</div>
-    <div class="coaches-grid">
-      <div class="coach-card">
-        <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image0-scaled.jpeg" alt="Coach JC" />
-        <div class="coach-name">Coach JC</div>
-        <div class="coach-role">Head coach & co-founder</div>
-        <div class="coach-stats">
-          <div><div class="coach-stat-num">14+</div><div class="coach-stat-label">Years playing</div></div>
-          <div><div class="coach-stat-num">6+</div><div class="coach-stat-label">Years coaching</div></div>
-          <div><div class="coach-stat-num">🇺🇸🇵🇭</div><div class="coach-stat-label">Trained in</div></div>
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <section class="hero">
+      <div class="hero-collage">
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" alt="" /></div>
+      </div>
+      <div class="hero-collage-overlay"></div>
+      <div class="hero-content">
+        <div class="eyebrow">Singapore Basketball Academy</div>
+        <h1 class="hero-title">Break barriers.<br>Build <em>champions.</em></h1>
+        <p class="hero-sub">Basketball is a universal language. At Triple B, we develop skills, character, and community — for every age, background, and level.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('booking')">Announcements</button>
+          <button class="btn-ghost" onclick="showPage('about')">Our story</button>
         </div>
-        <div class="coach-bio">Known for his dynamic style, Coach JC instills resilience, discipline, and unity in every session. Trained in both the US & Philippines.</div>
-        <div class="coach-ig">@coachjcsg</div>
       </div>
-      <div class="coach-card">
-        <img class="coach-img" src="https://triplebsg.com/wp-content/uploads/2024/09/image01-scaled.jpeg" alt="Coach Harry" />
-        <div class="coach-name">Coach Harry</div>
-        <div class="coach-role">Head coach & co-founder</div>
-        <div class="coach-stats">
-          <div><div class="coach-stat-num">14+</div><div class="coach-stat-label">Years playing</div></div>
-          <div><div class="coach-stat-num">5+</div><div class="coach-stat-label">Years coaching</div></div>
-          <div><div class="coach-stat-num">🎓</div><div class="coach-stat-label">Scholarship athlete</div></div>
-        </div>
-        <div class="coach-bio">A college scholarship athlete from the Philippines. Coach Harry emphasizes fun while instilling discipline — ensuring players grow as athletes and individuals.</div>
-        <div class="coach-ig">@harryyoungfrancis</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Programs</div></div>
+        <div class="stat"><div class="stat-num">U10–U18</div><div class="stat-label">Age groups</div></div>
+        <div class="stat"><div class="stat-num">SG</div><div class="stat-label">Yishun, Singapore</div></div>
       </div>
-    </div>
-  </section>
-  <div class="cta-band">
-    <div><div class="cta-title">Train with us.</div><div class="cta-sub">Book a class and experience it for yourself.</div></div>
-    <button class="btn-white" onclick="showPage('booking')">View schedule →</button>
-  </div>
-  <div id="footer-about"></div>
-</div>
+    </section>
 
-<!-- BOOKING -->
-<div class="page" id="page-booking">
-  <nav class="nav nav-fixed">
-    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
-    <div class="nav-links">
-      <a onclick="showPage('home')">Home</a>
-      <a onclick="showPage('about')">About</a>
-      <a class="active" onclick="showPage('booking')">Schedule</a>
-      <a onclick="showPage('gallery')">Gallery</a>
+    <!-- ANNOUNCEMENT PREVIEW STRIP -->
+    <div class="ann-strip" id="ann-strip">
+      <div class="ann-strip-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--g2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Latest
+      </div>
+      <div class="ann-strip-cards" id="ann-strip-cards">
+        <div class="ann-strip-loading">Loading...</div>
+      </div>
+      <button class="ann-strip-more" onclick="showPage('booking')">View all →</button>
     </div>
-    <button class="nav-cta">Book a class</button>
-  </nav>
-  <div class="booking-wrap">
-    <div id="bk-header">
-      <div class="booking-eyebrow">Registration</div>
-      <div class="booking-title">Book a class at Triple B</div>
-      <div class="booking-sub">Select a program, fill in your details, and you're all set. Coaches will confirm via WhatsApp within 24 hours.</div>
-    </div>
-    <div class="steps" id="bk-steps">
-      <div class="step"><div class="step-num active" id="snum-1">1</div><div class="step-label active" id="slbl-1">Choose class</div></div>
-      <div class="step-divider"></div>
-      <div class="step"><div class="step-num" id="snum-2">2</div><div class="step-label" id="slbl-2">Your details</div></div>
-      <div class="step-divider"></div>
-      <div class="step"><div class="step-num" id="snum-3">3</div><div class="step-label" id="slbl-3">Confirm</div></div>
-    </div>
-    <div class="step-panel active" id="panel-1">
-      <div class="class-grid" id="class-grid"></div>
-      <div class="btn-row"><button class="btn-next" id="btn-next-1" disabled onclick="goStep(2)">Next — Your details</button></div>
-    </div>
-    <div class="step-panel" id="panel-2">
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">Player's full name *</label><input class="form-input" id="f-name" type="text" placeholder="e.g. John Tan" /></div>
-        <div class="form-group"><label class="form-label">Date of birth *</label><input class="form-input" id="f-dob" type="date" /></div>
-        <div class="form-group"><label class="form-label">Parent / guardian name *</label><input class="form-input" id="f-parent" type="text" placeholder="e.g. Mary Tan" /></div>
-        <div class="form-group"><label class="form-label">Contact number *</label><input class="form-input" id="f-phone" type="tel" placeholder="+65 9XXX XXXX" /></div>
-        <div class="form-group"><label class="form-label">Email address *</label><input class="form-input" id="f-email" type="email" placeholder="email@example.com" /></div>
-        <div class="form-group"><label class="form-label">Experience level</label>
-          <select class="form-input" id="f-level">
-            <option value="">Select level</option>
-            <option>Beginner — never played before</option>
-            <option>Recreational — played for fun</option>
-            <option>Intermediate — school/club level</option>
-            <option>Advanced — competitive player</option>
-          </select>
+
+    <div class="prog-strip" id="prog-strip"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="page-about">
+    <div class="about-page">
+      <!-- LEFT: Mission & Vision -->
+      <div class="about-left">
+        <div class="about-section-label">Who we are</div>
+        <div class="about-section-title">About Triple B</div>
+        <div class="mv-cards">
+          <div class="mv-card">
+            <div class="mv-label">Mission</div>
+            <div class="mv-text">To empower athletes of all backgrounds by providing exceptional basketball training that enhances both character and skills. We foster unity and inclusivity through the game, offering opportunities for personal growth, teamwork, and international experiences.</div>
+          </div>
+          <div class="mv-card">
+            <div class="mv-label">Vision</div>
+            <div class="mv-text">To be a global leader in basketball development, uniting diverse communities through sport while shaping athletes who excel on and off the court — embodying the values of integrity, respect, and excellence.</div>
+          </div>
         </div>
-        <div class="form-group full"><label class="form-label">Anything else the coaches should know?</label><input class="form-input" id="f-notes" type="text" placeholder="Injuries, goals, preferred schedule, etc." /></div>
       </div>
-      <div class="btn-row">
-        <button class="btn-back" onclick="goStep(1)">← Back</button>
-        <button class="btn-next" onclick="goStep(3)">Next — Review booking</button>
+      <!-- RIGHT: Coaches -->
+      <div class="about-right">
+        <div class="coaches-panels">
+          <div class="coach-panel">
+            <a class="coach-panel-photo" href="https://www.instagram.com/coachjcsg/" target="_blank" rel="noopener">
+              <img src="https://triplebsg.com/wp-content/uploads/2024/09/image0-scaled.jpeg" alt="Coach JC" />
+            </a>
+            <div class="coach-panel-info">
+              <div class="cp-tag">Head coach & co-founder</div>
+              <div class="cp-name">Coach JC</div>
+              <div class="cp-role">Basketball Beyond Borders · Singapore</div>
+              <div class="cp-stats">
+                <div><div class="cp-stat-num">14+</div><div class="cp-stat-label">Years playing</div></div>
+                <div><div class="cp-stat-num">6+</div><div class="cp-stat-label">Years coaching</div></div>
+                <div><div class="cp-stat-num">US & PH</div><div class="cp-stat-label">Trained in</div></div>
+              </div>
+              <div class="cp-bio">With over 14 years of playing experience and 6 years of coaching — including training in the US & Philippines — Coach JC is known for his dynamic style. He instills resilience, discipline, and unity in every session.</div>
+              <div class="cp-ig">@coachjcsg</div>
+            </div>
+          </div>
+          <div class="coach-panel">
+            <a class="coach-panel-photo" href="https://www.instagram.com/harryyoungfrancis/" target="_blank" rel="noopener">
+              <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01-scaled.jpeg" alt="Coach Harry" />
+            </a>
+            <div class="coach-panel-info">
+              <div class="cp-tag">Head coach & co-founder</div>
+              <div class="cp-name">Coach Harry</div>
+              <div class="cp-role">Basketball Beyond Borders · Singapore</div>
+              <div class="cp-stats">
+                <div><div class="cp-stat-num">14+</div><div class="cp-stat-label">Years playing</div></div>
+                <div><div class="cp-stat-num">5+</div><div class="cp-stat-label">Years coaching</div></div>
+                <div><div class="cp-stat-num">Scholar</div><div class="cp-stat-label">PH Scholarship</div></div>
+              </div>
+              <div class="cp-bio">A college scholarship athlete in the Philippines with over 14 years of playing experience. Coach Harry emphasizes fun while instilling discipline — ensuring players grow as athletes and individuals.</div>
+              <div class="cp-ig">@harryyoungfrancis</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="step-panel" id="panel-3">
-      <div class="summary-card">
-        <div class="summary-row"><span class="summary-key">Program</span><span class="summary-val green" id="sum-class">—</span></div>
-        <div class="summary-row"><span class="summary-key">Schedule</span><span class="summary-val" id="sum-time">—</span></div>
-        <div class="summary-row"><span class="summary-key">Player name</span><span class="summary-val" id="sum-name">—</span></div>
-        <div class="summary-row"><span class="summary-key">Contact</span><span class="summary-val" id="sum-phone">—</span></div>
-        <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val" id="sum-email">—</span></div>
-        <div class="summary-row"><span class="summary-key">Level</span><span class="summary-val" id="sum-level">—</span></div>
-        <div class="summary-row"><span class="summary-key">Notes</span><span class="summary-val" id="sum-notes">—</span></div>
-      </div>
-      <div class="consent">
-        <input type="checkbox" id="consent-check" onchange="document.getElementById('btn-submit').disabled=!this.checked" />
-        <p>I confirm the above details are correct. I understand that a Triple B coach will reach out via WhatsApp or email to confirm within 24 hours.</p>
-      </div>
-      <div class="btn-row">
-        <button class="btn-back" onclick="goStep(2)">← Back</button>
-        <button class="btn-next" id="btn-submit" disabled onclick="submitBooking()">Confirm booking →</button>
-      </div>
-    </div>
-    <div class="success-state" id="success">
-      <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="success-title">You're all booked! 🏀</div>
-      <div class="success-sub">Your registration has been received. A coach will confirm your spot via WhatsApp or email within 24 hours.</div>
-      <div class="success-detail"><p>Registered for</p><strong id="success-class">—</strong></div>
-      <br><br>
-      <button class="btn-next" onclick="resetBooking()">Book another class</button>
     </div>
   </div>
-  <div id="footer-booking"></div>
+
+
+  <!-- ANNOUNCEMENTS -->
+  <div class="page" id="page-booking">
+    <div class="announcements-wrap">
+      <div class="ann-header">
+        <div class="about-section-label">Latest Updates</div>
+        <div class="about-section-title">Announcements</div>
+      </div>
+      <div class="ann-feed" id="ann-feed">
+        <div class="ann-loading">Loading announcements...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="page" id="page-gallery">
+    <div class="gallery-wrap">
+      <div class="gallery-header">
+        <div class="page-label">Life at Triple B</div>
+        <div class="page-title">On the court & beyond</div>
+      </div>
+      <div class="gallery-grid">
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07918-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07951-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC08026-scaled.jpg" loading="lazy" alt="" /></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .content -->
+
+<!-- BOTTOM BAR -->
+<div class="botbar">
+  <div class="botbar-left">
+    <span class="botbar-copy">© 2026 Basketball Beyond Borders Pte Ltd</span>
+    <div class="botbar-links">
+      <a href="#">Terms</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+  <div class="botbar-right">
+    <div class="botbar-socials" id="bot-socials"></div>
+    <a class="dev-sig" href="https://github.com/Du11a" target="_blank">dev<span>:</span> du11a</a>
+  </div>
 </div>
 
-<!-- GALLERY -->
-<div class="page" id="page-gallery">
-  <nav class="nav nav-fixed">
-    <div class="nav-logo"><img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" /></div>
-    <div class="nav-links">
-      <a onclick="showPage('home')">Home</a>
-      <a onclick="showPage('about')">About</a>
-      <a onclick="showPage('booking')">Schedule</a>
-      <a class="active" onclick="showPage('gallery')">Gallery</a>
-    </div>
-    <button class="nav-cta" onclick="showPage('booking')">Book a class</button>
-  </nav>
-  <section class="section darker">
-    <div class="sec-label">Life at Triple B</div>
-    <div class="sec-title">On the court & beyond</div>
-    <div class="gallery-grid">
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07588-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07918-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07951-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg" loading="lazy" alt="" /></div>
-      <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC08026-scaled.jpg" loading="lazy" alt="" /></div>
-    </div>
-  </section>
-  <div id="footer-gallery"></div>
-</div>
+</div><!-- end #app -->
 
-<!-- FIREBASE SDK -->
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app = initializeApp({
+  apiKey:"AIzaSyBgzhkLyqn5NXsaHunBfvIhn-o49UJGI14",
+  authDomain:"triple-b-sg.firebaseapp.com",
+  databaseURL:"https://triple-b-sg-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"triple-b-sg",
+  storageBucket:"triple-b-sg.firebasestorage.app",
+  messagingSenderId:"42281196901",
+  appId:"1:42281196901:web:c6f6ea5cfcb50e4c90958c"
+});
+window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBgzhkLyqn5NXsaHunBfvIhn-o49UJGI14",
-  authDomain: "triple-b-sg.firebaseapp.com",
-  databaseURL: "https://triple-b-sg-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "triple-b-sg",
-  storageBucket: "triple-b-sg.firebasestorage.app",
-  messagingSenderId: "42281196901",
-  appId: "1:42281196901:web:c6f6ea5cfcb50e4c90958c"
-};
+  // ── ANNOUNCEMENTS ──
+  let allAnnouncements = [];
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+  function timeAgo(ts) {
+    const diff = Date.now() - ts;
+    const m = Math.floor(diff/60000);
+    const h = Math.floor(diff/3600000);
+    const d = Math.floor(diff/86400000);
+    if (m < 1) return 'just now';
+    if (m < 60) return m + 'm ago';
+    if (h < 24) return h + 'h ago';
+    if (d < 7) return d + 'd ago';
+    return new Date(ts).toLocaleDateString('en-SG',{day:'numeric',month:'short'});
+  }
 
-// expose to global scope
-window._firebasePush = (data) => push(ref(db, 'bookings'), data);
+  window.toggleEnroll = (idx) => {
+    const ed = document.getElementById(`enroll-drop-${idx}`);
+    const sd = document.getElementById(`share-drop-${idx}`);
+    sd.classList.remove('open');
+    ed.classList.toggle('open');
+  };
+  window.toggleShare = (idx) => {
+    const sd = document.getElementById(`share-drop-${idx}`);
+    const ed = document.getElementById(`enroll-drop-${idx}`);
+    ed.classList.remove('open');
+    sd.classList.toggle('open');
+  };
+  window.sendEnroll = (postIdx) => {
+    const name = document.getElementById(`enroll-name-${postIdx}`).value.trim();
+    const contact = document.getElementById(`enroll-contact-${postIdx}`).value.trim();
+    const note = document.getElementById(`enroll-msg-${postIdx}`).value.trim();
+    const ann = allAnnouncements[postIdx];
+    if (!name || !contact) { alert('Please fill in your name and contact number.'); return; }
+    let text = `Hi Coach Harry! I'd like to enroll.\n\nName: ${name}\nContact: ${contact}\nRe: ${ann?.title || 'Triple B class'}`;
+    if (note) text += `\n\nMessage: ${note}`;
+    window.open(`https://wa.me/6580724317?text=${encodeURIComponent(text)}`, '_blank');
+  };
+  window.shareToInstagram = () => {
+    window.open('https://www.instagram.com/triplebsg/', '_blank');
+  };
+  window.shareToFacebook = () => {
+    window.open('https://www.facebook.com/profile.php?id=61565358062831', '_blank');
+  };
+  window.copyLink = (idx) => {
+    const url = getPostUrl(idx);
+    navigator.clipboard.writeText(url);
+    alert('Link copied!');
+  };
+  function getPostUrl(idx) {
+    const base = window.location.href.split('#')[0];
+    return `${base}#ann-${idx}`;
+  }
+
+  // ── CLOSE ALL DROPDOWNS on outside click ──
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.ann-action-wrap')) {
+      document.querySelectorAll('.enroll-dropdown,.share-dropdown').forEach(d=>d.classList.remove('open'));
+    }
+  });
+
+  onValue(ref(getDatabase(app), 'announcements'), snap => {
+    const data = snap.val();
+    allAnnouncements = data
+      ? Object.values(data).sort((a,b) => (b.postedAt||0) - (a.postedAt||0))
+      : [];
+
+    // ── STRIP on home page ──
+    const strip = document.getElementById('ann-strip-cards');
+    if (strip) {
+      if (!allAnnouncements.length) {
+        strip.innerHTML = `<div class="ann-strip-loading">No announcements yet</div>`;
+      } else {
+        strip.innerHTML = allAnnouncements.slice(0,4).map(a => `
+          <div class="ann-strip-card" onclick="showPage('booking')">
+            ${a.photo ? `<img src="${a.photo}" alt="" />` : ''}
+            <span class="ann-strip-card-cat">${a.category||'Update'}</span>
+            <span class="ann-strip-card-title">${a.title||''}</span>
+          </div>`).join('');
+      }
+    }
+
+    // ── FB-STYLE FEED ──
+    const feed = document.getElementById('ann-feed');
+    if (!feed) return;
+    if (!allAnnouncements.length) {
+      feed.innerHTML = `<div class="ann-empty"><p>No announcements yet — check back soon! 🏀</p></div>`;
+      return;
+    }
+    feed.innerHTML = allAnnouncements.map((a, i) => `
+      <div class="ann-post" id="ann-${i}">
+        <div class="ann-post-header">
+          <img class="ann-post-avatar" src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B" />
+          <div class="ann-post-info">
+            <div class="ann-post-name">Basketball Beyond Borders</div>
+            <div class="ann-post-meta">
+              <span>${timeAgo(a.postedAt||Date.now())}</span>
+              <span>·</span>
+              <span class="ann-post-cat">${a.category||'General'}</span>
+            </div>
+          </div>
+        </div>
+        ${a.body ? `<div class="ann-post-caption">${a.body}</div>` : ''}
+        ${a.photo ? `<img class="ann-post-photo" src="${a.photo}" alt="${a.title||''}" onerror="this.style.display='none'" />` : ''}
+        <div class="ann-post-actions">
+          <div class="ann-action-wrap">
+            <button class="ann-action-btn enroll-btn" onclick="toggleEnroll(${i})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              Enroll
+            </button>
+            <div class="enroll-dropdown" id="enroll-drop-${i}" onclick="event.stopPropagation()">
+              <div class="enroll-dropdown-title">Enroll for: ${a.title || 'this class'}</div>
+              <input type="text" id="enroll-name-${i}" placeholder="Your name *" />
+              <input type="tel" id="enroll-contact-${i}" placeholder="Contact number *" />
+              <textarea id="enroll-msg-${i}" placeholder="Questions or notes? (optional)" rows="2" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.55rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;resize:vertical;display:block;"></textarea>
+              <button class="enroll-submit" onclick="sendEnroll(${i})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Send to Coach Harry
+              </button>
+            </div>
+          </div>
+          <div class="ann-action-wrap">
+            <button class="ann-action-btn" onclick="toggleShare(${i})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              Share
+            </button>
+            <div class="share-dropdown" id="share-drop-${i}" onclick="event.stopPropagation()">
+              <button class="share-option" onclick="shareToFacebook()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                Visit Facebook
+              </button>
+              <button class="share-option" onclick="shareToInstagram()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                Visit Instagram
+              </button>
+              <button class="share-option" onclick="copyLink(${i})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Copy link
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+
+    // ── DEEP LINK: if URL has #ann-X, jump to announcements page + scroll to post ──
+    handleDeepLink();
+  });
+
+  function handleDeepLink() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#ann-')) {
+      if (typeof showPage === 'function') showPage('booking');
+      setTimeout(() => {
+        const el = document.getElementById(hash.slice(1));
+        if (el) {
+          el.scrollIntoView({ behavior:'smooth', block:'center' });
+          el.style.outline = '2px solid #22923F';
+          el.style.outlineOffset = '2px';
+          setTimeout(() => { el.style.outline = 'none'; }, 2500);
+        }
+      }, 150);
+    }
+  }
+  window.addEventListener('hashchange', handleDeepLink);
 </script>
 
 <script>
 // ── ICONS ──
-const icons = {
-  person:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-  group:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-  sun:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
-  globe:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-  trophy:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 5h12v6a6 6 0 0 1-12 0V5z"/></svg>`,
-  arrow:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
-  check:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`,
-  ig:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
-  fb:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
-  wa:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
+const I = {
+  person:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  group:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  sun:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+  globe:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  trophy:`<svg viewBox="0 0 24 24" fill="none" stroke="#22923F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 5h12v6a6 6 0 0 1-12 0V5z"/></svg>`,
+  chk:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  ig:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+  fb:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+  wa:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
 };
 
-// ── PROGRAMS ──
-const programs = [
-  {icon:'person',name:'1-on-1 tailored training',desc:'Personalized sessions targeting your specific weaknesses and goals.'},
-  {icon:'group',name:'Group skills training',desc:'Train alongside peers. Learn teamwork, communication, and competitive instincts.'},
-  {icon:'sun',name:'Holiday camps',desc:'Intensive multi-day camps during school breaks. High energy, high reps.'},
-  {icon:'globe',name:'Overseas trips & tournaments',desc:'International exposure — compete, grow, and see the world.'},
-  {icon:'trophy',name:'Competitive teams',desc:'U10, U12, U16, and U18 squads for athletes ready to compete at the highest level.'},
+// ── SOCIAL ICONS ──
+const socials = [
+  {href:'https://www.instagram.com/triplebsg/',icon:'ig'},
+  {href:'https://www.facebook.com/profile.php?id=61565358062831',icon:'fb'},
+  {href:'https://wa.me/6586009246',icon:'wa'},
 ];
-const pgrid = document.getElementById('programs-grid');
-programs.forEach(p => {
-  const c = document.createElement('div'); c.className='prog-card';
-  c.innerHTML=`<div class="prog-icon">${icons[p.icon]}</div><div class="prog-name">${p.name}</div><div class="prog-desc">${p.desc}</div><div class="prog-link">${icons.arrow} Learn more</div>`;
-  pgrid.appendChild(c);
+const botSoc = document.getElementById('bot-socials');
+socials.forEach(s=>{
+  const a=document.createElement('a');
+  a.className='soc-btn'; a.href=s.href; a.target='_blank';
+  a.innerHTML=I[s.icon]; botSoc.appendChild(a);
 });
-const talk = document.createElement('div'); talk.className='talk-card';
-talk.innerHTML=`<p>Not sure which program fits you?</p><button class="btn-primary" style="font-size:13px;padding:0.6rem 1.4rem;" onclick="showPage('booking')">Talk to a coach</button>`;
-pgrid.appendChild(talk);
 
-// ── CLASSES ──
-const classes = [
-  {icon:'group',name:'Group Skills Training',time:'Mon & Wed · 4:00 PM or 6:00 PM',tags:['All levels','Open']},
-  {icon:'person',name:'1-on-1 Tailored Training',time:'By appointment',tags:['Personal','Open']},
-  {icon:'trophy',name:'U10 Competitive Team',time:'Sat · 9:00 AM',tags:['Under 10','Open']},
-  {icon:'trophy',name:'U12 Competitive Team',time:'Sat · 10:30 AM',tags:['Under 12','Open']},
-  {icon:'sun',name:'Holiday Hoops Camp',time:'School holidays · Full day/2hrs',tags:['Seasonal','Upcoming']},
-  {icon:'globe',name:'Overseas Trip / Tournament',time:'TBA',tags:['International','Interest only']},
+// ── PROGRAMS PHOTO CARDS ──
+const programs = [
+  {tag:'Group training', name:'Group Skills Training', desc:'All levels welcome', img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg', onclick:''},
+  {tag:'Personal',       name:'1-on-1 Training',       desc:'By appointment',    img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg', onclick:''},
+  {tag:'School holidays',name:'Holiday Hoops Camp',    desc:'Full day & 2hr camps',img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg', onclick:''},
+  {tag:'Competitive',    name:'U10 & U12 Teams',       desc:'Sat mornings',      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg', onclick:''},
+  {tag:'International',  name:'Overseas Trips',        desc:'Tournaments abroad', img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg', onclick:''},
+  {tag:'Talk to us',     name:'Not sure?',             desc:'Ask a coach',       img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg', onclick:"showPage('booking')"},
 ];
-const cgrid = document.getElementById('class-grid');
-let selClass='', selTime='';
-classes.forEach(cl => {
-  const c = document.createElement('div'); c.className='class-card';
-  c.innerHTML=`<div class="check">${icons.check}</div><div class="class-icon">${icons[cl.icon]}</div><div class="class-name">${cl.name}</div><div class="class-time">${cl.time}</div><div class="class-tags">${cl.tags.map((t,i)=>`<span class="ctag${i===1?' green':''}">${t}</span>`).join('')}</div>`;
+const strip = document.getElementById('prog-strip');
+programs.forEach(p=>{
+  const d=document.createElement('div'); d.className='prog-card-photo';
+  d.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy"/><div class="prog-card-overlay"><div class="prog-card-tag">${p.tag}</div><div class="prog-card-name">${p.name}</div><div class="prog-card-desc">${p.desc}</div></div>`;
+  if(p.onclick) d.setAttribute('onclick', p.onclick);
+  else d.addEventListener('click', ()=>showPage('booking'));
+  strip.appendChild(d);
+});
+
+// ── SCHEDULE CARDS ──
+const schedClasses = [
+  {name:'Group Skills Training',    time:'Mon & Wed · 4:00 PM or 6:00 PM', img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg'},
+  {name:'1-on-1 Tailored Training', time:'By appointment',                  img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg'},
+  {name:'U10 & U12 Competitive',    time:'Saturday mornings',               img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg'},
+  {name:'Holiday Hoops Camp',       time:'School holidays',                  img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg'},
+  {name:'Overseas Trips',           time:'TBA — stay tuned',                 img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg'},
+];
+const schedGrid = document.getElementById('schedule-cards');
+if (schedGrid) {
+  schedClasses.forEach(cl=>{
+    const d=document.createElement('div'); d.className='sched-card';
+    d.innerHTML=`<div class="sched-card-bg"><img src="${cl.img}" alt="${cl.name}" loading="lazy"/></div><div class="sched-card-overlay"></div><div class="sched-card-content"><div class="sched-card-name">${cl.name}</div><div class="sched-card-time">${cl.time}</div></div>`;
+    schedGrid.appendChild(d);
+  });
+}
+const classes=[
+  {name:'Group Skills Training', time:'Mon & Wed · 4:00 PM or 6:00 PM', tags:['All levels','Open'],    img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg'},
+  {name:'1-on-1 Tailored Training', time:'By appointment',               tags:['Personal','Open'],      img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg'},
+  {name:'U10 Competitive Team',     time:'Sat · 9:00 AM',                tags:['Under 10','Open'],      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg'},
+  {name:'U12 Competitive Team',     time:'Sat · 10:30 AM',               tags:['Under 12','Open'],      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg'},
+  {name:'Holiday Hoops Camp',       time:'School holidays · Full day/2hrs',tags:['Seasonal','Upcoming'],img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg'},
+  {name:'Overseas Trip / Tournament',time:'TBA',                          tags:['International','Interest only'],img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg'},
+];
+const cgrid=document.getElementById('class-grid');
+let selClass='',selTime='';
+classes.forEach(cl=>{
+  const c=document.createElement('div'); c.className='class-card';
+  c.innerHTML=`
+    <div class="class-card-bg"><img src="${cl.img}" alt="${cl.name}" loading="lazy"/></div>
+    <div class="class-card-overlay"></div>
+    <div class="chk">${I.chk}</div>
+    <div class="class-card-content">
+      <div class="class-name">${cl.name}</div>
+      <div class="class-time">${cl.time}</div>
+      <div>${cl.tags.map((t,i)=>`<span class="ctag${i===1?' green':''}">${t}</span>`).join('')}</div>
+    </div>`;
   c.addEventListener('click',()=>{
     document.querySelectorAll('.class-card').forEach(x=>x.classList.remove('selected'));
     c.classList.add('selected'); selClass=cl.name; selTime=cl.time;
@@ -519,57 +826,19 @@ classes.forEach(cl => {
   cgrid.appendChild(c);
 });
 
-// ── FOOTER ──
-function buildFooter(id) {
-  document.getElementById(id).innerHTML=`
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B"/>
-        <p>Breaking barriers and building champions through basketball. Based in Yishun, Singapore.</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <div class="footer-col-title">Navigate</div>
-          <a onclick="showPage('home')">Home</a>
-          <a onclick="showPage('about')">About</a>
-          <a onclick="showPage('booking')">Schedule</a>
-          <a onclick="showPage('gallery')">Gallery</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Contact</div>
-          <a href="mailto:info@triplebsg.com">info@triplebsg.com</a>
-          <a href="tel:+6586009246">(+65) 860 09246</a>
-          <a>XCL World Academy, Yishun</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Follow us</div>
-          <div class="footer-social">
-            <a class="social-btn" href="https://www.instagram.com/triplebsg/" target="_blank">${icons.ig}</a>
-            <a class="social-btn" href="https://www.facebook.com/profile.php?id=61565358062831" target="_blank">${icons.fb}</a>
-            <a class="social-btn" href="https://wa.me/6586009246" target="_blank">${icons.wa}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 Basketball Beyond Borders Pte Ltd. All rights reserved.</div>
-      <div class="footer-legal"><a href="#">Terms & Conditions</a><a href="#">Refund Policy</a></div>
-    </div>
-  </footer>`;
-}
-['footer-home','footer-about','footer-booking','footer-gallery'].forEach(buildFooter);
-
 // ── PAGE NAV ──
-function showPage(name) {
+function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
-  window.scrollTo(0,0);
+  document.querySelectorAll('.topnav-links a').forEach(a=>a.classList.remove('active'));
+  const map={home:0,about:1,booking:2,gallery:3};
+  document.querySelectorAll('.topnav-links a')[map[name]]?.classList.add('active');
+  document.querySelector('.content').scrollTop=0;
 }
-window.showPage = showPage;
+window.showPage=showPage;
 
-// ── BOOKING STEPS ──
-function goStep(n) {
+// ── BOOKING ──
+function goStep(n){
   document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+n).classList.add('active');
   for(let i=1;i<=3;i++){
@@ -590,75 +859,38 @@ function goStep(n) {
     document.getElementById('consent-check').checked=false;
     document.getElementById('btn-submit').disabled=true;
   }
-  window.scrollTo(0,0);
 }
-window.goStep = goStep;
+window.goStep=goStep;
 
-// ── SUBMIT TO FIREBASE ──
-async function submitBooking() {
-  const btn = document.getElementById('btn-submit');
+async function submitBooking(){
+  const btn=document.getElementById('btn-submit');
   btn.disabled=true; btn.textContent='Submitting...';
-  const data = {
-    className: selClass,
-    classTime: selTime,
-    playerName: document.getElementById('f-name').value,
-    dob: document.getElementById('f-dob').value,
-    parentName: document.getElementById('f-parent').value,
-    contact: document.getElementById('f-phone').value,
-    email: document.getElementById('f-email').value,
-    level: document.getElementById('f-level').value,
-    notes: document.getElementById('f-notes').value,
-    status: 'pending',
-    submittedAt: Date.now(),
-  };
-  try {
-    // wait for Firebase module to be ready
-    let attempts = 0;
-    while (!window._firebasePush && attempts < 20) {
-      await new Promise(r => setTimeout(r, 100));
-      attempts++;
-    }
-    if (window._firebasePush) {
-      await window._firebasePush(data);
-    }
-  } catch(e) {
-    console.error('Firebase error:', e);
-  }
-  // show success regardless (graceful fallback)
+  const data={className:selClass,classTime:selTime,playerName:document.getElementById('f-name').value,dob:document.getElementById('f-dob').value,parentName:document.getElementById('f-parent').value,contact:document.getElementById('f-phone').value,email:document.getElementById('f-email').value,level:document.getElementById('f-level').value,notes:document.getElementById('f-notes').value,status:'pending',submittedAt:Date.now()};
+  try{
+    let a=0;
+    while(!window._fbPush&&a<20){await new Promise(r=>setTimeout(r,100));a++;}
+    if(window._fbPush) await window._fbPush(data);
+  }catch(e){console.error(e);}
   document.getElementById('bk-header').style.display='none';
   document.getElementById('bk-steps').style.display='none';
   document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('success').classList.add('show');
   document.getElementById('success-class').textContent=selClass;
 }
-window.submitBooking = submitBooking;
+window.submitBooking=submitBooking;
 
-function resetBooking() {
+function resetBooking(){
   document.getElementById('bk-header').style.display='';
   document.getElementById('bk-steps').style.display='';
   document.getElementById('success').classList.remove('show');
   document.querySelectorAll('.class-card').forEach(c=>c.classList.remove('selected'));
-  selClass=''; selTime='';
+  selClass='';selTime='';
   document.getElementById('btn-next-1').disabled=true;
   ['f-name','f-dob','f-parent','f-phone','f-email','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-level').value='';
   goStep(1);
 }
-window.resetBooking = resetBooking;
-
-// ── SLIDESHOW ──
-const slides=document.querySelectorAll('.slide');
-const dotsEl=document.getElementById('dots');
-const pb=document.getElementById('progressBar');
-const DUR=5000; let cur=0,timer;
-slides.forEach((_,i)=>{
-  const d=document.createElement('button'); d.className='dot-btn'+(i===0?' active':'');
-  d.setAttribute('aria-label','Slide '+(i+1));
-  d.addEventListener('click',()=>goTo(i)); dotsEl.appendChild(d);
-});
-function startProg(){pb.style.transition='none';pb.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{pb.style.transition=`width ${DUR}ms linear`;pb.style.width='100%';}));}
-function goTo(n){slides[cur].classList.remove('active');cur=(n+slides.length)%slides.length;slides[cur].classList.add('active');document.querySelectorAll('.dot-btn').forEach((d,i)=>d.classList.toggle('active',i===cur));clearInterval(timer);startProg();timer=setInterval(()=>goTo(cur+1),DUR);}
-startProg(); timer=setInterval(()=>goTo(cur+1),DUR);
+window.resetBooking=resetBooking;
 </script>
 </body>
 </html>
