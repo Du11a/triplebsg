@@ -84,6 +84,10 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--g:#1B7A3E;--g2:#22923F;--gdim:rgba(27,122,62,0.12);--gbor:rgba(27,122,62,0.25);}
 body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#fff;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px;}
+*{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;}
 
 /* ── LAYOUT SHELL ── */
 #app{display:flex;flex-direction:column;height:100vh;}
@@ -120,6 +124,29 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#ff
 
 /* ── HOME ── */
 .hero{position:relative;width:100%;height:calc(100vh - 70px - 42px);overflow:hidden;}
+#program-hero.compact-hero{width:400px;flex-shrink:0;height:auto;min-height:100%;overflow-y:auto;background:#0a0a0a;scrollbar-width:none;}
+#program-hero.compact-hero::-webkit-scrollbar{display:none;}
+#program-hero.compact-hero .hero-collage,
+#program-hero.compact-hero .hero-collage-overlay,
+#program-hero.compact-hero .program-dots{display:none;}
+#program-detail-split{min-height:calc(100vh - 70px - 42px)!important;max-height:calc(100vh - 70px - 42px);}
+#program-hero:not(.compact-hero){width:100%;flex-shrink:0;}
+#program-hero:not(.compact-hero) .hero-content{display:grid;grid-template-columns:minmax(0,580px) 300px;gap:2rem;align-items:center;height:100%;justify-content:unset;padding:1.5rem 2rem;max-width:none;overflow:hidden;}
+#program-hero:not(.compact-hero) .hero-content > .back-to-programs-btn,
+#program-hero:not(.compact-hero) .hero-content > .eyebrow,
+#program-hero:not(.compact-hero) .hero-content > .hero-title,
+#program-hero:not(.compact-hero) .hero-content > .hero-sub,
+#program-hero:not(.compact-hero) .hero-content > #program-schedule,
+#program-hero:not(.compact-hero) .hero-content > #program-contact-only,
+#program-hero:not(.compact-hero) .hero-content > #program-book-toggle,
+#program-hero:not(.compact-hero) .hero-content > .enroll-dropdown,
+#program-hero:not(.compact-hero) .hero-content > .program-dots{grid-column:1;}
+#program-hero:not(.compact-hero) .hero-content > #program-announce-only{grid-column:2;grid-row:1/8;position:static!important;margin-top:0!important;max-width:none!important;align-self:start;}
+#program-hero:not(.compact-hero) .hero-content > #program-contact-only,
+#program-hero:not(.compact-hero) .hero-content > .enroll-dropdown{position:static!important;max-width:340px!important;}
+#program-hero .hero-content{justify-content:flex-start;height:auto;min-height:100%;padding-top:5rem;padding-bottom:3rem;overflow-y:visible;}
+#program-hero{overflow-y:auto;}
+#program-hero.compact-hero .hero-content{padding:2.5rem 2rem;height:auto;justify-content:flex-start;max-width:none;}
 .hero-collage{position:absolute;inset:0;}
 .hero-collage-tile{position:absolute;overflow:hidden;background:#0a0a0a;}
 .hero-collage-tile img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(0.6);animation:tilePulse 20s ease-in-out infinite;}
@@ -208,7 +235,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#ff
 .step-div{flex:1;height:1px;background:rgba(255,255,255,0.07);margin:0 10px;}
 .step-panel{display:none;}
 .step-panel.active{display:block;}
-.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;}
+
 .class-card{position:relative;height:220px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s,transform 0.2s;}
 .class-card:hover{transform:translateY(-2px);border-color:var(--gbor);}
 .class-card.selected{border-color:var(--g2);}
@@ -259,10 +286,17 @@ select.form-input option{background:#1a1a1a;}
 /* ── GALLERY ── */
 .gallery-wrap{height:calc(100vh - 70px - 42px);overflow-y:auto;padding:1.5rem 2rem;}
 .gallery-header{margin-bottom:1.25rem;}
+.back-to-programs-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;border:none;color:rgba(255,255,255,0.55);font-size:13px;cursor:pointer;padding:0.4rem 0;margin-bottom:1rem;font-family:inherit;transition:color 0.2s;}
+.back-to-programs-btn:hover{color:#fff;}
 .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;border-radius:10px;overflow:hidden;}
 .gal-img{aspect-ratio:4/3;overflow:hidden;}
 .gal-img img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.4s;display:block;}
 .gal-img:hover img{transform:scale(1.05);}
+
+/* ── PROGRAM DETAIL SLIDESHOW ── */
+.program-dots{display:flex;gap:8px;margin-top:0.85rem;}
+.program-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);transition:background 0.2s;}
+.program-dot.active{background:var(--g2);}
 
 /* ── PROGRAMS PHOTO CARDS ── */
 .prog-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:0;background:#0a0a0a;border-top:0.5px solid rgba(255,255,255,0.07);height:220px;}
@@ -343,20 +377,87 @@ select.form-input option{background:#1a1a1a;}
 .share-option:hover{background:rgba(255,255,255,0.06);color:#fff;}
 
 
+/* ── TABLET / MID-WIDTH ── */
+@media(max-width:1100px){
+  #program-detail-split{flex-direction:column;}
+  #program-hero.compact-hero{width:100%;height:auto;min-height:420px;}
+  .about-page{grid-template-columns:1fr;height:auto;}
+  .coach-panel{grid-template-columns:180px 1fr;}
+}
+
+/* ── MOBILE ── */
 @media(max-width:768px){
-  body{overflow:auto;}
-  #app{height:auto;}
+  body{overflow:auto;height:auto;}
+  #app{height:auto;min-height:100vh;}
   .content{overflow:visible;}
-  .hero{height:130vw;min-height:480px;}
+  .botbar{height:42px;padding:0 0.75rem;gap:0.4rem;}
+  .botbar-left{gap:0.6rem;}
+  .botbar-copy{display:none;}
+  .botbar-links{gap:0.6rem;}
+  .botbar-links a{font-size:9.5px;}
+  .botbar-right{gap:0.5rem;}
+  .dev-sig{display:none;}
+  .topnav{padding:0.5rem 1rem;}
+
+  /* Hero */
+  .hero{height:auto;min-height:520px;padding-bottom:2rem;overflow:visible;}
+  .hero-content{padding:5rem 1.25rem 1.5rem;max-width:100%;}
+  .hero-title{font-size:21px;line-height:1.25;}
+  .hero-sub{font-size:14px;max-width:100%;}
+  .hero-actions{flex-wrap:wrap;}
+  .hero-stats{position:static;margin-top:1.5rem;padding:0 1.25rem;flex-wrap:wrap;gap:1.25rem;}
+  .slide-controls{bottom:1rem;right:1rem;}
   .hero-collage-tile:nth-child(1){left:0;width:34%;}
   .hero-collage-tile:nth-child(2){left:24%;width:32%;}
   .hero-collage-tile:nth-child(3){left:48%;width:34%;}
   .hero-collage-tile:nth-child(4),.hero-collage-tile:nth-child(5){display:none;}
-  .about-wrap{grid-template-columns:1fr;height:auto;}
-  .gallery-wrap{height:auto;}
-  .hero-title{font-size:38px;}
+
+  /* Nav */
   .topnav-links{display:none;}
-  .prog-strip{grid-template-columns:repeat(3,1fr);height:300px;}
+
+  /* About */
+  .about-page{grid-template-columns:1fr;height:auto;}
+  .about-left{padding:1.5rem 1.25rem;border-right:none;border-bottom:0.5px solid rgba(255,255,255,0.07);}
+  .about-right{overflow:visible;}
+  .mv-cards{gap:0.85rem;}
+  .coach-panel{grid-template-columns:1fr;}
+  .coach-panel-photo{height:200px;}
+  .coach-panel-info{padding:1.25rem;}
+  .coaches-portrait-grid{grid-template-columns:1fr;}
+
+  /* Programs / booking */
+  .booking-wrap{height:auto;padding:1.25rem;}
+  .prog-strip{grid-template-columns:repeat(3,1fr);height:auto;}
+  .prog-card-photo{height:130px;}
+  .form-grid{grid-template-columns:1fr;}
+  #program-detail-split{flex-direction:column;min-height:auto;}
+  #program-hero.compact-hero{width:100%;height:auto;min-height:0;flex-shrink:0;background:#0a0a0a;}
+  #program-hero.compact-hero .hero-collage,
+  #program-hero.compact-hero .hero-collage-overlay{display:none;}
+  #program-hero.compact-hero .hero-content{padding:4.5rem 1.25rem 1rem;}
+  #program-hero.compact-hero .eyebrow{font-size:9px;letter-spacing:0.1em;margin-bottom:0.4rem;}
+  #program-hero.compact-hero .hero-title{font-size:19px;line-height:1.2;margin-bottom:0.5rem;}
+  #program-hero.compact-hero .hero-sub{font-size:12px;line-height:1.45;margin-bottom:0.75rem;}
+  #program-hero.compact-hero .program-dots{display:none;}
+  #program-hero.compact-hero .enroll-dropdown{max-width:100%!important;}
+  .bbb-new-style{max-width:100%!important;}
+  .bbb-new-style .bbb-headline{font-size:22px!important;line-height:1.12!important;}
+  .bbb-new-style .bbb-headline[style]{font-size:18px!important;}
+  .bbb-new-style .bbb-list li{font-size:12px!important;}
+  .bbb-new-style .bbb-foot,.bbb-new-style .bbb-body,.bbb-new-style .bbb-sub{font-size:12px!important;}
+  .bbb-new-style .bbb-cta{font-size:18px!important;}
+  .age-group-grid{display:flex!important;grid-template-columns:none!important;overflow-x:auto;gap:0.85rem!important;padding-bottom:0.25rem;-webkit-overflow-scrolling:touch;}
+  .age-group-grid > div{flex:0 0 62vw;}
+  .age-group-grid > div > div:first-child{aspect-ratio:auto!important;height:38vw!important;}
+  #age-group-sections > div{padding:1.25rem 1.25rem!important;}
+  #age-group-sections{overflow-y:visible!important;flex:none!important;}
+  #age-group-sections .eyebrow{font-size:10px;}
+  #age-group-sections h3{font-size:14px!important;}
+  #age-group-sections p{font-size:11.5px!important;}
+
+  /* Gallery */
+  .gallery-wrap{height:auto;padding:1rem 1.25rem;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
 
   /* Announcements mobile */
   .announcements-wrap{height:auto;}
@@ -377,6 +478,72 @@ select.form-input option{background:#1a1a1a;}
   .ann-strip-card{min-width:140px;border-right:none;border-bottom:0.5px solid rgba(255,255,255,0.07);}
   .ann-strip-more{width:100%;height:auto;padding:0.5rem;border-left:none;border-top:0.5px solid rgba(255,255,255,0.07);}
 }
+
+@media(max-width:480px){
+  .prog-strip{grid-template-columns:repeat(2,1fr);}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-title{font-size:19px;}
+}
+
+/* ── NEW 1-on-1 DESCRIPTION STYLE ── */
+/* palitan #FF4D00 kung gusto mo orange tulad nung inspo */
+
+/* ── CLEAN FIX: Description style + booking not clipped ── */
+.bbb-list li{color:rgba(255,255,255,0.85);font-size:13.5px;font-weight:500;display:flex;gap:8px;line-height:1.3}
+/* Fix booking form clipping - keep original position but make scrollable */
+
+
+
+
+
+
+
+
+
+/* Minimal BBB styles - no layout changes */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700;800&display=swap');
+.bbb-new-style{max-width:520px}
+.bbb-headline{font-family:'Oswald',system-ui,sans-serif;font-weight:800;font-size:clamp(22px,7vw,44px);line-height:1.05;text-transform:uppercase;margin:0 0 10px}
+.bbb-headline .bbb-white{color:#fff;display:block}
+.bbb-headline .bbb-accent{color:#22923F;display:inline}
+.bbb-list{list-style:none;padding:0;margin:0 0 10px;display:flex;flex-direction:column;gap:6px}
+.bbb-list li{color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;display:flex;gap:8px}
+.bbb-diamond{color:#22923F}
+.bbb-foot{color:rgba(255,255,255,0.5);font-size:12px;margin-top:4px}
+.bbb-sub{color:#e8edf3;font-size:13px;font-weight:600;margin-bottom:6px}
+.bbb-body{color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;margin-bottom:10px}
+.bbb-cta{font-family:'Oswald',system-ui,sans-serif;font-weight:800;font-size:24px;line-height:0.95;text-transform:uppercase;color:#e2e8f0;margin-top:8px}
+/* Original layout fix - just allow scrolling so booking is visible, don't change side-by-side */
+#page-program-detail{overflow-y:auto !important;}
+@media(min-width:1101px){
+  #page-program-detail{overflow:hidden!important;height:calc(100vh - 70px - 42px);}
+  #program-detail-split{overflow:hidden;}
+  #program-hero:not(.compact-hero){overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
+  #program-hero:not(.compact-hero)::-webkit-scrollbar{display:none;}
+  #program-hero.compact-hero{overflow-y:auto;}
+  #age-group-sections{overflow-y:hidden;}
+  #program-hero:not(.compact-hero) .eyebrow{font-size:13px;margin-bottom:1rem;}
+  #program-hero:not(.compact-hero) .hero-title{font-size:48px;margin-bottom:1.1rem;}
+  #program-hero:not(.compact-hero) .hero-sub{font-size:16px;line-height:1.55;margin-bottom:1.25rem;max-width:100%!important;}
+  #program-hero:not(.compact-hero) #program-schedule{font-size:15px!important;margin-bottom:1rem!important;}
+  #program-hero:not(.compact-hero) .back-to-programs-btn{margin-bottom:1rem;padding:0.1rem 0;}
+  #program-hero:not(.compact-hero) .bbb-new-style{max-width:100%;}
+  #program-hero:not(.compact-hero) .bbb-headline{font-size:27px!important;line-height:1.15!important;margin-bottom:10px!important;}
+  #program-hero:not(.compact-hero) .bbb-list{margin-bottom:10px!important;gap:7px!important;}
+  #program-hero:not(.compact-hero) .bbb-list li{font-size:15.5px!important;gap:9px!important;}
+  #program-hero:not(.compact-hero) .bbb-foot,
+  #program-hero:not(.compact-hero) .bbb-sub,
+  #program-hero:not(.compact-hero) .bbb-body{font-size:15px!important;line-height:1.55!important;margin-bottom:10px!important;}
+  #program-hero:not(.compact-hero) .bbb-new-style > div{margin:16px 0!important;}
+  #program-hero:not(.compact-hero) .program-dots{margin-top:1rem!important;}
+  #program-hero:not(.compact-hero) .enroll-dropdown-title{font-size:15px;margin-bottom:0.85rem;}
+  #program-hero:not(.compact-hero) .enroll-dropdown input,
+  #program-hero:not(.compact-hero) .enroll-dropdown select,
+  #program-hero:not(.compact-hero) .enroll-dropdown textarea{padding:0.65rem 0.85rem;font-size:14px;margin-bottom:10px;}
+  #program-hero:not(.compact-hero) .enroll-submit{padding:0.7rem;font-size:14px;}
+}
+#program-detail-split .hero-content{padding-bottom:1.5rem;}
+
 </style>
 </head>
 <body>
@@ -388,6 +555,7 @@ select.form-input option{background:#1a1a1a;}
   <div class="topnav-links">
     <a class="active" onclick="showPage('home')">Home</a>
     <a onclick="showPage('about')">About</a>
+    <a onclick="showPage('programs')">Programs</a>
     <a onclick="showPage('booking')">Announcements</a>
     <a onclick="showPage('gallery')">Gallery</a>
   </div>
@@ -402,14 +570,14 @@ select.form-input option{background:#1a1a1a;}
     <section class="hero">
       <div class="hero-collage">
         <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg" alt="" /></div>
-        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2025/08/DSC08063-scaled.jpg" alt="" /></div>
         <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg" alt="" /></div>
         <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" alt="" /></div>
         <div class="hero-collage-tile"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" alt="" /></div>
       </div>
       <div class="hero-collage-overlay"></div>
       <div class="hero-content">
-        <div class="eyebrow">Singapore Basketball Academy</div>
+        <div class="eyebrow">Basketball Beyond Borders A.K.A Triple-B Ltd.</div>
         <h1 class="hero-title">Break barriers.<br>Build <em>champions.</em></h1>
         <p class="hero-sub">Basketball is a universal language. At Triple B, we develop skills, character, and community — for every age, background, and level.</p>
         <div class="hero-actions">
@@ -420,7 +588,7 @@ select.form-input option{background:#1a1a1a;}
       <div class="hero-stats">
         <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Programs</div></div>
         <div class="stat"><div class="stat-num">U10–U18</div><div class="stat-label">Age groups</div></div>
-        <div class="stat"><div class="stat-num">SG</div><div class="stat-label">Yishun, Singapore</div></div>
+        <div class="stat"><div class="stat-num">SG</div><div class="stat-label">XCL World Academy, 2 Yishun St. 42, Singapore 768052</div></div>
       </div>
     </section>
 
@@ -461,23 +629,6 @@ select.form-input option{background:#1a1a1a;}
       <div class="about-right">
         <div class="coaches-panels">
           <div class="coach-panel">
-            <a class="coach-panel-photo" href="https://www.instagram.com/coachjcsg/" target="_blank" rel="noopener">
-              <img src="https://triplebsg.com/wp-content/uploads/2024/09/image0-scaled.jpeg" alt="Coach JC" />
-            </a>
-            <div class="coach-panel-info">
-              <div class="cp-tag">Head coach & co-founder</div>
-              <div class="cp-name">Coach JC</div>
-              <div class="cp-role">Basketball Beyond Borders · Singapore</div>
-              <div class="cp-stats">
-                <div><div class="cp-stat-num">14+</div><div class="cp-stat-label">Years playing</div></div>
-                <div><div class="cp-stat-num">6+</div><div class="cp-stat-label">Years coaching</div></div>
-                <div><div class="cp-stat-num">US & PH</div><div class="cp-stat-label">Trained in</div></div>
-              </div>
-              <div class="cp-bio">With over 14 years of playing experience and 6 years of coaching — including training in the US & Philippines — Coach JC is known for his dynamic style. He instills resilience, discipline, and unity in every session.</div>
-              <div class="cp-ig">@coachjcsg</div>
-            </div>
-          </div>
-          <div class="coach-panel">
             <a class="coach-panel-photo" href="https://www.instagram.com/harryyoungfrancis/" target="_blank" rel="noopener">
               <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01-scaled.jpeg" alt="Coach Harry" />
             </a>
@@ -514,6 +665,74 @@ select.form-input option{background:#1a1a1a;}
   </div>
 
   <!-- GALLERY -->
+  <div class="page" id="page-programs">
+    <div class="gallery-wrap">
+      <div class="gallery-header">
+        <div class="page-label">All Programs</div>
+        <div class="page-title">Find your fit</div>
+      </div>
+      <div class="prog-strip" id="programs-overview-strip" style="height:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:transparent;border:none;"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-program-detail">
+    <div id="program-detail-split" style="display:flex; min-height:calc(100vh - 70px - 42px);">
+      <section class="hero" id="program-hero" style="flex-shrink:0;">
+        <div class="hero-collage" id="program-collage"></div>
+        <div class="hero-collage-overlay"></div>
+        <div class="hero-content">
+          <button class="back-to-programs-btn" onclick="showPage('programs')" style="color:rgba(255,255,255,0.6);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Programs
+          </button>
+          <div class="eyebrow" id="program-tag">Program</div>
+          <h1 class="hero-title" id="program-name">Program Name</h1>
+          <div class="hero-sub" id="program-blurb" style="max-width:520px;">Description goes here.</div>
+          <p style="color:var(--g2);font-size:13px;margin:0 0 1.25rem;font-weight:600;" id="program-schedule">Schedule</p>
+
+          <button class="enroll-toggle-btn" id="program-book-toggle" onclick="toggleProgramBookForm()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:340px;background:var(--g);color:#fff;border:none;border-radius:8px;padding:0.75rem 1rem;font-size:14px;font-weight:700;cursor:pointer;margin-top:0.5rem;font-family:inherit;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Book a Free Trial
+          </button>
+
+          <div id="program-book-backdrop" onclick="toggleProgramBookForm()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center;">
+            <div class="enroll-dropdown open" id="program-book-drop" onclick="event.stopPropagation()" style="position:relative;bottom:auto;left:auto;right:auto;margin:0;max-width:380px;width:90%;display:block;visibility:visible;opacity:1;max-height:85vh;overflow-y:auto;">
+              <button onclick="toggleProgramBookForm()" style="position:absolute;top:10px;right:10px;background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;padding:4px;line-height:0;" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <div class="enroll-dropdown-title" id="program-book-title">Book a free try out: Program</div>
+              <select id="program-book-agegroup" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.55rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;display:none;"></select>
+              <input type="text" id="program-book-player" placeholder="Player name *" />
+              <input type="text" id="program-book-parent" placeholder="Parent name *" />
+              <input type="tel" id="program-book-contact" placeholder="Contact number *" />
+              <textarea id="program-book-msg" placeholder="Questions or notes? (optional)" rows="2" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.55rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;resize:vertical;display:block;"></textarea>
+
+              <button class="enroll-submit" onclick="sendProgramBook()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Book a Free Trial
+              </button>
+            </div>
+          </div>
+
+          <div id="program-contact-only" style="display:none;max-width:340px;margin-top:1.25rem;background:rgba(34,146,63,0.1);border:0.5px solid rgba(34,146,63,0.3);border-radius:8px;padding:1rem 1.1rem;">
+            <p id="program-contact-schedule" style="color:var(--g2);font-size:12.5px;font-weight:600;margin:0 0 0.6rem;"></p>
+            <p style="color:rgba(255,255,255,0.75);font-size:13px;line-height:1.6;margin:0 0 0.75rem;">For 1-on-1 training, message Coach Harry directly on WhatsApp:</p>
+            <div style="display:flex;align-items:center;gap:8px;background:#111;border:0.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.6rem 0.8rem;">
+              <span id="coach-harry-number" style="color:#fff;font-size:14px;font-family:monospace;flex:1;">+65 8072 4317</span>
+              <button onclick="copyCoachHarryNumber()" style="background:var(--g);color:#fff;border:none;border-radius:5px;padding:0.4rem 0.75rem;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;" id="copy-number-btn">Copy</button>
+            </div>
+          </div>
+
+          <div id="program-announce-only" style="display:none;"></div>
+
+          <div class="program-dots" id="program-dots" style="margin-top:1.5rem;"></div>
+        </div>
+      </section>
+
+      <div id="age-group-sections" style="display:none; flex:1; overflow-y:hidden;"></div>
+    </div>
+  </div>
+
   <div class="page" id="page-gallery">
     <div class="gallery-wrap">
       <div class="gallery-header">
@@ -528,7 +747,7 @@ select.form-input option{background:#1a1a1a;}
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg" loading="lazy" alt="" /></div>
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg" loading="lazy" alt="" /></div>
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07918-scaled.jpg" loading="lazy" alt="" /></div>
-        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg" loading="lazy" alt="" /></div>
+        <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2025/08/DSC08063-scaled.jpg" loading="lazy" alt="" /></div>
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg" loading="lazy" alt="" /></div>
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07951-scaled.jpg" loading="lazy" alt="" /></div>
         <div class="gal-img"><img src="https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg" loading="lazy" alt="" /></div>
@@ -681,6 +900,10 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
               Enroll
             </button>
             <div class="enroll-dropdown" id="enroll-drop-${i}" onclick="event.stopPropagation()">
+              <div style="display:flex;align-items:center;gap:8px;background:#111;border:0.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.5rem 0.7rem;margin-bottom:0.85rem;">
+                <span style="color:#fff;font-size:12.5px;font-family:monospace;flex:1;">+65 8072 4317</span>
+                <button onclick="copyCoachHarryNumber()" style="background:var(--g);color:#fff;border:none;border-radius:5px;padding:0.3rem 0.6rem;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;" id="copy-number-btn">Copy</button>
+              </div>
               <div class="enroll-dropdown-title">Enroll for: ${a.title || 'this class'}</div>
               <input type="text" id="enroll-name-${i}" placeholder="Your name *" />
               <input type="tel" id="enroll-contact-${i}" placeholder="Contact number *" />
@@ -765,13 +988,369 @@ socials.forEach(s=>{
 
 // ── PROGRAMS PHOTO CARDS ──
 const programs = [
-  {tag:'Group training', name:'Group Skills Training', desc:'All levels welcome', img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg', onclick:''},
-  {tag:'Personal',       name:'1-on-1 Training',       desc:'By appointment',    img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg', onclick:''},
-  {tag:'School holidays',name:'Holiday Hoops Camp',    desc:'Full day & 2hr camps',img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg', onclick:''},
-  {tag:'Competitive',    name:'U10 & U12 Teams',       desc:'Sat mornings',      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg', onclick:''},
-  {tag:'International',  name:'Overseas Trips',        desc:'Tournaments abroad', img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg', onclick:''},
+  {tag:'Group training', name:'Group Skills Training', desc:'All levels welcome', img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg', onclick:"showProgram(0)"},
+  {tag:'Personal',       name:'1-on-1 Training',       desc:'Contact Coach Harry',    img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg', onclick:"showProgram(1)"},
+  {tag:'School holidays',name:'Holiday Hoops Camp',    desc:'Announced on our page',img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg', onclick:"showProgram(2)"},
+  {tag:'Competitive',    name:'Competitive Teams',     desc:'U10 to Adults',      img:'https://triplebsg.com/wp-content/uploads/2025/08/DSC08063-scaled.jpg', onclick:"showProgram(3)"},
+  {tag:'International',  name:'Overseas Trips',        desc:'Tournaments abroad', img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg', onclick:"showProgram(4)"},
   {tag:'Talk to us',     name:'Not sure?',             desc:'Ask a coach',       img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg', onclick:"showPage('booking')"},
 ];
+
+// ── PROGRAM DETAIL DATA (used by the Programs detail page) ──
+const programDetails = [
+  {
+    name: 'Group Skills Training',
+    tag: 'Group training',
+    blurb: `
+      <div class="bbb-new-style">
+        <h1 class="bbb-headline" style="white-space:nowrap;">
+          <span class="bbb-white" style="display:inline;">WHAT IS <span class="bbb-accent" style="display:inline">SKILLS</span> TRAINING?</span>
+        </h1>
+        <ul class="bbb-list">
+          <li><span class="bbb-diamond">◇</span> One trainer, small group</li>
+          <li><span class="bbb-diamond">◇</span> Individual reps</li>
+          <li><span class="bbb-diamond">◇</span> Personalized feedback</li>
+        </ul>
+        <p class="bbb-foot">Focused only on enhancing your skills.</p>
+        <div style="height:1px;background:rgba(255,255,255,0.08);margin:14px 0;"></div>
+        <h1 class="bbb-headline" style="font-size:clamp(18px,5.5vw,32px);">
+          <span class="bbb-white">BENEFITS OF SKILLS <span class="bbb-accent" style="display:inline">TRAINING</span></span>
+        </h1>
+        <ul class="bbb-list">
+          <li><span class="bbb-diamond">◇</span> Real 1-on-1 feedback</li>
+          <li><span class="bbb-diamond">◇</span> More individual reps & ball touches</li>
+          <li><span class="bbb-diamond">◇</span> Faster technical growth</li>
+        </ul>
+        <p class="bbb-foot">Technique is what gets you moving <strong style="color:#fff">differently</strong> and more <strong style="color:#fff">fluidly.</strong></p>
+      </div>
+    `,
+    schedule: 'Mon & Wed · 4:00 PM or 6:00 PM',
+    photos: [
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC07908-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC07910-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC07911-scaled.jpg',
+    ]
+  },
+  {
+    name: '1-on-1 Tailored Training',
+    tag: 'Personal',
+    blurb: `
+      <div class="bbb-new-style">
+        <h1 class="bbb-headline" style="white-space:nowrap;">
+          <span class="bbb-white" style="display:inline;">READY TO </span><span class="bbb-accent">SEPARATE </span><span class="bbb-white" style="display:inline;">YOURSELF?</span>
+        </h1>
+        <p class="bbb-sub">Get more minutes. Make better teams.</p>
+        <p class="bbb-body">This is exactly what I do — small-group skills training with individual feedback, focused on your technique and making your movements more fluid and adaptable. One coach, one player, full focus.</p>
+      </div>
+    `,
+    schedule: 'By appointment · DM Coach Harry',
+    contactOnly: true,
+    photos: [
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC07451-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC07442-scaled.jpg',
+    ]
+  },
+  {
+    name: 'Holiday Hoops Camp',
+    tag: 'School holidays',
+    blurb: 'Intensive multi-day camps during school breaks. Full day or 2-hour sessions available, packed with skills work, scrimmages, and fun.',
+    schedule: 'Details announced on our <a href="#" onclick="event.preventDefault();showPage(\'booking\');" style="color:var(--g2);text-decoration:underline;">Announcements page</a>',
+    announceOnly: true,
+    photos: [
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC08026-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2024/10/DSC07918-scaled.jpg',
+    ]
+  },
+  {
+    name: 'Competitive Teams',
+    tag: 'Competitive',
+    blurb: 'Our competitive teams across all age groups — from young beginners to adults. Structured training focused on fundamentals, game IQ, and teamwork.',
+    schedule: 'Saturday mornings · Choose your age group when booking',
+    ageGroups: ['U10 & U12', 'U14 & U16', 'U18 & Adults'],
+    photos: [
+      'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5329-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5345-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5408-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5332-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5336-scaled.jpg',
+    ],
+    ageGroupSections: [
+      {
+        name: 'U10 & U12',
+        desc: 'Foundational skills and fun-first competitive play for our youngest competitive athletes.',
+        photos: [
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5329-scaled.jpg',
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5345-scaled.jpg',
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5408-scaled.jpg',
+        ]
+      },
+      {
+        name: 'U14 & U16',
+        desc: 'Building game IQ and physical conditioning as players grow into more advanced competition.',
+        photos: [
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5332-scaled.jpg',
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5336-scaled.jpg',
+        ]
+      },
+      {
+        name: 'U18 & Adults',
+        desc: 'High-level competitive training for our most advanced athletes, preparing for tournaments and beyond.',
+        photos: [
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5329-scaled.jpg',
+          'https://triplebsg.com/wp-content/uploads/2025/09/5U6A5408-scaled.jpg',
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Overseas Trips',
+    tag: 'International',
+    blurb: 'International tournaments and training trips abroad. Compete against teams from other countries and gain valuable exposure.',
+    schedule: 'TBA — stay tuned',
+    photos: [
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC07951-scaled.jpg',
+      'https://triplebsg.com/wp-content/uploads/2026/02/DSC08026-scaled.jpg',
+    ]
+  },
+];
+
+let slideTimer = null;
+let tilePhotos = [];
+let tileIndices = [0, 0, 0, 0, 0];
+let currentProgramName = '';
+
+function renderCollageTiles() {
+  const collage = document.getElementById('program-collage');
+  collage.innerHTML = tileIndices.map((photoIdx, tileNum) =>
+    `<div class="hero-collage-tile"><img src="${tilePhotos[photoIdx]}" alt="" loading="lazy"/></div>`
+  ).join('');
+}
+
+function advanceTile(tileNum) {
+  if (tilePhotos.length <= 1) return;
+  tileIndices[tileNum] = (tileIndices[tileNum] + 1) % tilePhotos.length;
+  renderCollageTiles();
+  updateDots();
+}
+
+function startSlideTimer() {
+  clearInterval(slideTimer);
+  let tick = 0;
+  slideTimer = setInterval(() => {
+    // advance one tile at a time, staggered, cycling through all 5 tiles
+    advanceTile(tick % 5);
+    tick++;
+  }, 2200);
+}
+
+function updateDots() {
+  const dotsWrap = document.getElementById('program-dots');
+  if (!dotsWrap) return;
+  dotsWrap.innerHTML = tilePhotos.map((_, i) =>
+    `<span class="program-dot${tileIndices.includes(i)?' active':''}"></span>`
+  ).join('');
+}
+
+function showProgram(index) {
+  const p = programDetails[index];
+  currentProgramName = p.name;
+  document.getElementById('program-tag').textContent = p.tag;
+  document.getElementById('program-name').textContent = p.name;
+  document.getElementById('program-blurb').innerHTML = p.blurb;
+  document.getElementById('program-schedule').innerHTML = p.schedule;
+  document.getElementById('program-contact-schedule').innerHTML = p.schedule;
+  document.getElementById('program-book-title').textContent = `Book a free try out: ${p.name}`;
+
+  const bookDrop = document.getElementById('program-book-drop');
+  const bookBackdrop = document.getElementById('program-book-backdrop');
+  const bookToggle = document.getElementById('program-book-toggle');
+  const contactOnly = document.getElementById('program-contact-only');
+  const announceOnly = document.getElementById('program-announce-only');
+  const ageGroupSelect = document.getElementById('program-book-agegroup');
+  const scheduleEl = document.getElementById('program-schedule');
+
+  if (p.announceOnly) {
+    bookBackdrop.style.display = 'none';
+    bookToggle.style.display = 'none';
+    contactOnly.style.display = 'none';
+    announceOnly.style.display = 'block';
+    scheduleEl.style.display = 'block';
+  } else if (p.contactOnly) {
+    bookBackdrop.style.display = 'none';
+    bookToggle.style.display = 'none';
+    contactOnly.style.display = 'block';
+    announceOnly.style.display = 'none';
+    scheduleEl.style.display = 'none';
+  } else {
+    const hasAgeGroups = p.ageGroups && p.ageGroups.length;
+    if (hasAgeGroups) {
+      // Competitive Teams: keep form inline, always visible, not a modal
+      bookBackdrop.style.cssText = 'display:block;position:static;background:none;';
+      bookDrop.style.cssText = 'position:static;bottom:auto;left:auto;right:auto;margin-top:0.75rem;max-width:340px;display:block;visibility:visible;opacity:1;max-height:none;overflow-y:visible;';
+      bookToggle.style.display = 'none';
+    } else {
+      bookBackdrop.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center;';
+      bookToggle.style.display = 'flex';
+    }
+    contactOnly.style.display = 'none';
+    announceOnly.style.display = 'none';
+    scheduleEl.style.display = 'block';
+
+    if (hasAgeGroups) {
+      ageGroupSelect.style.display = 'block';
+      ageGroupSelect.innerHTML = p.ageGroups.map(g => `<option value="${g}">${g}</option>`).join('');
+    } else {
+      ageGroupSelect.style.display = 'none';
+      ageGroupSelect.innerHTML = '';
+    }
+  }
+
+  tilePhotos = p.photos;
+  // spread the 5 tiles across different starting photos so they don't all show similar shots at once
+  const step = Math.max(1, Math.floor(tilePhotos.length / 5));
+  tileIndices = [0, 1, 2, 3, 4].map(i => (i * step) % tilePhotos.length);
+  renderCollageTiles();
+  updateDots();
+
+  document.getElementById('program-hero').classList.toggle('compact-hero', !!(p.ageGroupSections && p.ageGroupSections.length));
+
+  renderAgeGroupSections(p.ageGroupSections);
+
+  showPage('program-detail');
+  startSlideTimer();
+}
+
+function copyCoachHarryNumber() {
+  const number = '+65 8072 4317';
+  const btn = document.getElementById('copy-number-btn');
+  navigator.clipboard.writeText(number).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  }).catch(() => {
+    btn.textContent = 'Failed';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+let ageGroupTimers = [];
+
+function renderAgeGroupSections(sections) {
+  const container = document.getElementById('age-group-sections');
+  ageGroupTimers.forEach(t => clearInterval(t));
+  ageGroupTimers = [];
+
+  if (!sections || !sections.length) {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+
+  container.style.display = 'block';
+  container.style.background = '#0a0a0a';
+  container.innerHTML = `
+    <div style="padding: 3rem 2.5rem;">
+      <div class="age-group-grid" style="display: grid; grid-template-columns: repeat(${sections.length}, 1fr); gap: 1.75rem;">
+        ${sections.map((section, si) => `
+          <div>
+            <div style="position: relative; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; margin-bottom: 1.1rem;">
+              <div class="age-group-slideshow-track" id="age-group-slides-${si}" style="width:100%; height:100%; position:relative;"></div>
+            </div>
+            <div class="eyebrow" style="margin-bottom: 0.4rem;">${section.name}</div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 0.5rem; color: #fff;">${section.name} Team</h3>
+            <p style="color: rgba(255,255,255,0.6); font-size: 12.5px; line-height: 1.55;">${section.desc}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  sections.forEach((section, si) => {
+    const track = document.getElementById(`age-group-slides-${si}`);
+    let current = 0;
+
+    // Create all image elements once so opacity transitions actually animate
+    track.innerHTML = section.photos.map((src, i) =>
+      `<img src="${src}" alt="${section.name}" loading="lazy" data-slide-index="${i}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:${i===0?1:0};transition:opacity 1s ease;"/>`
+    ).join('');
+
+    if (section.photos.length > 1) {
+      const timer = setInterval(() => {
+        const prevIndex = current;
+        current = (current + 1) % section.photos.length;
+        const imgs = track.querySelectorAll('img');
+        imgs[prevIndex].style.opacity = '0';
+        imgs[current].style.opacity = '1';
+      }, 3500); // same interval for all sections so they transition simultaneously
+      ageGroupTimers.push(timer);
+    }
+  });
+}
+
+function toggleProgramBook() {
+  const drop = document.getElementById('program-book-drop');
+  if (!drop) return;
+  const isOpen = drop.classList.contains('open');
+  if (isOpen) {
+    drop.classList.remove('open');
+    drop.style.display = 'none';
+  } else {
+    drop.classList.add('open');
+    drop.style.display = 'block';
+  }
+}
+function toggleProgramBookForm() {
+  const backdrop = document.getElementById('program-book-backdrop');
+  const isOpen = backdrop.style.display === 'flex';
+  backdrop.style.display = isOpen ? 'none' : 'flex';
+}
+function sendProgramBook() {
+  const player = document.getElementById('program-book-player').value.trim();
+  const parent = document.getElementById('program-book-parent').value.trim();
+  const contact = document.getElementById('program-book-contact').value.trim();
+  if (!player || !parent || !contact) { alert('Please fill in player name, parent name, and contact number.'); return; }
+  openTermsModal();
+}
+
+async function actuallySubmitProgramBook() {
+  const player = document.getElementById('program-book-player').value.trim();
+  const parent = document.getElementById('program-book-parent').value.trim();
+  const contact = document.getElementById('program-book-contact').value.trim();
+  const note = document.getElementById('program-book-msg').value.trim();
+  const ageGroupSelect = document.getElementById('program-book-agegroup');
+  const ageGroup = ageGroupSelect.style.display !== 'none' ? ageGroupSelect.value : '';
+
+  const className = ageGroup ? `${currentProgramName} (${ageGroup})` : currentProgramName;
+
+  const data = {
+    className: className,
+    classTime: '',
+    playerName: player,
+    dob: '',
+    parentName: parent,
+    contact: contact,
+    email: '',
+    notes: note,
+    status: 'pending',
+    submittedAt: Date.now()
+  };
+
+  try {
+    let a = 0;
+    while (!window._fbPush && a < 20) { await new Promise(r => setTimeout(r, 100)); a++; }
+    if (window._fbPush) await window._fbPush(data);
+  } catch (e) { console.error(e); }
+
+  closeTermsModal();
+  document.getElementById('program-book-player').value = '';
+  document.getElementById('program-book-parent').value = '';
+  document.getElementById('program-book-contact').value = '';
+  document.getElementById('program-book-msg').value = '';
+  showThankYouModal();
+}
+
 const strip = document.getElementById('prog-strip');
 programs.forEach(p=>{
   const d=document.createElement('div'); d.className='prog-card-photo';
@@ -781,11 +1360,21 @@ programs.forEach(p=>{
   strip.appendChild(d);
 });
 
+// ── PROGRAMS OVERVIEW PAGE (same cards, rendered again for the Programs tab) ──
+const overviewStrip = document.getElementById('programs-overview-strip');
+programs.forEach(p=>{
+  const d=document.createElement('div'); d.className='prog-card-photo'; d.style.height='260px'; d.style.borderRadius='10px'; d.style.overflow='hidden';
+  d.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy"/><div class="prog-card-overlay"><div class="prog-card-tag">${p.tag}</div><div class="prog-card-name">${p.name}</div><div class="prog-card-desc">${p.desc}</div></div>`;
+  if(p.onclick) d.setAttribute('onclick', p.onclick);
+  else d.addEventListener('click', ()=>showPage('booking'));
+  overviewStrip.appendChild(d);
+});
+
 // ── SCHEDULE CARDS ──
 const schedClasses = [
   {name:'Group Skills Training',    time:'Mon & Wed · 4:00 PM or 6:00 PM', img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg'},
   {name:'1-on-1 Tailored Training', time:'By appointment',                  img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg'},
-  {name:'U10 & U12 Competitive',    time:'Saturday mornings',               img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg'},
+  {name:'U10 & U12 Competitive',    time:'Saturday mornings',               img:'https://triplebsg.com/wp-content/uploads/2025/08/DSC08063-scaled.jpg'},
   {name:'Holiday Hoops Camp',       time:'School holidays',                  img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg'},
   {name:'Overseas Trips',           time:'TBA — stay tuned',                 img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg'},
 ];
@@ -797,100 +1386,91 @@ if (schedGrid) {
     schedGrid.appendChild(d);
   });
 }
-const classes=[
-  {name:'Group Skills Training', time:'Mon & Wed · 4:00 PM or 6:00 PM', tags:['All levels','Open'],    img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07592-Enhanced-NR-scaled.jpg'},
-  {name:'1-on-1 Tailored Training', time:'By appointment',               tags:['Personal','Open'],      img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07528-Enhanced-NR-scaled.jpg'},
-  {name:'U10 Competitive Team',     time:'Sat · 9:00 AM',                tags:['Under 10','Open'],      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07927-scaled.jpg'},
-  {name:'U12 Competitive Team',     time:'Sat · 10:30 AM',               tags:['Under 12','Open'],      img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07940-scaled.jpg'},
-  {name:'Holiday Hoops Camp',       time:'School holidays · Full day/2hrs',tags:['Seasonal','Upcoming'],img:'https://triplebsg.com/wp-content/uploads/2024/10/DSC07480-Enhanced-NR-scaled.jpg'},
-  {name:'Overseas Trip / Tournament',time:'TBA',                          tags:['International','Interest only'],img:'https://triplebsg.com/wp-content/uploads/2026/02/DSC07975-scaled.jpg'},
-];
-const cgrid=document.getElementById('class-grid');
-let selClass='',selTime='';
-classes.forEach(cl=>{
-  const c=document.createElement('div'); c.className='class-card';
-  c.innerHTML=`
-    <div class="class-card-bg"><img src="${cl.img}" alt="${cl.name}" loading="lazy"/></div>
-    <div class="class-card-overlay"></div>
-    <div class="chk">${I.chk}</div>
-    <div class="class-card-content">
-      <div class="class-name">${cl.name}</div>
-      <div class="class-time">${cl.time}</div>
-      <div>${cl.tags.map((t,i)=>`<span class="ctag${i===1?' green':''}">${t}</span>`).join('')}</div>
-    </div>`;
-  c.addEventListener('click',()=>{
-    document.querySelectorAll('.class-card').forEach(x=>x.classList.remove('selected'));
-    c.classList.add('selected'); selClass=cl.name; selTime=cl.time;
-    document.getElementById('btn-next-1').disabled=false;
-  });
-  cgrid.appendChild(c);
-});
 
-// ── PAGE NAV ──
 function showPage(name){
+  if (name !== 'program-detail') {
+    clearInterval(slideTimer);
+    ageGroupTimers.forEach(t => clearInterval(t));
+    ageGroupTimers = [];
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   document.querySelectorAll('.topnav-links a').forEach(a=>a.classList.remove('active'));
-  const map={home:0,about:1,booking:2,gallery:3};
+  const map={home:0,about:1,programs:2,booking:3,gallery:4};
   document.querySelectorAll('.topnav-links a')[map[name]]?.classList.add('active');
   document.querySelector('.content').scrollTop=0;
 }
 window.showPage=showPage;
+</script>
 
-// ── BOOKING ──
-function goStep(n){
-  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+n).classList.add('active');
-  for(let i=1;i<=3;i++){
-    const num=document.getElementById('snum-'+i);
-    const lbl=document.getElementById('slbl-'+i);
-    if(i<n){num.className='step-num done';num.textContent='✓';lbl.className='step-label';}
-    else if(i===n){num.className='step-num active';num.textContent=i;lbl.className='step-label active';}
-    else{num.className='step-num';num.textContent=i;lbl.className='step-label';}
-  }
-  if(n===3){
-    document.getElementById('sum-class').textContent=selClass||'—';
-    document.getElementById('sum-time').textContent=selTime||'—';
-    document.getElementById('sum-name').textContent=document.getElementById('f-name').value||'—';
-    document.getElementById('sum-phone').textContent=document.getElementById('f-phone').value||'—';
-    document.getElementById('sum-email').textContent=document.getElementById('f-email').value||'—';
-    document.getElementById('sum-level').textContent=document.getElementById('f-level').value||'—';
-    document.getElementById('sum-notes').textContent=document.getElementById('f-notes').value||'—';
-    document.getElementById('consent-check').checked=false;
-    document.getElementById('btn-submit').disabled=true;
-  }
-}
-window.goStep=goStep;
+<!-- TERMS MODAL -->
+<div id="terms-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:#141414;border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;padding:1.75rem;position:relative;">
+    <button onclick="closeTermsModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:22px;cursor:pointer;line-height:1;">×</button>
+    <h2 style="font-size:19px;font-weight:700;margin-bottom:0.25rem;">Agreement &amp; Indemnity Form</h2>
+    <p style="font-size:12.5px;color:rgba(255,255,255,0.45);margin-bottom:1.25rem;">Academy Training / Camp / Clinic / Competition</p>
+    <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:1rem;">In agreeing to attend training / camp / clinic / competition, I:</p>
 
-async function submitBooking(){
-  const btn=document.getElementById('btn-submit');
-  btn.disabled=true; btn.textContent='Submitting...';
-  const data={className:selClass,classTime:selTime,playerName:document.getElementById('f-name').value,dob:document.getElementById('f-dob').value,parentName:document.getElementById('f-parent').value,contact:document.getElementById('f-phone').value,email:document.getElementById('f-email').value,level:document.getElementById('f-level').value,notes:document.getElementById('f-notes').value,status:'pending',submittedAt:Date.now()};
-  try{
-    let a=0;
-    while(!window._fbPush&&a<20){await new Promise(r=>setTimeout(r,100));a++;}
-    if(window._fbPush) await window._fbPush(data);
-  }catch(e){console.error(e);}
-  document.getElementById('bk-header').style.display='none';
-  document.getElementById('bk-steps').style.display='none';
-  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('success').classList.add('show');
-  document.getElementById('success-class').textContent=selClass;
-}
-window.submitBooking=submitBooking;
+    <div style="display:flex;flex-direction:column;gap:0.9rem;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.55;">
+      <div>Know and accept that all fees are prepaid and are non-refundable. I am fully aware that fees are non-refundable even if we are leaving the country for good, suffering from permanent injuries or poor health, facing a pandemic etc.</div>
+      <div>Agree with the collection of personal data for the purpose of registration and enrolment.</div>
+      <div>Am aware that there may be a referral benefit for some programmes. (Please approach our administrative staff for more info)</div>
+      <div>Will not hold Basketball Beyond Borders Pte Ltd, organizers, sponsors, and appointed officers responsible for any actions, losses, damages, injuries, death or related expenses arising from the participation of any trainings, competitions and activities.</div>
+      <div>Release and forever discharge Basketball Beyond Borders Pte Ltd from all claims that I may have or may have had arising from, or in connection with Basketball Beyond Borders Pte Ltd; and indemnify, will keep indemnified and hold harmless Basketball Beyond Borders Pte Ltd, to the extent permitted by law in respect of any claim as a result of or in connection with Basketball Beyond Borders Pte Ltd.</div>
+      <div>Warrant that I / my child have not at any time suffered blackout, seizure, convulsion, fainting, dizzy spells or any other medical condition and is not presently receiving treatment for any illness, disorder or injury which would render it unsafe for me / my child to take part in activities / training / competition by Basketball Beyond Borders Pte Ltd.</div>
+      <div>Have read and consent to participate in activities / training / competition by Basketball Beyond Borders Pte Ltd and understand the risk involved and further agree to be bound by the Code of Conduct and operating rules.</div>
+      <div>Understand all photos and videos taken during trainings, events and competitions by Basketball Beyond Borders Pte Ltd belongs to Basketball Beyond Borders Pte Ltd, for use including but not limited to; publicity, copyright purposes, illustration, advertising, and web content.</div>
+      <div>Acknowledge that Basketball Beyond Borders Pte Ltd uses its best endeavors to ensure that the equipment and sporting facilities used are safe and fit for purpose and acknowledge that all sports and physical activities are inherently dangerous and accept the inherent associated risks.</div>
+      <div>Am aware and accept that Basketball Beyond Borders Pte Ltd does not provide insurance coverage for trainees and participants.</div>
+      <div>Am aware and accept that Basketball Beyond Borders Pte Ltd advises participants to take up insurance coverage on their own while participating in sports activities, due to the inherent risk in sports.</div>
+    </div>
 
-function resetBooking(){
-  document.getElementById('bk-header').style.display='';
-  document.getElementById('bk-steps').style.display='';
-  document.getElementById('success').classList.remove('show');
-  document.querySelectorAll('.class-card').forEach(c=>c.classList.remove('selected'));
-  selClass='';selTime='';
-  document.getElementById('btn-next-1').disabled=true;
-  ['f-name','f-dob','f-parent','f-phone','f-email','f-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-level').value='';
-  goStep(1);
+    <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid rgba(255,255,255,0.1);">
+      "Basketball Beyond Borders Pte Ltd" means all directors personally and in their capacity as a director, partners of directors, agents, and any representatives of Basketball Beyond Borders Pte Ltd. It includes all programmes and activities that you or your child participate in. This includes but is not limited to any organized sport, training, competition, facilities and activities provided by Basketball Beyond Borders Pte Ltd.
+    </p>
+
+    <button onclick="actuallySubmitProgramBook()" class="topnav-cta" style="width:100%;margin-top:1.5rem;justify-content:center;">Agree and Submit</button>
+  </div>
+</div>
+
+<script>
+function openTermsModal() {
+  document.getElementById('terms-modal-overlay').style.display = 'flex';
 }
-window.resetBooking=resetBooking;
+function closeTermsModal() {
+  document.getElementById('terms-modal-overlay').style.display = 'none';
+}
+document.getElementById('terms-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeTermsModal();
+});
+window.openTermsModal = openTermsModal;
+window.closeTermsModal = closeTermsModal;
+</script>
+
+<!-- THANK YOU MODAL -->
+<div id="thankyou-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:210;align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:#141414;border:0.5px solid rgba(34,146,63,0.35);border-radius:12px;max-width:380px;width:100%;padding:2rem 1.75rem;text-align:center;position:relative;">
+    <div style="width:56px;height:56px;border-radius:50%;background:rgba(34,146,63,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#22923f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 style="font-size:19px;font-weight:700;margin-bottom:0.5rem;color:#fff;">You're all set!</h2>
+    <p style="font-size:13.5px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:1.5rem;">Your try-out request has been sent — we'll be in touch soon to confirm your session.</p>
+    <button onclick="closeThankYouModal()" style="background:#22923f;color:#0a0a0a;border:none;border-radius:6px;padding:0.7rem 1.5rem;font-weight:700;font-size:13.5px;cursor:pointer;width:100%;">Done</button>
+  </div>
+</div>
+
+<script>
+function showThankYouModal() {
+  document.getElementById('thankyou-modal-overlay').style.display = 'flex';
+}
+function closeThankYouModal() {
+  document.getElementById('thankyou-modal-overlay').style.display = 'none';
+}
+document.getElementById('thankyou-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeThankYouModal();
+});
+window.showThankYouModal = showThankYouModal;
+window.closeThankYouModal = closeThankYouModal;
 </script>
 </body>
 </html>
