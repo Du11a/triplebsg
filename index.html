@@ -559,7 +559,7 @@ select.form-input option{background:#1a1a1a;}
     <a onclick="showPage('booking')">Announcements</a>
     <a onclick="showPage('gallery')">Gallery</a>
   </div>
-  <button class="topnav-cta" onclick="showPage('booking')">View Schedule</button>
+  <button class="topnav-cta" onclick="openSchedule()">View Schedule</button>
 </nav>
 
 <!-- CONTENT -->
@@ -577,7 +577,7 @@ select.form-input option{background:#1a1a1a;}
       </div>
       <div class="hero-collage-overlay"></div>
       <div class="hero-content">
-        <div class="eyebrow">Basketball Beyond Borders A.K.A Triple-B Ltd.</div>
+        <div class="eyebrow">Basketball Beyond Borders PTE Ltd. A.K.A Triple-B</div>
         <h1 class="hero-title">Break barriers.<br>Build <em>champions.</em></h1>
         <p class="hero-sub">Basketball is a universal language. At Triple B, we develop skills, character, and community — for every age, background, and level.</p>
         <div class="hero-actions">
@@ -633,7 +633,7 @@ select.form-input option{background:#1a1a1a;}
               <img src="https://Du11a.github.io/triplebsg/old-photos/coach-harry.jpeg" alt="Coach Harry" />
             </a>
             <div class="coach-panel-info">
-              <div class="cp-tag">Head coach & co-founder</div>
+              <div class="cp-tag">Head Coach</div>
               <div class="cp-name">Coach Harry</div>
               <div class="cp-role">Basketball Beyond Borders · Singapore</div>
               <div class="cp-stats">
@@ -718,7 +718,7 @@ select.form-input option{background:#1a1a1a;}
             <p id="program-contact-schedule" style="color:var(--g2);font-size:12.5px;font-weight:600;margin:0 0 0.6rem;"></p>
             <p style="color:rgba(255,255,255,0.75);font-size:13px;line-height:1.6;margin:0 0 0.75rem;">For 1-on-1 training, message Coach Harry directly on WhatsApp:</p>
             <div style="display:flex;align-items:center;gap:8px;background:#111;border:0.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.6rem 0.8rem;">
-              <span id="coach-harry-number" style="color:#fff;font-size:14px;font-family:monospace;flex:1;">+65 8072 4317</span>
+              <span id="coach-harry-number" style="color:#fff;font-size:14px;font-family:monospace;flex:1;">+65 8600 9246</span>
               <button onclick="copyCoachHarryNumber()" style="background:var(--g);color:#fff;border:none;border-radius:5px;padding:0.4rem 0.75rem;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;" id="copy-number-btn">Copy</button>
             </div>
           </div>
@@ -730,6 +730,7 @@ select.form-input option{background:#1a1a1a;}
       </section>
 
       <div id="age-group-sections" style="display:none; flex:1; overflow-y:hidden;"></div>
+      <div id="trip-highlights" style="display:none; flex:1; overflow-y:hidden;"></div>
     </div>
   </div>
 
@@ -825,7 +826,7 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
     if (!name || !contact) { alert('Please fill in your name and contact number.'); return; }
     let text = `Hi Coach Harry! I'd like to enroll.\n\nName: ${name}\nContact: ${contact}\nRe: ${ann?.title || 'Triple B class'}`;
     if (note) text += `\n\nMessage: ${note}`;
-    window.open(`https://wa.me/6580724317?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/6586009246?text=${encodeURIComponent(text)}`, '_blank');
   };
   window.shareToInstagram = () => {
     window.open('https://www.instagram.com/triplebsg/', '_blank');
@@ -860,7 +861,7 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
     const strip = document.getElementById('ann-strip-cards');
     if (strip) {
       if (!allAnnouncements.length) {
-        strip.innerHTML = `<div class="ann-strip-loading">No announcements yet</div>`;
+        strip.innerHTML = `<div class="ann-strip-loading">Upcoming events TBA</div>`;
       } else {
         strip.innerHTML = allAnnouncements.slice(0,4).map(a => `
           <div class="ann-strip-card" onclick="showPage('booking')">
@@ -875,7 +876,7 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
     const feed = document.getElementById('ann-feed');
     if (!feed) return;
     if (!allAnnouncements.length) {
-      feed.innerHTML = `<div class="ann-empty"><p>No announcements yet — check back soon! 🏀</p></div>`;
+      feed.innerHTML = `<div class="ann-empty"><p>Upcoming events TBA 🏀</p></div>`;
       return;
     }
     feed.innerHTML = allAnnouncements.map((a, i) => `
@@ -901,7 +902,7 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
             </button>
             <div class="enroll-dropdown" id="enroll-drop-${i}" onclick="event.stopPropagation()">
               <div style="display:flex;align-items:center;gap:8px;background:#111;border:0.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.5rem 0.7rem;margin-bottom:0.85rem;">
-                <span style="color:#fff;font-size:12.5px;font-family:monospace;flex:1;">+65 8072 4317</span>
+                <span style="color:#fff;font-size:12.5px;font-family:monospace;flex:1;">+65 8600 9246</span>
                 <button onclick="copyCoachHarryNumber()" style="background:var(--g);color:#fff;border:none;border-radius:5px;padding:0.3rem 0.6rem;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;" id="copy-number-btn">Copy</button>
               </div>
               <div class="enroll-dropdown-title">Enroll for: ${a.title || 'this class'}</div>
@@ -990,10 +991,10 @@ socials.forEach(s=>{
 const programs = [
   {tag:'Group training', name:'Group Skills Training', desc:'All levels welcome', img:'https://Du11a.github.io/triplebsg/old-photos/DSC07480-Enhanced-NR-scaled.jpg', onclick:"showProgram(0)"},
   {tag:'Personal',       name:'1-on-1 Training',       desc:'Contact Coach Harry',    img:'https://Du11a.github.io/triplebsg/old-photos/DSC07528-Enhanced-NR-scaled.jpg', onclick:"showProgram(1)"},
-  {tag:'School holidays',name:'Holiday Hoops Camp',    desc:'Announced on our page',img:'https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg', onclick:"showProgram(2)"},
+  {tag:'School holidays',name:'Holiday Hoops Camp',    desc:'Multi-day school break camps',img:'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-1.jpg', onclick:"showProgram(2)"},
   {tag:'Competitive',    name:'Competitive Teams',     desc:'U10 to Adults',      img:'https://Du11a.github.io/triplebsg/old-photos/DSC08063-scaled.jpg', onclick:"showProgram(3)"},
   {tag:'International',  name:'Overseas Trips',        desc:'Tournaments abroad', img:'https://Du11a.github.io/triplebsg/old-photos/DSC07940-scaled.jpg', onclick:"showProgram(4)"},
-  {tag:'Talk to us',     name:'Not sure?',             desc:'Ask a coach',       img:'https://Du11a.github.io/triplebsg/old-photos/DSC07975-scaled.jpg', onclick:"showPage('booking')"},
+  {tag:'Talk to us',     name:'Not sure?',             desc:'Ask a coach',       img:'https://Du11a.github.io/triplebsg/old-photos/DSC07975-scaled.jpg', onclick:"window.open('https://wa.me/6586009246?text=' + encodeURIComponent('Hi Coach Harry! I\\'m not sure which program is right for me, can you help?'), '_blank')"},
 ];
 
 // ── PROGRAM DETAIL DATA (used by the Programs detail page) ──
@@ -1024,7 +1025,7 @@ const programDetails = [
         <p class="bbb-foot">Technique is what gets you moving <strong style="color:#fff">differently</strong> and more <strong style="color:#fff">fluidly.</strong></p>
       </div>
     `,
-    schedule: 'Mon & Wed · 4:00 PM or 6:00 PM',
+    schedule: '<a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
     photos: [
       'https://Du11a.github.io/triplebsg/old-photos/DSC07908-scaled.jpg',
       'https://Du11a.github.io/triplebsg/old-photos/DSC07910-scaled.jpg',
@@ -1040,10 +1041,10 @@ const programDetails = [
           <span class="bbb-white" style="display:inline;">READY TO </span><span class="bbb-accent">SEPARATE </span><span class="bbb-white" style="display:inline;">YOURSELF?</span>
         </h1>
         <p class="bbb-sub">Get more minutes. Make better teams.</p>
-        <p class="bbb-body">This is exactly what I do — small-group skills training with individual feedback, focused on your technique and making your movements more fluid and adaptable. One coach, one player, full focus.</p>
+        <p class="bbb-body">Tailored 1-on-1 training with individual feedback, focused on your technique and making your movements more fluid and adaptable.</p>
       </div>
     `,
-    schedule: 'By appointment · DM Coach Harry',
+    schedule: 'By appointment · <a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
     contactOnly: true,
     photos: [
       'https://Du11a.github.io/triplebsg/old-photos/DSC07528-Enhanced-NR-scaled.jpg',
@@ -1055,19 +1056,26 @@ const programDetails = [
     name: 'Holiday Hoops Camp',
     tag: 'School holidays',
     blurb: 'Intensive multi-day camps during school breaks. Full day or 2-hour sessions available, packed with skills work, scrimmages, and fun.',
-    schedule: 'Details announced on our <a href="#" onclick="event.preventDefault();showPage(\'booking\');" style="color:var(--g2);text-decoration:underline;">Announcements page</a>',
+    schedule: '<a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
     announceOnly: true,
     photos: [
-      'https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg',
-      'https://Du11a.github.io/triplebsg/old-photos/DSC08026-scaled.jpg',
-      'https://Du11a.github.io/triplebsg/old-photos/DSC07918-scaled.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-1.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-2.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-3.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-4.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-5.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-6.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-7.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-8.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-9.jpg',
+      'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-10.jpg',
     ]
   },
   {
     name: 'Competitive Teams',
     tag: 'Competitive',
     blurb: 'Our competitive teams across all age groups — from young beginners to adults. Structured training focused on fundamentals, game IQ, and teamwork.',
-    schedule: 'Saturday mornings · Choose your age group when booking',
+    schedule: '<a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
     ageGroups: ['U10 & U12', 'U14 & U16', 'U18 & Adults'],
     photos: [
       'https://Du11a.github.io/triplebsg/old-photos/5U6A5329-scaled.jpg',
@@ -1097,8 +1105,7 @@ const programDetails = [
           'https://Du11a.github.io/triplebsg/assets/photos/u14u16-2.jpg',
           'https://Du11a.github.io/triplebsg/assets/photos/u14u16-3.jpg',
           'https://Du11a.github.io/triplebsg/assets/photos/u14u16-4.jpg',
-          'https://Du11a.github.io/triplebsg/assets/photos/u14u16-5.jpg',
-          'https://Du11a.github.io/triplebsg/assets/photos/u14u16-6.jpg',
+
         ]
       },
       {
@@ -1110,6 +1117,8 @@ const programDetails = [
           'https://Du11a.github.io/triplebsg/assets/photos/u18adults-3.jpg',
           'https://Du11a.github.io/triplebsg/assets/photos/u18adults-4.jpg',
           'https://Du11a.github.io/triplebsg/assets/photos/u18adults-5.jpg',
+          'https://Du11a.github.io/triplebsg/assets/photos/u14u16-5.jpg',
+          'https://Du11a.github.io/triplebsg/assets/photos/u14u16-6.jpg',
         ]
       }
     ]
@@ -1118,11 +1127,29 @@ const programDetails = [
     name: 'Overseas Trips',
     tag: 'International',
     blurb: 'International tournaments and training trips abroad. Compete against teams from other countries and gain valuable exposure.',
-    schedule: 'TBA — stay tuned',
+    schedule: 'TBA — <a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
     photos: [
       'https://Du11a.github.io/triplebsg/old-photos/DSC07940-scaled.jpg',
       'https://Du11a.github.io/triplebsg/old-photos/DSC07951-scaled.jpg',
       'https://Du11a.github.io/triplebsg/old-photos/DSC08026-scaled.jpg',
+    ],
+    tripVideos: [
+      {
+        name: "Vietnam '25",
+        country: 'Vietnam',
+        flagImg: 'https://flagcdn.com/w80/vn.png',
+        video: 'https://Du11a.github.io/triplebsg/asset/videos/vietnam-tour.mp4',
+        poster: 'https://Du11a.github.io/triplebsg/assets/photos/vietnam-tour-poster.jpg',
+        duration: '1:07'
+      },
+      {
+        name: "Malaysia Tour",
+        country: 'Malaysia',
+        flagImg: 'https://flagcdn.com/w80/my.png',
+        video: 'https://Du11a.github.io/triplebsg/asset/videos/malaysia-tour.mp4',
+        poster: 'https://Du11a.github.io/triplebsg/assets/photos/malaysia-tour-poster.jpg',
+        duration: '1:32'
+      }
     ]
   },
 ];
@@ -1225,16 +1252,17 @@ function showProgram(index) {
   renderCollageTiles();
   updateDots();
 
-  document.getElementById('program-hero').classList.toggle('compact-hero', !!(p.ageGroupSections && p.ageGroupSections.length));
+  document.getElementById('program-hero').classList.toggle('compact-hero', !!((p.ageGroupSections && p.ageGroupSections.length) || (p.tripVideos && p.tripVideos.length)));
 
   renderAgeGroupSections(p.ageGroupSections);
+  renderTripVideos(p.tripVideos);
 
   showPage('program-detail');
   startSlideTimer();
 }
 
 function copyCoachHarryNumber() {
-  const number = '+65 8072 4317';
+  const number = '+65 8600 9246';
   const btn = document.getElementById('copy-number-btn');
   navigator.clipboard.writeText(number).then(() => {
     btn.textContent = 'Copied!';
@@ -1298,6 +1326,42 @@ function renderAgeGroupSections(sections) {
     }
   });
 }
+
+function renderTripVideos(videos) {
+  const container = document.getElementById('trip-highlights');
+  if (!videos || !videos.length) {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+
+  container.style.display = 'block';
+  container.style.background = '#0a0a0a';
+  container.innerHTML = `
+    <div style="padding: 3rem 2.5rem;">
+      <div class="age-group-grid" style="display: grid; grid-template-columns: repeat(${videos.length}, 1fr); gap: 1.75rem;">
+        ${videos.map((trip, ti) => `
+          <div>
+            <div style="position:relative; aspect-ratio:3/4; border-radius:12px; overflow:hidden; margin-bottom:1.1rem; background:#111;">
+              <video autoplay muted loop playsinline preload="metadata" poster="${trip.poster}" style="width:100%;height:100%;object-fit:cover;">
+                <source src="${trip.video}" type="video/mp4">
+              </video>
+              ${trip.flagImg ? `<div style="position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.55);padding:4px 10px 4px 6px;border-radius:20px;">
+                <img src="${trip.flagImg}" alt="${trip.country || trip.name} flag" style="width:20px;height:14px;object-fit:cover;border-radius:2px;" />
+                <span style="color:#fff;font-size:12px;font-weight:600;">${trip.country || trip.name}</span>
+              </div>` : ''}
+              ${trip.duration ? `<div style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;font-size:11px;padding:3px 8px;border-radius:20px;">${trip.duration}</div>` : ''}
+            </div>
+            <div class="eyebrow" style="margin-bottom: 0.4rem;">Trip highlight</div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 0.5rem; color: #fff;">${trip.name}</h3>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  window.currentTripVideos = videos;
+}
+
 
 function toggleProgramBook() {
   const drop = document.getElementById('program-book-drop');
@@ -1382,9 +1446,9 @@ programs.forEach(p=>{
 
 // ── SCHEDULE CARDS ──
 const schedClasses = [
-  {name:'Group Skills Training',    time:'Mon & Wed · 4:00 PM or 6:00 PM', img:'https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg'},
+  {name:'Group Skills Training',    time:'See full schedule', img:'https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg'},
   {name:'1-on-1 Tailored Training', time:'By appointment',                  img:'https://Du11a.github.io/triplebsg/old-photos/DSC07528-Enhanced-NR-scaled.jpg'},
-  {name:'U10 & U12 Competitive',    time:'Saturday mornings',               img:'https://Du11a.github.io/triplebsg/old-photos/DSC08063-scaled.jpg'},
+  {name:'U10 & U12 Competitive',    time:'See full schedule',               img:'https://Du11a.github.io/triplebsg/old-photos/DSC08063-scaled.jpg'},
   {name:'Holiday Hoops Camp',       time:'School holidays',                  img:'https://Du11a.github.io/triplebsg/old-photos/DSC07480-Enhanced-NR-scaled.jpg'},
   {name:'Overseas Trips',           time:'TBA — stay tuned',                 img:'https://Du11a.github.io/triplebsg/old-photos/DSC07975-scaled.jpg'},
 ];
@@ -1395,6 +1459,35 @@ if (schedGrid) {
     d.innerHTML=`<div class="sched-card-bg"><img src="${cl.img}" alt="${cl.name}" loading="lazy"/></div><div class="sched-card-overlay"></div><div class="sched-card-content"><div class="sched-card-name">${cl.name}</div><div class="sched-card-time">${cl.time}</div></div>`;
     schedGrid.appendChild(d);
   });
+}
+
+function openSchedule(){
+  document.getElementById('schedule-modal').style.display='flex';
+}
+function closeSchedule(){
+  document.getElementById('schedule-modal').style.display='none';
+  const img = document.getElementById('schedule-img');
+  img.style.transform = 'scale(1)';
+  img.dataset.zoomed = '';
+  document.getElementById('schedule-img-wrap').style.cursor = 'zoom-in';
+}
+function toggleScheduleZoom(e){
+  const img = document.getElementById('schedule-img');
+  const wrap = document.getElementById('schedule-img-wrap');
+  if (img.dataset.zoomed === 'true') {
+    img.style.transform = 'scale(1)';
+    img.dataset.zoomed = '';
+    wrap.style.cursor = 'zoom-in';
+  } else {
+    // zoom toward where the user clicked
+    const rect = img.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    img.style.transformOrigin = `${x}% ${y}%`;
+    img.style.transform = 'scale(2.2)';
+    img.dataset.zoomed = 'true';
+    wrap.style.cursor = 'zoom-out';
+  }
 }
 
 function showPage(name){
@@ -1482,5 +1575,18 @@ document.getElementById('thankyou-modal-overlay').addEventListener('click', func
 window.showThankYouModal = showThankYouModal;
 window.closeThankYouModal = closeThankYouModal;
 </script>
+  <!-- SCHEDULE MODAL -->
+  <div id="schedule-modal" onclick="if(event.target===this)closeSchedule()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:1.5rem;overflow:auto;">
+    <div style="position:relative;max-width:640px;width:100%;">
+      <button onclick="closeSchedule()" aria-label="Close" style="position:absolute;top:-40px;right:0;background:none;border:none;color:#fff;cursor:pointer;padding:6px;z-index:2;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="schedule-img-wrap" style="overflow:hidden;border-radius:10px;cursor:zoom-in;">
+        <img id="schedule-img" src="https://Du11a.github.io/triplebsg/assets/photos/triplebsg-schedule.png" alt="Academy Schedule 2026" style="width:100%;display:block;transform:scale(1);transform-origin:center center;transition:transform 0.25s ease;" onclick="toggleScheduleZoom(event)" />
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;margin-top:8px;">Tap image to zoom in/out</div>
+    </div>
+  </div>
+
 </body>
 </html>
