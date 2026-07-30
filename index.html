@@ -638,7 +638,7 @@ select.form-input option{background:#1a1a1a;}
               <div class="cp-role">Basketball Beyond Borders · Singapore</div>
               <div class="cp-stats">
                 <div><div class="cp-stat-num">14+</div><div class="cp-stat-label">Years playing</div></div>
-                <div><div class="cp-stat-num">5+</div><div class="cp-stat-label">Years coaching</div></div>
+                <div><div class="cp-stat-num" id="coach-harry-years">9+</div><div class="cp-stat-label">Years coaching</div></div>
                 <div><div class="cp-stat-num">Scholar</div><div class="cp-stat-label">PH Scholarship</div></div>
               </div>
               <div class="cp-bio">A college scholarship athlete in the Philippines with over 14 years of playing experience. Coach Harry emphasizes fun while instilling discipline — ensuring players grow as athletes and individuals.</div>
@@ -1489,6 +1489,14 @@ function toggleScheduleZoom(e){
     wrap.style.cursor = 'zoom-out';
   }
 }
+
+function updateCoachHarryYears() {
+  const startYear = 2017;
+  const years = new Date().getFullYear() - startYear;
+  const el = document.getElementById('coach-harry-years');
+  if (el) el.textContent = years + '+';
+}
+updateCoachHarryYears();
 
 function showPage(name){
   if (name !== 'program-detail') {
