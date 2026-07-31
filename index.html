@@ -784,41 +784,56 @@ select.form-input option{background:#1a1a1a;}
               <button onclick="closeHhcModal()" aria-label="Close" style="position:absolute;top:0.9rem;right:0.9rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer;line-height:1;">×</button>
               <h3 style="font-size:17px;font-weight:700;margin:0 0 1rem;color:#fff;">Holiday Hoops Camp Registration</h3>
 
-              <label style="display:block;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:4px;">Camp Type *</label>
-              <select id="hhc-camp-type" onchange="hhcUpdateCampType()" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:12px;">
-                <option value="2hour">Camp Type 1 — 2 Hour Session</option>
-                <option value="fullday">Camp Type 2 — Summer Break Full Day</option>
-              </select>
+              <!-- STEP 1: choose camp type — shown first, prominent -->
+              <div id="hhc-step-choose">
+                <p style="font-size:12.5px;color:rgba(255,255,255,0.55);margin:0 0 14px;">Which camp would you like to register for?</p>
+                <button onclick="hhcChooseCampType('2hour')" style="display:block;width:100%;text-align:left;background:rgba(34,146,63,0.1);border:0.5px solid rgba(34,146,63,0.35);border-radius:9px;padding:0.9rem 1rem;margin-bottom:10px;cursor:pointer;font-family:inherit;">
+                  <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">Camp Type 1 — 2 Hour Session</div>
+                  <div style="font-size:12px;color:rgba(255,255,255,0.55);">Intensive multi-day camps during school breaks</div>
+                </button>
+                <button onclick="hhcChooseCampType('fullday')" style="display:block;width:100%;text-align:left;background:rgba(34,146,63,0.1);border:0.5px solid rgba(34,146,63,0.35);border-radius:9px;padding:0.9rem 1rem;cursor:pointer;font-family:inherit;">
+                  <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">Camp Type 2 — Summer Break Full Day</div>
+                  <div style="font-size:12px;color:rgba(255,255,255,0.55);">Full-day camp at XCL World Academy, ages 5–18</div>
+                </button>
+              </div>
 
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Parent / Guardian</div>
-              <input type="text" id="hhc-parent-name" placeholder="Full Name of Parent/Guardian *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="email" id="hhc-parent-email" placeholder="Email *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="tel" id="hhc-parent-contact" placeholder="Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <!-- STEP 2: registration form — hidden until a camp type is chosen -->
+              <div id="hhc-step-form" style="display:none;">
+                <button onclick="hhcBackToChoose()" style="display:flex;align-items:center;gap:5px;background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;font-family:inherit;padding:0;margin-bottom:12px;">
+                  ← Change camp type
+                </button>
+                <div id="hhc-selected-type-label" style="font-size:13px;font-weight:700;color:var(--g2);margin-bottom:14px;"></div>
 
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Participant Information</div>
-              <input type="text" id="hhc-participant-name" placeholder="Participant Full Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="date" id="hhc-participant-dob" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <label style="display:block;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:4px;">Age Group *</label>
-              <select id="hhc-age-group" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;"></select>
-              <input type="text" id="hhc-emergency-name" placeholder="Emergency Contact Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="tel" id="hhc-emergency-contact" placeholder="Emergency Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:0 0 8px;">Parent / Guardian</div>
+                <input type="text" id="hhc-parent-name" placeholder="Full Name of Parent/Guardian *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="email" id="hhc-parent-email" placeholder="Email *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="tel" id="hhc-parent-contact" placeholder="Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
 
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Medical Information</div>
-              <p style="font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.5;margin:0 0 8px;">List any allergies, medical conditions, or special needs. Enter "N/A" if none apply.</p>
-              <input type="text" id="hhc-med-allergies" placeholder="Allergies *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="text" id="hhc-med-symptoms" placeholder="Symptoms *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="text" id="hhc-med-severity" placeholder="Severity (e.g. Mild / Severe) *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
-              <input type="text" id="hhc-med-medication" placeholder="Medication *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Participant Information</div>
+                <input type="text" id="hhc-participant-name" placeholder="Participant Full Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="date" id="hhc-participant-dob" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <label style="display:block;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:4px;">Age Group *</label>
+                <select id="hhc-age-group" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;"></select>
+                <input type="text" id="hhc-emergency-name" placeholder="Emergency Contact Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="tel" id="hhc-emergency-contact" placeholder="Emergency Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
 
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Preferred Camp Date and Time</div>
-              <p id="hhc-dates-note" style="font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.5;margin:0 0 8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.6rem 0.8rem;"></p>
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Medical Information</div>
+                <p style="font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.5;margin:0 0 8px;">List any allergies, medical conditions, or special needs. Enter "N/A" if none apply.</p>
+                <input type="text" id="hhc-med-allergies" placeholder="Allergies *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="text" id="hhc-med-symptoms" placeholder="Symptoms *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="text" id="hhc-med-severity" placeholder="Severity (e.g. Mild / Severe) *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+                <input type="text" id="hhc-med-medication" placeholder="Medication *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
 
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Disclaimer</div>
-              <p id="hhc-disclaimer-note" style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.55;margin:0 0 10px;"></p>
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Preferred Camp Date and Time</div>
+                <p id="hhc-dates-note" style="font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.5;margin:0 0 8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.6rem 0.8rem;"></p>
 
-              <button class="enroll-submit" onclick="hhcSubmit()" style="width:100%;">
-                Continue
-              </button>
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Disclaimer</div>
+                <p id="hhc-disclaimer-note" style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.55;margin:0 0 10px;"></p>
+
+                <button class="enroll-submit" onclick="hhcSubmit()" style="width:100%;">
+                  Continue
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1522,17 +1537,34 @@ const hhcDisclaimerNote = {
   'fullday': 'Due to limited availability, only those who successfully secure a spot will be notified via WhatsApp. 5-Day Camp: $750 SGD. Please wait for us to contact you and confirm your slot before making any payment.'
 };
 
-function hhcUpdateCampType() {
-  const type = document.getElementById('hhc-camp-type').value;
+function hhcUpdateCampType(type) {
   const ageSelect = document.getElementById('hhc-age-group');
   ageSelect.innerHTML = hhcAgeGroups[type].map(g => `<option value="${g}">${g}</option>`).join('');
   document.getElementById('hhc-dates-note').textContent = hhcDatesNote[type];
   document.getElementById('hhc-disclaimer-note').textContent = hhcDisclaimerNote[type];
 }
 
+let hhcSelectedType = null;
+
+function hhcChooseCampType(type) {
+  hhcSelectedType = type;
+  hhcUpdateCampType(type);
+  document.getElementById('hhc-selected-type-label').textContent = type === 'fullday'
+    ? 'Camp Type 2 — Summer Break Full Day'
+    : 'Camp Type 1 — 2 Hour Session';
+  document.getElementById('hhc-step-choose').style.display = 'none';
+  document.getElementById('hhc-step-form').style.display = 'block';
+}
+
+function hhcBackToChoose() {
+  document.getElementById('hhc-step-form').style.display = 'none';
+  document.getElementById('hhc-step-choose').style.display = 'block';
+}
+
 function openHhcModal() {
-  document.getElementById('hhc-camp-type').value = '2hour';
-  hhcUpdateCampType();
+  hhcSelectedType = null;
+  document.getElementById('hhc-step-choose').style.display = 'block';
+  document.getElementById('hhc-step-form').style.display = 'none';
   document.getElementById('hhc-modal-backdrop').style.display = 'flex';
 }
 function closeHhcModal() {
@@ -1540,6 +1572,10 @@ function closeHhcModal() {
 }
 
 function hhcSubmit() {
+  if (!hhcSelectedType) {
+    alert('Please select a camp type.');
+    return;
+  }
   const required = [
     ['hhc-parent-name', 'parent/guardian name'],
     ['hhc-parent-email', 'email'],
@@ -1564,7 +1600,7 @@ function hhcSubmit() {
 }
 
 async function hhcActuallySubmit() {
-  const campTypeVal = document.getElementById('hhc-camp-type').value;
+  const campTypeVal = hhcSelectedType;
   const campTypeLabel = campTypeVal === 'fullday' ? 'Holiday Hoops Camp — Summer Break Full Day' : 'Holiday Hoops Camp — 2 Hour Session';
 
   const data = {
