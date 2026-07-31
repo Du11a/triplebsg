@@ -174,7 +174,6 @@
   }
   .player-card:hover { border-color: var(--green); }
   .player-card .pname { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-  .player-card .plevel { display: inline-block; background: var(--green-dim); color: var(--green); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-bottom: 10px; }
   .player-card .pinfo { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
   .player-card .pnotes { font-size: 0.8rem; background: var(--surface2); border-radius: 6px; padding: 8px 10px; margin-top: 10px; color: var(--muted); }
   .player-card .card-actions { display: flex; gap: 6px; margin-top: 12px; }
@@ -241,7 +240,8 @@
     <img src="https://triplebsg.com/wp-content/uploads/2024/09/image01.png" alt="Triple B Logo" />
     <h1>Triple B Admin</h1>
     <p>Basketball Beyond Borders — CRM Portal</p>
-    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password" />
+    <input type="email" id="email-input" placeholder="Email" autocomplete="username" />
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
     <button id="login-btn">Sign In</button>
     <div id="login-error"></div>
   </div>
@@ -356,7 +356,8 @@
             <option>1-on-1 Tailored Training</option>
             <option>U10 Competitive Team</option>
             <option>U12 Competitive Team</option>
-            <option>Holiday Hoops Camp</option>
+            <option>Holiday Hoops Camp — 2 Hour Session</option>
+            <option>Holiday Hoops Camp — Summer Break Full Day</option>
             <option>Overseas Trip / Tournament</option>
           </select>
           <div class="spacer"></div>
@@ -420,19 +421,15 @@
           <option>1-on-1 Tailored Training</option>
           <option>U10 Competitive Team</option>
           <option>U12 Competitive Team</option>
-          <option>Holiday Hoops Camp</option>
+          <option>Holiday Hoops Camp — 2 Hour Session</option>
+          <option>Holiday Hoops Camp — Summer Break Full Day</option>
           <option>Overseas Trip / Tournament</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Level</label>
-        <select id="bm-level">
-          <option>Beginner</option>
-          <option>Intermediate</option>
-          <option>Advanced</option>
-          <option>Elite</option>
-        </select>
-      </div>
+    </div>
+    <div id="bm-medical-block" style="display:none;background:rgba(220,38,38,0.08);border:0.5px solid rgba(220,38,38,0.25);border-radius:8px;padding:0.85rem 1rem;margin-bottom:1rem;">
+      <div style="font-size:11.5px;font-weight:700;color:#f87171;letter-spacing:0.03em;text-transform:uppercase;margin-bottom:0.5rem;">Medical &amp; Emergency Info (read-only)</div>
+      <div style="font-size:13px;line-height:1.7;color:var(--text);" id="bm-medical-content"></div>
     </div>
     <div class="form-group"><label>Notes</label><textarea id="bm-notes" rows="3"></textarea></div>
     <div class="form-group">
@@ -463,20 +460,9 @@
       <div class="form-group"><label>Contact</label><input type="text" id="pm-contact" /></div>
     </div>
     <div class="form-group"><label>Email</label><input type="email" id="pm-email" /></div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Level</label>
-        <select id="pm-level">
-          <option>Beginner</option>
-          <option>Intermediate</option>
-          <option>Advanced</option>
-          <option>Elite</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Enrolled Class</label>
-        <select id="pm-class"><option value="">None</option></select>
-      </div>
+    <div class="form-group">
+      <label>Enrolled Class</label>
+      <select id="pm-class"><option value="">None</option></select>
     </div>
     <div class="form-group"><label>Notes / Remarks</label><textarea id="pm-notes" rows="3"></textarea></div>
     <div class="modal-footer">
@@ -548,33 +534,9 @@
 <!-- Firebase Compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 <script>
-  const ADMIN_PASSWORD = "triplebbb2024";
-
-  function doLogin() {
-    const pw = document.getElementById('pw-input').value.trim();
-    if (pw === ADMIN_PASSWORD) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      initListeners();
-    } else {
-      document.getElementById('login-error').textContent = 'Incorrect password.';
-    }
-  }
-
-  function doLogout() {
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('pw-input').value = '';
-    syncDone = false;
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('login-btn').addEventListener('click', doLogin);
-    document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  });
-
   // ── CONFIG ──
   const firebaseConfig = {
     apiKey: "AIzaSyBgzhkLyqn5NXsaHunBfvIhn-o49UJGI14",
@@ -588,6 +550,40 @@
 
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
+  const auth = firebase.auth();
+
+  function doLogin() {
+    const email = document.getElementById('email-input').value.trim();
+    const pw = document.getElementById('pw-input').value.trim();
+    document.getElementById('login-error').textContent = '';
+    auth.signInWithEmailAndPassword(email, pw)
+      .catch(err => {
+        document.getElementById('login-error').textContent = 'Incorrect email or password.';
+      });
+  }
+
+  function doLogout() {
+    auth.signOut();
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      initListeners();
+    } else {
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('pw-input').value = '';
+      syncDone = false;
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('login-btn').addEventListener('click', doLogin);
+    document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    document.getElementById('email-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  });
 
   // ── STATE ──
   let bookings = {};
@@ -642,7 +638,6 @@
             email: booking.email || '',
             contact: booking.contact || '',
             parentName: booking.parentName || '',
-            level: booking.level || 'Beginner',
             className: booking.className || '',
             status: 'Active',
             bookingId: bookingId,
@@ -655,10 +650,10 @@
 
   function seedDefaultClasses() {
     const defaults = [
-      { name: "Group Skills Training", day: "Monday & Wednesday", age: "All levels", capacity: 16, coach: "Coach JC", location: "XCL World Academy, Yishun" },
+      { name: "Group Skills Training", day: "Monday & Wednesday", age: "All levels", capacity: 16, coach: "Coach Harry", location: "XCL World Academy, Yishun" },
       { name: "1-on-1 Tailored Training", day: "Saturday", time: "11:00 AM – 1:00 PM", age: "By appointment", capacity: 20, coach: "Coach Harry", location: "XCL World Academy, Yishun" },
-      { name: "U10 Competitive Team", day: "Sunday", time: "9:00 AM – 12:00 PM", age: "Under 10", capacity: 15, coach: "Coach JC", location: "XCL World Academy, Yishun" },
-      { name: "U12 Competitive Team", day: "Sunday", time: "2:00 PM – 4:00 PM", age: "18+ years", capacity: 12, coach: "Coach JC", location: "XCL World Academy, Yishun" }
+      { name: "U10 Competitive Team", day: "Sunday", time: "9:00 AM – 12:00 PM", age: "Under 10", capacity: 15, coach: "Coach Harry", location: "XCL World Academy, Yishun" },
+      { name: "U12 Competitive Team", day: "Sunday", time: "2:00 PM – 4:00 PM", age: "18+ years", capacity: 12, coach: "Coach Harry", location: "XCL World Academy, Yishun" }
     ];
     defaults.forEach(c => db.ref('classes').push(c));
   }
@@ -697,7 +692,7 @@
       return `
         <tr>
           <td><strong>${esc(b.playerName || '—')}</strong><br><span style="color:var(--muted);font-size:0.78rem">${esc(b.email || '')}</span></td>
-          <td>${esc(b.className || '—')}</td>
+          <td>${esc(b.className || '—')}${b.ageGroup ? `<br><span style="color:var(--muted);font-size:0.78rem">${esc(b.ageGroup)}</span>` : ''}</td>
           <td>${esc(b.parentName || '—')}<br><span style="color:var(--muted);font-size:0.78rem">${esc(b.contact || '')}</span></td>
           <td style="white-space:nowrap">${date}</td>
           <td><span class="badge ${status}">${status}</span></td>
@@ -730,7 +725,6 @@
             email: booking.email || '',
             contact: booking.contact || '',
             parentName: booking.parentName || '',
-            level: booking.level || 'Beginner',
             className: booking.className || '',
             status: 'Active',
             bookingId: id,
@@ -759,8 +753,9 @@
     document.getElementById('modal-booking-title').textContent = 'Add Booking';
     ['bm-player','bm-dob','bm-parent','bm-contact','bm-email','bm-notes'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('bm-class').value = '';
-    document.getElementById('bm-level').value = 'Beginner';
     document.getElementById('bm-status').value = 'pending';
+    document.getElementById('bm-medical-block').style.display = 'none';
+    document.getElementById('bm-medical-content').innerHTML = '';
     openModal('modal-booking');
   };
 
@@ -774,9 +769,26 @@
     document.getElementById('bm-contact').value = b.contact || '';
     document.getElementById('bm-email').value = b.email || '';
     document.getElementById('bm-class').value = b.className || '';
-    document.getElementById('bm-level').value = b.level || 'Beginner';
     document.getElementById('bm-notes').value = b.notes || '';
     document.getElementById('bm-status').value = b.status || 'pending';
+
+    const medicalBlock = document.getElementById('bm-medical-block');
+    const hasMedical = b.emergencyContactName || b.emergencyContactNumber || b.medicalAllergies || b.medicalSymptoms || b.medicalSeverity || b.medicalMedication || b.ageGroup;
+    if (hasMedical) {
+      medicalBlock.style.display = 'block';
+      document.getElementById('bm-medical-content').innerHTML = [
+        b.ageGroup ? `<strong>Age Group:</strong> ${esc(b.ageGroup)}` : '',
+        (b.emergencyContactName || b.emergencyContactNumber) ? `<strong>Emergency Contact:</strong> ${esc(b.emergencyContactName || '—')} · ${esc(b.emergencyContactNumber || '—')}` : '',
+        b.medicalAllergies ? `<strong>Allergies:</strong> ${esc(b.medicalAllergies)}` : '',
+        b.medicalSymptoms ? `<strong>Symptoms:</strong> ${esc(b.medicalSymptoms)}` : '',
+        b.medicalSeverity ? `<strong>Severity:</strong> ${esc(b.medicalSeverity)}` : '',
+        b.medicalMedication ? `<strong>Medication:</strong> ${esc(b.medicalMedication)}` : '',
+      ].filter(Boolean).join('<br>');
+    } else {
+      medicalBlock.style.display = 'none';
+      document.getElementById('bm-medical-content').innerHTML = '';
+    }
+
     openModal('modal-booking');
   };
 
@@ -788,7 +800,6 @@
       contact: document.getElementById('bm-contact').value.trim(),
       email: document.getElementById('bm-email').value.trim(),
       className: document.getElementById('bm-class').value,
-      level: document.getElementById('bm-level').value,
       notes: document.getElementById('bm-notes').value.trim(),
       status: document.getElementById('bm-status').value,
     };
@@ -821,7 +832,6 @@
     grid.innerHTML = list.map(p => `
       <div class="player-card">
         <div class="pname">${esc(p.name || '—')}</div>
-        <div class="plevel">${esc(p.level || 'Beginner')}</div>
         <div class="pinfo">
           DOB: ${p.dob || '—'}<br>
           Parent: ${esc(p.parentName || '—')}<br>
@@ -841,7 +851,6 @@
     editingPlayerId = null;
     document.getElementById('modal-player-title').textContent = 'Add Player';
     ['pm-name','pm-dob','pm-parent','pm-contact','pm-email','pm-notes'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('pm-level').value = 'Beginner';
     document.getElementById('pm-class').value = '';
     openModal('modal-player');
   };
@@ -855,7 +864,6 @@
     document.getElementById('pm-parent').value = p.parentName || '';
     document.getElementById('pm-contact').value = p.contact || '';
     document.getElementById('pm-email').value = p.email || '';
-    document.getElementById('pm-level').value = p.level || 'Beginner';
     document.getElementById('pm-class').value = p.className || '';
     document.getElementById('pm-notes').value = p.notes || '';
     openModal('modal-player');
@@ -868,7 +876,6 @@
       parentName: document.getElementById('pm-parent').value.trim(),
       contact: document.getElementById('pm-contact').value.trim(),
       email: document.getElementById('pm-email').value.trim(),
-      level: document.getElementById('pm-level').value,
       className: document.getElementById('pm-class').value,
       notes: document.getElementById('pm-notes').value.trim(),
     };
@@ -982,7 +989,7 @@
       const prev = el.value;
       const isFilter = sid === 'filter-class';
       el.innerHTML = isFilter ? '<option value="">All Classes</option>' : '<option value="">Select class…</option>';
-      const fixedClasses = ['Group Skills Training','1-on-1 Tailored Training','U10 Competitive Team','U12 Competitive Team','Holiday Hoops Camp','Overseas Trip / Tournament'];
+      const fixedClasses = ['Group Skills Training','1-on-1 Tailored Training','U10 Competitive Team','U12 Competitive Team','Holiday Hoops Camp — 2 Hour Session','Holiday Hoops Camp — Summer Break Full Day','Overseas Trip / Tournament'];
       fixedClasses.forEach(n => el.insertAdjacentHTML('beforeend', `<option value="${esc(n)}">${esc(n)}</option>`));
       if (prev) el.value = prev;
     });
@@ -990,11 +997,11 @@
 
   // ── EXCEL EXPORT ──
   function exportExcel() {
-    const rows = [['Player Name','DOB','Parent','Contact','Email','Class','Level','Status','Submitted','Notes']];
+    const rows = [['Player Name','DOB','Parent','Contact','Email','Class','Status','Submitted','Notes']];
     Object.values(bookings).forEach(b => {
       rows.push([
         b.playerName||'', b.dob||'', b.parentName||'', b.contact||'', b.email||'',
-        b.className||'', b.level||'', b.status||'',
+        b.className||'', b.status||'',
         b.submittedAt ? new Date(b.submittedAt).toLocaleDateString('en-SG') : '',
         b.notes||''
       ]);
@@ -1077,6 +1084,13 @@
     }
   }
 
+  function toggleArchiveAnnouncement(id) {
+    const a = announcements[id];
+    const nowArchived = !a.archived;
+    db.ref(`announcements/${id}`).update({ archived: nowArchived });
+    showToast(nowArchived ? 'Announcement archived — hidden from site' : 'Announcement restored to site');
+  }
+
   function renderAnnouncements() {
     const list = document.getElementById('announcements-list');
     const items = Object.entries(announcements).sort((a,b) => (b[1].postedAt||0) - (a[1].postedAt||0));
@@ -1085,17 +1099,19 @@
       return;
     }
     list.innerHTML = items.map(([id, a]) => `
-      <div style="background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;margin-bottom:1rem;display:grid;grid-template-columns:${a.photo ? '180px 1fr' : '1fr'};gap:1.25rem;align-items:start;">
+      <div style="background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;margin-bottom:1rem;display:grid;grid-template-columns:${a.photo ? '180px 1fr' : '1fr'};gap:1.25rem;align-items:start;${a.archived ? 'opacity:0.5;' : ''}">
         ${a.photo ? `<img src="${esc(a.photo)}" style="width:180px;height:120px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'" />` : ''}
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.4rem;">
             <span style="font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:0.08em;text-transform:uppercase;">${esc(a.category||'General')}</span>
             <span style="font-size:11px;color:rgba(255,255,255,0.3);">${new Date(a.postedAt).toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'})}</span>
+            ${a.archived ? `<span style="font-size:10px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);padding:2px 8px;border-radius:4px;letter-spacing:0.08em;text-transform:uppercase;">Archived</span>` : ''}
           </div>
           <div style="font-size:17px;font-weight:600;color:#fff;margin-bottom:0.5rem;">${esc(a.title)}</div>
           <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:1rem;">${esc(a.body)}</div>
           <div style="display:flex;gap:8px;">
             <button class="btn btn-outline" onclick="editAnnouncement('${id}')">Edit</button>
+            <button class="btn" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.8);border:0.5px solid rgba(255,255,255,0.15);" onclick="toggleArchiveAnnouncement('${id}')">${a.archived ? 'Unarchive' : 'Archive'}</button>
             <button class="btn" style="background:rgba(239,68,68,0.1);color:#ef4444;border:0.5px solid rgba(239,68,68,0.2);" onclick="deleteAnnouncement('${id}')">Delete</button>
           </div>
         </div>

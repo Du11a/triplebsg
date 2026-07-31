@@ -139,9 +139,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0a;color:#ff
 #program-hero:not(.compact-hero) .hero-content > #program-schedule,
 #program-hero:not(.compact-hero) .hero-content > #program-contact-only,
 #program-hero:not(.compact-hero) .hero-content > #program-book-toggle,
+#program-hero:not(.compact-hero) .hero-content > #program-announce-only,
 #program-hero:not(.compact-hero) .hero-content > .enroll-dropdown,
 #program-hero:not(.compact-hero) .hero-content > .program-dots{grid-column:1;}
-#program-hero:not(.compact-hero) .hero-content > #program-announce-only{grid-column:2;grid-row:1/8;position:static!important;margin-top:0!important;max-width:none!important;align-self:start;}
 #program-hero:not(.compact-hero) .hero-content > #program-contact-only,
 #program-hero:not(.compact-hero) .hero-content > .enroll-dropdown{position:static!important;max-width:340px!important;}
 #program-hero .hero-content{justify-content:flex-start;height:auto;min-height:100%;padding-top:5rem;padding-bottom:3rem;overflow-y:visible;}
@@ -346,15 +346,17 @@ select.form-input option{background:#1a1a1a;}
 .ann-loading{text-align:center;padding:3rem;color:rgba(255,255,255,0.3);font-size:14px;}
 .ann-empty{text-align:center;padding:4rem;color:rgba(255,255,255,0.2);}
 .ann-empty p{font-size:14px;}
-.ann-post{background:#111;border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);width:100%;max-width:560px;}
+.ann-post{background:#111;border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);width:100%;max-width:820px;}
+.ann-post-body-row{display:flex;gap:1rem;align-items:stretch;padding:0 1.25rem 0.85rem;}
+.ann-post-caption-col{flex:1;min-width:0;}
 .ann-post-header{display:flex;align-items:center;gap:10px;padding:1rem 1.25rem 0.75rem;}
 .ann-post-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--g);flex-shrink:0;}
 .ann-post-info{flex:1;}
 .ann-post-name{font-size:14px;font-weight:700;color:#fff;}
 .ann-post-meta{font-size:11px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px;margin-top:2px;}
 .ann-post-cat{background:var(--gdim);border:0.5px solid var(--gbor);color:var(--g2);padding:1px 7px;border-radius:3px;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;}
-.ann-post-caption{padding:0 1.25rem 0.85rem;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.65;white-space:pre-wrap;}
-.ann-post-photo{width:100%;display:block;object-fit:contain;background:#0a0a0a;max-height:560px;}
+.ann-post-caption{padding:0;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.65;white-space:pre-wrap;}
+.ann-post-photo{width:280px;flex-shrink:0;display:block;object-fit:contain;background:#0a0a0a;height:auto;max-height:100%;border-radius:8px;align-self:stretch;}
 .ann-post-actions{display:grid;grid-template-columns:1fr 1fr;border-top:0.5px solid rgba(255,255,255,0.07);}
 .ann-action-wrap{position:relative;}
 .ann-action-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:0.8rem;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);background:none;border:none;cursor:pointer;font-family:inherit;transition:background 0.2s,color 0.2s;}
@@ -431,6 +433,7 @@ select.form-input option{background:#1a1a1a;}
   .prog-card-photo{height:130px;}
   .form-grid{grid-template-columns:1fr;}
   #program-detail-split{flex-direction:column;min-height:auto;}
+  #program-hero.hero{overflow:visible;height:auto;min-height:0;}
   #program-hero.compact-hero{width:100%;height:auto;min-height:0;flex-shrink:0;background:#0a0a0a;}
   #program-hero.compact-hero .hero-collage,
   #program-hero.compact-hero .hero-collage-overlay{display:none;}
@@ -464,9 +467,11 @@ select.form-input option{background:#1a1a1a;}
   .ann-header{padding:1.25rem 1.25rem 0.85rem;}
   .ann-feed{padding:1rem;gap:1rem;}
   .ann-post{max-width:100%;}
-  .ann-post-photo{max-height:320px;}
+  .ann-post-body-row{flex-direction:column;}
+  .ann-post-photo{width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:0;}
   .ann-post-header{padding:0.85rem 1rem 0.6rem;}
-  .ann-post-caption{padding:0 1rem 0.75rem;font-size:13px;}
+  .ann-post-caption{font-size:13px;}
+  .ann-post-body-row{padding:0 1rem 0.75rem;}
   .ann-action-btn{font-size:12px;padding:0.7rem 0.5rem;}
   .enroll-dropdown,.share-dropdown{left:0.5rem;right:0.5rem;}
   .share-dropdown{min-width:0;}
@@ -569,11 +574,11 @@ select.form-input option{background:#1a1a1a;}
   <div class="page active" id="page-home">
     <section class="hero">
       <div class="hero-collage">
-        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg" alt="" /></div>
-        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC08063-scaled.jpg" alt="" /></div>
-        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07528-Enhanced-NR-scaled.jpg" alt="" /></div>
-        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07940-scaled.jpg" alt="" /></div>
-        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07451-scaled.jpg" alt="" /></div>
+        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07592-Enhanced-NR-scaled.jpg" alt="" fetchpriority="high" /></div>
+        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC08063-scaled.jpg" alt="" loading="lazy" /></div>
+        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07528-Enhanced-NR-scaled.jpg" alt="" loading="lazy" /></div>
+        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07940-scaled.jpg" alt="" loading="lazy" /></div>
+        <div class="hero-collage-tile"><img src="https://Du11a.github.io/triplebsg/old-photos/DSC07451-scaled.jpg" alt="" loading="lazy" /></div>
       </div>
       <div class="hero-collage-overlay"></div>
       <div class="hero-content">
@@ -723,7 +728,99 @@ select.form-input option{background:#1a1a1a;}
             </div>
           </div>
 
-          <div id="program-announce-only" style="display:none;"></div>
+          <div id="program-announce-only" style="display:none;max-width:340px;margin-top:1rem;">
+            <div style="display:flex;gap:8px;">
+              <button onclick="openCampScheduleImg()" style="display:inline-flex;align-items:center;justify-content:center;flex:1;background:rgba(34,146,63,0.15);color:var(--g2);border:0.5px solid rgba(34,146,63,0.4);border-radius:7px;padding:0.5rem 0.9rem;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;">
+                Schedule
+              </button>
+              <button onclick="openHhcModal()" style="display:inline-flex;align-items:center;justify-content:center;flex:1;background:var(--g);color:#fff;border:none;border-radius:7px;padding:0.5rem 0.9rem;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;">
+                Register
+              </button>
+            </div>
+          </div>
+
+          <!-- HOLIDAY HOOPS CAMP — FULL DAY SCHEDULE MODAL (scoped only to this program) -->
+          <div id="hhc-schedule-modal" onclick="if(event.target===this)closeCampScheduleImg()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:1.5rem;overflow:auto;">
+            <div style="position:relative;max-width:96vw;width:1180px;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:1.5rem;max-height:85vh;overflow:auto;">
+              <button onclick="closeCampScheduleImg()" aria-label="Close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;padding:4px;line-height:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <h3 style="font-size:16px;font-weight:700;margin:0 0 1rem;color:#fff;">Full Day Holiday Camp Schedule</h3>
+              <div>
+                <table style="width:100%;border-collapse:collapse;font-size:11px;color:rgba(255,255,255,0.8);">
+                  <colgroup>
+                    <col style="width:6.5%;">
+                    <col span="11" style="width:8.5%;">
+                  </colgroup>
+                  <thead>
+                    <tr style="background:var(--gdim);">
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">Day</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">8:30–9:00am</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">9:00–9:15am</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">9:15–10:00am</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">10:00–10:30am</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">10:30–11:30am</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">11:30am–12:00pm</th>
+                      <th style="text-align:left;padding:6px 8px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">12:00–1:00pm</th>
+                      <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">1:00–1:30pm</th>
+                      <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">1:30–2:00pm</th>
+                      <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">2:00–2:45pm</th>
+                      <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--g2);border-bottom:1px solid var(--gbor);">2:45–3:00pm</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hhc-schedule-tbody"></tbody>
+                </table>
+              </div>
+              <p style="font-size:11.5px;color:rgba(255,255,255,0.5);line-height:1.6;margin:1rem 0 0;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:0.75rem;">
+                Camp time: 9:00am – 3:00pm. Participants to be dropped off at 8:30am to facilitate registration.<br>
+                Ages: 5–18 years old
+              </p>
+            </div>
+          </div>
+
+          <!-- HOLIDAY HOOPS CAMP — REGISTRATION MODAL (scoped only to this program) -->
+          <div id="hhc-modal-backdrop" onclick="if(event.target===this)closeHhcModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:150;align-items:center;justify-content:center;padding:1.5rem;">
+            <div onclick="event.stopPropagation()" style="background:#141414;border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;padding:1.5rem;position:relative;">
+              <button onclick="closeHhcModal()" aria-label="Close" style="position:absolute;top:0.9rem;right:0.9rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer;line-height:1;">×</button>
+              <h3 style="font-size:17px;font-weight:700;margin:0 0 1rem;color:#fff;">Holiday Hoops Camp Registration</h3>
+
+              <label style="display:block;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:4px;">Camp Type *</label>
+              <select id="hhc-camp-type" onchange="hhcUpdateCampType()" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:12px;">
+                <option value="2hour">Camp Type 1 — 2 Hour Session</option>
+                <option value="fullday">Camp Type 2 — Summer Break Full Day</option>
+              </select>
+
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Parent / Guardian</div>
+              <input type="text" id="hhc-parent-name" placeholder="Full Name of Parent/Guardian *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="email" id="hhc-parent-email" placeholder="Email *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="tel" id="hhc-parent-contact" placeholder="Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Participant Information</div>
+              <input type="text" id="hhc-participant-name" placeholder="Participant Full Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="date" id="hhc-participant-dob" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <label style="display:block;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:4px;">Age Group *</label>
+              <select id="hhc-age-group" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;"></select>
+              <input type="text" id="hhc-emergency-name" placeholder="Emergency Contact Name *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="tel" id="hhc-emergency-contact" placeholder="Emergency Contact Number *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Medical Information</div>
+              <p style="font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.5;margin:0 0 8px;">List any allergies, medical conditions, or special needs. Enter "N/A" if none apply.</p>
+              <input type="text" id="hhc-med-allergies" placeholder="Allergies *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="text" id="hhc-med-symptoms" placeholder="Symptoms *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="text" id="hhc-med-severity" placeholder="Severity (e.g. Mild / Severe) *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+              <input type="text" id="hhc-med-medication" placeholder="Medication *" style="width:100%;background:#111;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.6rem 0.8rem;font-size:13px;color:#fff;font-family:inherit;outline:none;margin-bottom:8px;" />
+
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Preferred Camp Date and Time</div>
+              <p id="hhc-dates-note" style="font-size:12.5px;color:rgba(255,255,255,0.65);line-height:1.5;margin:0 0 8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:0.6rem 0.8rem;"></p>
+
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.03em;text-transform:uppercase;margin:14px 0 8px;">Disclaimer</div>
+              <p id="hhc-disclaimer-note" style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.55;margin:0 0 10px;"></p>
+
+              <button class="enroll-submit" onclick="hhcSubmit()" style="width:100%;">
+                Continue
+              </button>
+            </div>
+          </div>
 
           <div class="program-dots" id="program-dots" style="margin-top:1.5rem;"></div>
         </div>
@@ -854,7 +951,7 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
   onValue(ref(getDatabase(app), 'announcements'), snap => {
     const data = snap.val();
     allAnnouncements = data
-      ? Object.values(data).sort((a,b) => (b.postedAt||0) - (a.postedAt||0))
+      ? Object.values(data).filter(a => !a.archived).sort((a,b) => (b.postedAt||0) - (a.postedAt||0))
       : [];
 
     // ── STRIP on home page ──
@@ -892,8 +989,12 @@ window._fbPush = (data) => push(ref(getDatabase(app),'bookings'), data);
             </div>
           </div>
         </div>
-        ${a.body ? `<div class="ann-post-caption">${a.body}</div>` : ''}
-        ${a.photo ? `<img class="ann-post-photo" src="${a.photo}" alt="${a.title||''}" onerror="this.style.display='none'" />` : ''}
+        <div class="ann-post-body-row">
+          <div class="ann-post-caption-col">
+            ${a.body ? `<div class="ann-post-caption">${a.body}</div>` : ''}
+          </div>
+          ${a.photo ? `<img class="ann-post-photo" src="${a.photo}" alt="${a.title||''}" onerror="this.style.display='none'" />` : ''}
+        </div>
         <div class="ann-post-actions">
           <div class="ann-action-wrap">
             <button class="ann-action-btn enroll-btn" onclick="toggleEnroll(${i})">
@@ -1055,8 +1156,8 @@ const programDetails = [
   {
     name: 'Holiday Hoops Camp',
     tag: 'School holidays',
-    blurb: 'Intensive multi-day camps during school breaks. Full day or 2-hour sessions available, packed with skills work, scrimmages, and fun.',
-    schedule: '<a href="#" onclick="event.preventDefault();openSchedule();" style="color:var(--g2);text-decoration:underline;">See full schedule</a>',
+    blurb: '<span style="font-size:16px;font-weight:700;color:#fff;">Two camp types available</span><br><br><strong>Camp Type 1 — 2 Hour Session</strong><br>Intensive multi-day camps during school breaks, packed with skills work, scrimmages, and fun.<br><br><strong>Camp Type 2 — Summer Break Full Day</strong><br>Immerse yourself in action-packed, skill-building camps designed to enhance your basketball abilities through focused training, competitive play, and team-building.<br><br><span style="color:rgba(255,255,255,0.55);font-size:12.5px;">Ages 5–18 · 9am–3pm<br>Venue: XCL World Academy<br>Dates: to be announced</span>',
+    schedule: 'Dates to be announced',
     announceOnly: true,
     photos: [
       'https://Du11a.github.io/triplebsg/assets/photos/holiday-hoops-1.jpg',
@@ -1381,6 +1482,132 @@ function toggleProgramBookForm() {
   const isOpen = backdrop.style.display === 'flex';
   backdrop.style.display = isOpen ? 'none' : 'flex';
 }
+
+// ── HOLIDAY HOOPS CAMP — dedicated registration modal (scoped only to this program) ──
+const hhcScheduleRows = [
+  { day: 'Monday', cells: ['Arrival and Registration','Introduction & Warm-up','Dribbling Basics','Morning Break','Passing Basics','Basic Lay-ups','Shooting Basics','Lunch Break','Defense: Stance and Footwork','Offensive Movement (Triple Threat)','Mini Scrimmages'] },
+  { day: 'Tuesday', cells: ['Arrival and Registration','Warm-up (Cone Dribbling)','Ball Handling','Morning Break','Passing and Catching','Lay-up Drills','Shooting: Spot Up, Free Throws','Lunch Break','Defense: Denial and Defensive Slides','2v2 Offense and Defensive Drills','Scrimmages'] },
+  { day: 'Wednesday', cells: ['Arrival and Registration','Warm-up (Dribbling & Passing)','Shooting Drills','Morning Break','Shooting at Motion','Free Throws','Basic Team Concepts (Pick-and-Roll, Give and Go)','Lunch Break','Defensive Rotations (Zone vs Man-to-Man)','Team Play (4v4, Scrimmages)','Scrimmages'] },
+  { day: 'Thursday', cells: ['Arrival and Registration','Warm-up (Advanced Ball Handling)','Weight & Conditioning','Morning Break','Shooting with Variations','Lay-up Variations','Shooting: (Catch-and-Shoot)','Lunch Break','Offense: Sets and Plays','2v2 Offensive and Defensive Drills','Scrimmages'] },
+  { day: 'Friday', cells: ['Arrival and Registration','Dynamic Warm-up','Skills Review','Morning Break','Scrimmage Kick-Off','Lay-up and Shooting Competition','Fun Competition (3-point throws, Knockout)','Lunch Break','Final Scrimmages','Final Scrimmages','Award Ceremony / Recap of the Week'] },
+];
+function renderHhcSchedule() {
+  const tbody = document.getElementById('hhc-schedule-tbody');
+  if (!tbody || tbody.children.length) return;
+  tbody.innerHTML = hhcScheduleRows.map((row, i) => `
+    <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'};">
+      <td style="padding:6px 8px;font-weight:700;color:#fff;border-bottom:1px solid rgba(255,255,255,0.06);word-wrap:break-word;vertical-align:top;">${row.day}</td>
+      ${row.cells.map(c => `<td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.06);word-wrap:break-word;vertical-align:top;line-height:1.35;">${c}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+function openCampScheduleImg() {
+  renderHhcSchedule();
+  document.getElementById('hhc-schedule-modal').style.display = 'flex';
+}
+function closeCampScheduleImg() {
+  document.getElementById('hhc-schedule-modal').style.display = 'none';
+}
+
+const hhcAgeGroups = {
+  '2hour': ['6-8 Years Old', 'Under 10', 'Under 12', 'Under 14', 'Under 16'],
+  'fullday': ['6-8 Years Old', 'Under 10', 'Under 12', 'Under 14', 'Under 16', 'Under 18', 'Other']
+};
+const hhcDatesNote = {
+  '2hour': 'Camp dates are to be announced. We will confirm your preferred week once dates are finalized.',
+  'fullday': 'Camp dates are to be announced. We will confirm your preferred week (9:00am–3:00pm at XCL World Academy) once dates are finalized.'
+};
+const hhcDisclaimerNote = {
+  '2hour': 'Slots for the Early Bird Special are limited and filled on a first-come, first-served basis. Only those who successfully secure a spot will be notified via WhatsApp. 5-Day Camp: $250 (Early Bird) / $300 (Standard Rate). Please wait for us to contact you and confirm your slot before making any payment.',
+  'fullday': 'Due to limited availability, only those who successfully secure a spot will be notified via WhatsApp. 5-Day Camp: $750 SGD. Please wait for us to contact you and confirm your slot before making any payment.'
+};
+
+function hhcUpdateCampType() {
+  const type = document.getElementById('hhc-camp-type').value;
+  const ageSelect = document.getElementById('hhc-age-group');
+  ageSelect.innerHTML = hhcAgeGroups[type].map(g => `<option value="${g}">${g}</option>`).join('');
+  document.getElementById('hhc-dates-note').textContent = hhcDatesNote[type];
+  document.getElementById('hhc-disclaimer-note').textContent = hhcDisclaimerNote[type];
+}
+
+function openHhcModal() {
+  document.getElementById('hhc-camp-type').value = '2hour';
+  hhcUpdateCampType();
+  document.getElementById('hhc-modal-backdrop').style.display = 'flex';
+}
+function closeHhcModal() {
+  document.getElementById('hhc-modal-backdrop').style.display = 'none';
+}
+
+function hhcSubmit() {
+  const required = [
+    ['hhc-parent-name', 'parent/guardian name'],
+    ['hhc-parent-email', 'email'],
+    ['hhc-parent-contact', 'contact number'],
+    ['hhc-participant-name', 'participant name'],
+    ['hhc-participant-dob', 'date of birth'],
+    ['hhc-emergency-name', 'emergency contact name'],
+    ['hhc-emergency-contact', 'emergency contact number'],
+    ['hhc-med-allergies', 'allergies (enter N/A if none)'],
+    ['hhc-med-symptoms', 'symptoms (enter N/A if none)'],
+    ['hhc-med-severity', 'severity (enter N/A if none)'],
+    ['hhc-med-medication', 'medication (enter N/A if none)'],
+  ];
+  for (const [id, label] of required) {
+    if (!document.getElementById(id).value.trim()) {
+      alert(`Please fill in ${label}.`);
+      return;
+    }
+  }
+  window._hhcPendingSubmit = true;
+  openTermsModal();
+}
+
+async function hhcActuallySubmit() {
+  const campTypeVal = document.getElementById('hhc-camp-type').value;
+  const campTypeLabel = campTypeVal === 'fullday' ? 'Holiday Hoops Camp — Summer Break Full Day' : 'Holiday Hoops Camp — 2 Hour Session';
+
+  const data = {
+    className: campTypeLabel,
+    classTime: '',
+    playerName: document.getElementById('hhc-participant-name').value.trim(),
+    dob: document.getElementById('hhc-participant-dob').value,
+    ageGroup: document.getElementById('hhc-age-group').value,
+    parentName: document.getElementById('hhc-parent-name').value.trim(),
+    contact: document.getElementById('hhc-parent-contact').value.trim(),
+    email: document.getElementById('hhc-parent-email').value.trim(),
+    emergencyContactName: document.getElementById('hhc-emergency-name').value.trim(),
+    emergencyContactNumber: document.getElementById('hhc-emergency-contact').value.trim(),
+    medicalAllergies: document.getElementById('hhc-med-allergies').value.trim(),
+    medicalSymptoms: document.getElementById('hhc-med-symptoms').value.trim(),
+    medicalSeverity: document.getElementById('hhc-med-severity').value.trim(),
+    medicalMedication: document.getElementById('hhc-med-medication').value.trim(),
+    notes: '',
+    status: 'pending',
+    submittedAt: Date.now()
+  };
+
+  try {
+    let a = 0;
+    while (!window._fbPush && a < 20) { await new Promise(r => setTimeout(r, 100)); a++; }
+    if (window._fbPush) await window._fbPush(data);
+  } catch (e) { console.error(e); }
+
+  closeTermsModal();
+  closeHhcModal();
+  ['hhc-parent-name','hhc-parent-email','hhc-parent-contact','hhc-participant-name','hhc-participant-dob',
+   'hhc-emergency-name','hhc-emergency-contact','hhc-med-allergies','hhc-med-symptoms','hhc-med-severity','hhc-med-medication']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  showThankYouModal();
+}
+window.openCampScheduleImg = openCampScheduleImg;
+window.closeCampScheduleImg = closeCampScheduleImg;
+window.hhcUpdateCampType = hhcUpdateCampType;
+window.openHhcModal = openHhcModal;
+window.closeHhcModal = closeHhcModal;
+window.hhcSubmit = hhcSubmit;
+window.hhcActuallySubmit = hhcActuallySubmit;
+
 function sendProgramBook() {
   const player = document.getElementById('program-book-player').value.trim();
   const parent = document.getElementById('program-book-parent').value.trim();
@@ -1390,6 +1617,11 @@ function sendProgramBook() {
 }
 
 async function actuallySubmitProgramBook() {
+  if (window._hhcPendingSubmit) {
+    window._hhcPendingSubmit = false;
+    await hhcActuallySubmit();
+    return;
+  }
   const player = document.getElementById('program-book-player').value.trim();
   const parent = document.getElementById('program-book-parent').value.trim();
   const contact = document.getElementById('program-book-contact').value.trim();
